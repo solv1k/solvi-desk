@@ -26,5 +26,5 @@
         </div>
     </body>
 
-    @include('inc.success-message')
+    @include('inc.toast-messages')
 </html>

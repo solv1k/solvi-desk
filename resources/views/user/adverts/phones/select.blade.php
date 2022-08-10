@@ -14,7 +14,7 @@
             </div>
         @endif
 
-        @if ($currentUser->phones()->count())
+        @if ($currentUser->verifiedPhones()->count())
             <form action="{{ route('user.adverts.phones.attach', $advert->id) }}" method="POST">
                 @csrf
 
@@ -27,7 +27,7 @@
                         id="user_phone_id"
                         name="user_phone_id"
                         class="form-control">
-                        @foreach ($currentUser->phones as $phone)
+                        @foreach ($currentUser->verifiedPhones as $phone)
                             <option value="{{ $phone->id }}" @selected(old('user_phone_id') === $phone->id)>
                                 {{ $phone->number }}
                             </option>
@@ -43,7 +43,8 @@
                         name="contact_name"
                         placeholder="{{ __('Write contact name') }}"
                         value="{{ old('contact_name', $advert->contact_name) }}"
-                        class="form-control">
+                        class="form-control"
+                        required>
                 </div>
 
                 <div class="mb-3">
@@ -53,7 +54,23 @@
                     >{{ __('Next step') }} <i class="bi bi-arrow-right-circle"></i></button>
                 </div>
             </form>
-        @else
+        @endif
+
+        @if ($currentUser->unverifiedPhones()->count())
+            <div class="mb-3">
+                <div class="mb-3">{{ __('You have unverified numbers.') }}</div>
+
+                @foreach ($currentUser->unverifiedPhones as $phone)
+                    <div class="user-phone mb-3">
+                        <span class="user-phone--number">{{ $phone->number }}</span>
+                        <span class="user-phone--verification-label text-muted small">{{ $phone->verifiedLabel() }}</span>
+                        <a href="{{ route('user.phones.verify.page', $phone->id) }}">{{ __('verify this phone') }}</a>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
+        @if ($currentUser->phones()->count() === 0)
             @include('user.inc.attach-phone')
         @endif
 

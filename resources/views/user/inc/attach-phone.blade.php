@@ -1,3 +1,5 @@
+@include('inc.form-errors')
+
 <form action="{{ route('user.phones.store') }}" method="POST">
     @csrf
 
@@ -10,7 +12,8 @@
         id="number"
         name="number"
         class="form-control"
-        value="{{ old('phone', '+7') }}">
+        value="{{ old('phone', '+7') }}"
+        required>
     
     <div class="my-4">
         <button class="btn btn-success">{{ __('Attach phone') }}</button>

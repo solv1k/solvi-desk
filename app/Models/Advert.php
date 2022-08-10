@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Объявление.
  * 
- * @method static \Illuminate\Database\Eloquent\Builder waitModeration($query)
- * @method static \Illuminate\Database\Eloquent\Builder active($query)
+ * @method static \Illuminate\Database\Eloquent\Builder waitModeration()
+ * @method static \Illuminate\Database\Eloquent\Builder active()
  */
 class Advert extends Model
 {
@@ -88,10 +88,21 @@ class Advert extends Model
             'contact_name' => $contact_name
         ]);
 
-        // отправляем объявление на модерацию
-        $this->setModerateStatus();
+        // если это новое объявление (объявление не активно)
+        if (! $this->active) {
+            // отправляем на модерацию
+            $this->sendToModeration();
+        }
 
         return $this;
+    }
+
+    /**
+     * Возвращает true, если объявление активно.
+     */
+    public function getActiveAttribute(): bool
+    {
+        return $this->status === AdvertStatusEnum::ACTIVE->value;
     }
 
     /**

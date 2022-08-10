@@ -8,7 +8,8 @@
         @if ($currentUser->phones()->count())
             @foreach ($currentUser->phones() as $phone)
                 <div class="user-phone mb-3">
-                    {{ $phone->number }}
+                    <span class="user-phone--number">{{ $phone->number }}</span>
+                    <span class="user-phone--verification-label text-muted small">{{ $phone->verifiedLabel() }}</span>
                 </div>
             @endforeach
         @else

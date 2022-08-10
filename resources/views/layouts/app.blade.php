@@ -19,6 +19,8 @@
         
         <!-- Bootstrap Icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+        @stack('styles')
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -39,6 +41,6 @@
 
         @stack('scripts')
 
-        @include('inc.success-message')
+        @include('inc.toast-messages')
     </body>
 </html>

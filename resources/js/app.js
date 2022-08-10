@@ -1,14 +1,11 @@
+// general bootstrap file
 import './bootstrap';
 
-import '../css/bootstrap-appends.css';
+// libraries
+import './filepond';
 
-import Alpine from 'alpinejs';
+// styles, CSS
+import './styles';
 
-import 'filepond/dist/filepond.min.css';
-import * as FilePond from 'filepond';
-
-window.Alpine = Alpine;
-
-window.FilePond = FilePond;
-
-Alpine.start();
+// Alpine.js
+import './alpine';

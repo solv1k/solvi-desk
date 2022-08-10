@@ -68,6 +68,26 @@ class User extends Authenticatable
     }
 
     /**
+     * Верифицированные пользователя.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function verifiedPhones()
+    {
+        return $this->phones()->verified(true);
+    }
+
+    /**
+     * Неверифицированные телефоны пользователя.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function unverifiedPhones()
+    {
+        return $this->phones()->verified(false);
+    }
+
+    /**
      * У пользователя есть права администратора?
      * 
      * @return bool
@@ -108,6 +128,16 @@ class User extends Authenticatable
     public function hasCreateAdvertPermissions(): bool
     {
         return in_array($this->permissions, PermissionsEnum::allowedCreateAdvert());
+    }
+
+    /**
+     * Пользователь не заблокирован?
+     * 
+     * @return bool
+     */
+    public function notBlocked(): bool
+    {
+        return $this->permissions !== PermissionsEnum::SUSPENDED_USER->value;
     }
 
     /**

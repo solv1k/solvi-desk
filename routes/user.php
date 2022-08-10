@@ -20,6 +20,10 @@ Route::middleware(['auth'])->prefix('/user')->name('user.')->group(function() {
         Route::get('/attach', 'attach')->name('attach');
         // обработчик добавления нового телефона
         Route::post('/', 'store')->name('store');
+        // страница верификации телефона
+        Route::get('/verify/{user_phone}', 'verifyPage')->name('verify.page');
+        // обработчик верификации телефона
+        Route::post('/verify/{user_phone}', 'verifyHandler')->name('verify.handler');
     });
 
     // Объявления

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AdvertPhoneRequest;
-use App\Http\Requests\AdvertPhoneSelectRequest;
+use App\Http\Requests\User\AdvertPhoneRequest;
+use App\Http\Requests\User\AdvertPhoneSelectRequest;
 use App\Models\Advert;
 use Illuminate\Http\Request;
 
@@ -17,7 +17,10 @@ class AdvertPhoneController extends Controller
      */
     public function index(AdvertPhoneRequest $request, Advert $advert)
     {
-        return view('user.adverts.phones.list', compact('advert'));
+        // сохраняем ID объявления в сессию, это может понадобится для верификации телефона
+        session(['last_advert_id' => $advert->id]);
+        
+        return view('user.adverts.phones.select', compact('advert'));
     }
 
     /**

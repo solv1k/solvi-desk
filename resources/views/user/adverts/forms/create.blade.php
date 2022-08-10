@@ -4,15 +4,7 @@
     </x-slot>
     <x-slot name="content">
 
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        @include('inc.form-errors')
 
         <form action="{{ route('user.adverts.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -70,11 +62,8 @@
             </div>
 
             <div class="mb-3">
-                <input
-                    id="image"
-                    name="image"
-                    type="file"
-                    placeholder="{{ __('Select advert image') }}">
+                <label>{{ __('Main advert image') }}</label>
+                @include('user.inc.advert-filepond')
             </div>
 
             <div class="mb-3">

@@ -27,7 +27,14 @@
                     </div>
                     @can('update', $advert)
                         <div class="advert--controls my-3">
-                            <a class="btn btn-primary" href="{{ route('user.adverts.edit', $advert->id) }}"><i class="bi bi-pencil-square"></i> {{ __('Edit advert') }}</a>
+                            <a 
+                                class="btn btn-primary" 
+                                href="{{ route('user.adverts.edit', $advert->id) }}">
+                            <i class="bi bi-pencil-square"></i> {{ __('Edit advert') }}</a>
+                            <a 
+                                class="btn btn-warning" 
+                                href="{{ route('user.adverts.phones.list', $advert->id) }}">
+                            <i class="bi bi-telephone"></i> {{ __('Change phone') }}</a>
                         </div>
                     @endcan
                 </div>

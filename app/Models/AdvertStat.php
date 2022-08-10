@@ -17,6 +17,7 @@ class AdvertStat extends Model
      * Статистика объявления за сегодня.
      * 
      * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeToday($query)
     {

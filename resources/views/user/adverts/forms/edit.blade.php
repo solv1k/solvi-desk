@@ -4,15 +4,7 @@
     </x-slot>
     <x-slot name="content">
 
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        @include('inc.form-errors')
 
         <form action="{{ route('user.adverts.update', $advert->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -71,15 +63,7 @@
 
             <div class="mb-3">
                 <label>{{ __('Main advert image') }}</label>
-                <img src="{{ $advert->main_image_url }}" alt="#{{ $advert->id }}" style="max-width: 180px;">
-            </div>
-
-            <div class="mb-3">
-                <input
-                    id="image"
-                    name="image"
-                    type="file"
-                    placeholder="{{ __('Select advert image') }}">
+                @include('user.inc.advert-filepond', compact('advert'))
             </div>
 
             <div class="mb-3">
@@ -90,10 +74,4 @@
             </div>
         </form>
     </x-slot>
-
-    @push('scripts')
-        <script type="module" defer>
-            FilePond.parse(document.body);
-        </script>    
-    @endpush
 </x-dashboard-layout>

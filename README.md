@@ -13,7 +13,7 @@
 
 Для генерации превью (тамбнейлов) используется [Laravel Thumbnail](https://github.com/rolandstarke/laravel-thumbnail)
 
-Для загрузки файлов и картинок используется библиотека [Filepond](https://github.com/pqina/filepond) и для сохранения изображений на сервере [Filepond Backend](https://github.com/Sopamo/laravel-filepond)
+Для загрузки файлов и картинок используется библиотека [Filepond](https://github.com/pqina/filepond)
 
 ## Первый запуск
 

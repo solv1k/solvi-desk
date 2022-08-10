@@ -113,7 +113,7 @@ class AdvertController extends Controller
         }
 
         DB::commit();
-
+        
         return redirect(
             route('user.adverts.phones.list', $advert->id)
         )->with('success', __('Advert update successfuly!'));
