@@ -39,8 +39,8 @@
             </main>
         </div>
 
-        @stack('scripts')
-
         @include('inc.toast-messages')
+
+        @stack('scripts')
     </body>
 </html>

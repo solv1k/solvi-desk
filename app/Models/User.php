@@ -98,6 +98,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Активированный пользователь?
+     * 
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->isAdmin() || $this->hasVerifiedEmail();
+    }
+
+    /**
      * Даёт пользователю права администратора.
      * 
      * @return User
