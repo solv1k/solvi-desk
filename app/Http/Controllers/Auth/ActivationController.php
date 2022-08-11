@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 
 class ActivationController extends Controller
@@ -12,9 +13,17 @@ class ActivationController extends Controller
      * 
      * @return \Illuminate\Contracts\View\View
      */    
-    public function index()
+    public function index(Request $request)
     {
-       return view('auth.activation');
+        /** @var \App\Models\User */
+        $user = $request->user();
+
+        // если пользователь уже активирован, то отправляем его на главную страницу личного кабинета
+        if ($user->isActivated()) {
+            return redirect(RouteServiceProvider::HOME);
+        }
+
+        return view('auth.activation');
     }
 
     /**
@@ -27,7 +36,7 @@ class ActivationController extends Controller
         /** @var \App\Models\User */
         $user = $request->user();
 
-        // если юзер уже активирован ничего не делаем
+        // если пользователь уже активирован, то ничего не делаем
         if ($user->isActivated()) {
             return false;
         }

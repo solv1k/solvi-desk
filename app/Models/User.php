@@ -108,6 +108,19 @@ class User extends Authenticatable
     }
 
     /**
+     * Даёт права активированного пользователя.
+     * 
+     * @return User
+     */
+    public function giveActivatedPermissions(): User
+    {
+        $this->permissions = PermissionsEnum::ACTIVATED_USER->value;
+        $this->save();
+
+        return $this;
+    }
+
+    /**
      * Даёт пользователю права администратора.
      * 
      * @return User
