@@ -17,7 +17,7 @@ class UserActive
     public function handle(Request $request, Closure $next)
     {
         // только для активированных пользователей
-        if ($request->user() && $request->user()->isActive()) {
+        if ($request->user() && $request->user()->isActivated()) {
             return $next($request);
         } else {
             return redirect(route('user.activation.page'));

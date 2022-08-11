@@ -98,11 +98,11 @@ class User extends Authenticatable
     }
 
     /**
-     * Активированный пользователь?
+     * Аккаунт пользователя активирован?
      * 
      * @return bool
      */
-    public function isActive(): bool
+    public function isActivated(): bool
     {
         return $this->isAdmin() || $this->hasVerifiedEmail();
     }

@@ -12,9 +12,10 @@ Route::middleware(['auth'])->prefix('/user')->name('user.')->group(function() {
 
     // активация аккаунта
     Route::controller(ActivationController::class)->prefix('/activation')->name('activation.')->group(function() {
+        // страница активации аккаунта
         Route::get('/', 'index')->name('page');
-        Route::post('/', 'sendLink')->name('send-link');
-        Route::post('/check', 'checkLink')->name('check-link');
+        // обработчик отправки письма с ссылкой активации
+        Route::post('/', 'sendActivationLink')->middleware(['throttle:6,1'])->name('send-link');
     });
 
     // только для активированных пользователей

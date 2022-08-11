@@ -14,7 +14,7 @@ class ActivationController extends Controller
      */    
     public function index()
     {
-       return view('user.dashboard.activation');
+       return view('auth.activation');
     }
 
     /**
@@ -22,11 +22,17 @@ class ActivationController extends Controller
      * 
      * @return mixed
      */
-    public function sendLink(Request $request)
+    public function sendActivationLink(Request $request)
     {
         /** @var \App\Models\User */
         $user = $request->user();
 
+        // если юзер уже активирован ничего не делаем
+        if ($user->isActivated()) {
+            return false;
+        }
+
+        // используем стандартный метод отправки письма для верификации аккаунта
         $user->sendEmailVerificationNotification();
     }
 }
