@@ -1,5 +1,5 @@
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="globalToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="globalToast{{ $id }}" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
             <span class="text-{{ $type }}"><i class="bi bi-exclamation-circle-fill"></i></span>&nbsp;
             <strong class="me-auto">{{ $header }}</strong>
@@ -13,6 +13,6 @@
 </div>
 
 <script>
-    const toastDiv = document.getElementById('globalToast')
-    const globalToast = new bootstrap.Toast(toastDiv)
+    const toastDiv{{ $id }} = document.getElementById('globalToast{{ $id }}')
+    const globalToast{{ $id }} = new bootstrap.Toast(toastDiv{{ $id }})
 </script>

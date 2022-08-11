@@ -12,13 +12,25 @@ class DashboardController extends Controller
      * 
      * @return \Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
         /** @var \App\Models\User */
         $user = auth()->user();
 
         $adverts_count = $user->adverts()->count();
 
-        return view('user.dashboard.index', compact('adverts_count'));
+        $view = view('user.dashboard.index', compact('adverts_count'));
+
+        $verified = $request->has('verified');
+
+        // если пользователь перешёл после верификации аккаунта
+        if ($verified) {
+            $welcome_message = __('Welcome') . ", {$user->name}! " . __('Your account was activated.');
+
+            return redirect(route('user.dashboard'))
+                    ->with('success', $welcome_message);
+        }
+
+        return $view;
     }
 }

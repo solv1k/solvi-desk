@@ -15,7 +15,7 @@ Route::middleware(['auth'])->prefix('/user')->name('user.')->group(function() {
         // страница активации аккаунта
         Route::get('/', 'index')->name('page');
         // обработчик отправки письма с ссылкой активации
-        Route::post('/', 'sendActivationLink')->middleware(['throttle:6,1'])->name('send-link');
+        Route::post('/', 'sendActivationLink')->middleware(['throttle:2,1'])->name('send-link');
     });
 
     // только для активированных пользователей
