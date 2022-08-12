@@ -4,6 +4,8 @@
     </x-slot>
     
     <x-slot name="content">
+        @include('inc.form-errors')
+
         <form action="{{ route('admin.adverts.update', $advert->id) }}" method="POST">
             @csrf
 

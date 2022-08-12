@@ -3,18 +3,19 @@
         {{ __('Admin dashboard') }}
     </x-slot>
     <x-slot name="content">
-        Welcome, mr. Admin!
-
-        <div class="my-3">
-            <a href="{{ route('admin.adverts.waitmoderate.list') }}">{{ __('New adverts') }} ({{ $new_adverts_count }})</a>
+        <div class="mb-4">
+            Welcome, mr. Admin!
         </div>
 
-        <div class="my-3">
-            <a href="{{ route('admin.adverts.active.list') }}">{{ __('Active adverts') }} ({{ $active_adverts_count }})</a>
+        <div class="mb-3">
+            <a href="{{ route('admin.adverts.index') }}" class="btn btn-primary position-relative">
+                {{ __('Adverts') }} ({{ $adverts_count }})
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {{ $new_adverts_count }}
+                    <span class="visually-hidden">{{ __('new adverts count') }}</span>
+                </span>
+            </a>
         </div>
 
-        <div class="my-3">
-            <a href="{{ route('admin.adverts.list') }}">{{ __('All adverts') }} ({{ $adverts_count }})</a>
-        </div>
     </x-slot>
 </x-dashboard-layout>

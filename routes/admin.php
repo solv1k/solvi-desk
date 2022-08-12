@@ -12,8 +12,10 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->name('admin.')->group(fu
 
     // Объявления
     Route::controller(AdvertController::class)->prefix('/adverts')->name('adverts.')->group(function() {
+        // страница управления объявлениями
+        Route::get('/', 'index')->name('index');
         // список всех объявлений
-        Route::get('/', 'index')->name('list');
+        Route::get('/all', 'list')->name('list');
         // активные объявления
         Route::get('/active', 'active')->name('active.list');
         // объявления, ожидающие модерации

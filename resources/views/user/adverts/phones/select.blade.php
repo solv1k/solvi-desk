@@ -1,11 +1,11 @@
 <x-dashboard-layout>
     <x-slot name="title">
-        {{ __('Attach phone to advert') }}
+        {{ __('Linking a phone number') }}
     </x-slot>
     <x-slot name="content">
-        <div class="mb-3">
+        <div class="mb-4">
             <div class="fw-bold fs-5">
-                {{ __('Select contact for advert') }}: {{ $advert->title }}
+                {{ $advert->title }}
             </div>
         </div>
 

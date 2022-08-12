@@ -20,11 +20,29 @@ class AdvertController extends Controller
     }
 
     /**
-     * Страница со списком всех объявлений.
+     * Страница управления объявлениями.
      * 
      * @return \Illuminate\Contracts\View\View
      */
     public function index()
+    {
+        $adverts_count = Advert::count();
+        $active_adverts_count = Advert::active()->count();
+        $new_adverts_count = Advert::waitModeration()->count();
+
+        return view('admin.adverts.index', compact(
+            'adverts_count', 
+            'active_adverts_count', 
+            'new_adverts_count'
+        ));
+    }
+
+    /**
+     * Страница со списком всех объявлений.
+     * 
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function list()
     {
         $adverts = Advert::paginate(10);
 

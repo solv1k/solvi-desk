@@ -16,12 +16,10 @@ class DashboardController extends Controller
     public function index()
     {
         $adverts_count = Advert::count();
-        $active_adverts_count = Advert::active()->count();
         $new_adverts_count = Advert::waitModeration()->count();
 
         return view('admin.dashboard.index', compact(
-            'adverts_count', 
-            'active_adverts_count', 
+            'adverts_count',
             'new_adverts_count'
         ));
     }
