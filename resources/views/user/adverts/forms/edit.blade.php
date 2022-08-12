@@ -58,7 +58,7 @@
                     class="form-control"
                     rows="6"
                     placeholder="{{ __('Advert description') }}"
-                >{{ old('description', $advert->description) }}</textarea>
+                >{{ old('description', multitrim(br2nl($advert->description))) }}</textarea>
             </div>
 
             <div class="mb-3">

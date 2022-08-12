@@ -1,22 +1,20 @@
-@isset($advert)
-    <div class="d-flex flex-wrap align-items-center gap-3">
-        <div id="uploader"></div>
-        <div class="advert--images-container">
+<div class="d-flex flex-wrap align-items-center gap-3">
+    <div class="advert--images-container">
+        @isset($advert)
             <img 
                 src="{{ $advert->main_image_url }}" 
                 alt="#{{ $advert->id }}"
                 class="advert--image-current">
-            <div class="advert--image-preview"></div>
-        </div>
+        @else
+            <img 
+                src="{{ advert_image_placeholder() }}" 
+                alt="{{ __('Placeholder') }}"
+                class="advert--image-current">
+        @endisset
+        <div class="advert--image-preview"></div>
     </div>
-@else
-    <div class="d-flex flex-wrap align-items-center gap-3">
-        <div id="uploader"></div>
-        <div class="advert--images-container">
-            <div class="advert--image-preview"></div>
-        </div>
-    </div>
-@endisset
+    <div id="uploader"></div>
+</div>
 
 <input 
     type="file"

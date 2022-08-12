@@ -40,7 +40,7 @@
                         <hr>
                         
                         <div class="advert--description mb-3" style="max-width: 360px;">
-                            {{ $advert->description }}
+                            {!! $advert->description !!}
                         </div>
                     </div>
                 </div>

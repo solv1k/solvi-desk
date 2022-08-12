@@ -3,7 +3,11 @@
         {{ __('Dashboard') }}
     </x-slot>
     <x-slot name="content">
-        {{ __('Welcome') }}, {{ $currentUser->name }}
+        @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+                <i class="bi bi-check-circle"></i> {{ $message }}
+            </div>
+        @endif
 
         @if ($adverts_count)
             <div class="my-3">

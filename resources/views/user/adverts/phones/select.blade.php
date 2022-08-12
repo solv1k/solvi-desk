@@ -3,18 +3,15 @@
         {{ __('Attach phone to advert') }}
     </x-slot>
     <x-slot name="content">
-
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+        <div class="mb-3">
+            <div class="fw-bold fs-5">
+                {{ __('Select contact for advert') }}: {{ $advert->title }}
             </div>
-        @endif
+        </div>
 
         @if ($currentUser->verifiedPhones()->count())
+            @include('inc.form-errors')
+
             <form action="{{ route('user.adverts.phones.attach', $advert->id) }}" method="POST">
                 @csrf
 

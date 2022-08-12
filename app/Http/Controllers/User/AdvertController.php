@@ -8,6 +8,7 @@ use App\Http\Requests\User\AdvertStoreRequest;
 use App\Http\Requests\User\AdvertUpdateRequest;
 use App\Models\Advert;
 use App\Models\AdvertCategory;
+use App\Services\AdvertService;
 use App\Services\FileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,9 +18,13 @@ class AdvertController extends Controller
     /** @var FileService */
     private $fileService;
 
-    public function __construct(FileService $fileService)
+    /** @var AdvertService */
+    private $advertService;
+
+    public function __construct(FileService $fileService, AdvertService $advertService)
     {
         $this->fileService = $fileService;
+        $this->advertService = $advertService;
     }
 
     /**
@@ -53,6 +58,8 @@ class AdvertController extends Controller
      */
     public function store(AdvertStoreRequest $request)
     {
+        $request = $this->advertService->updateRequestData($request);
+
         DB::beginTransaction();
 
         $advert = $request->user()->adverts()->create($request->only([
@@ -81,6 +88,8 @@ class AdvertController extends Controller
      */
     public function update(AdvertUpdateRequest $request, Advert $advert)
     {
+        $request = $this->advertService->updateRequestData($request);
+        
         DB::beginTransaction();
 
         $advert->fill($request->only([

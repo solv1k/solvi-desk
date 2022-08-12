@@ -16,6 +16,7 @@ class MarkUserAsActivated
         $user = $event->user;
 
         if ($user && $user->hasVerifiedEmail()) {
+            // даём права доступа
             $user->giveActivatedPermissions();
         }
     }

@@ -23,7 +23,7 @@
                         {{ price_format($advert->price) }} {{ GeneralSetting::getValue('currency_symbol') }}
                     </div>
                     <div class="advert--description">
-                        {{ $advert->description }}
+                        {!! $advert->description !!}
                     </div>
                     @can('update', $advert)
                         <div class="advert--controls my-3">

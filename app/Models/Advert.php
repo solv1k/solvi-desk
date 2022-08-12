@@ -153,7 +153,7 @@ class Advert extends Model
         if ($this->main_image_path) {
             return url(str_replace('public', 'storage', $this->main_image_path));
         } else {
-            return 'https://via.placeholder.com/200x200?text=Placeholder';
+            return advert_image_placeholder();
         }
     }
 

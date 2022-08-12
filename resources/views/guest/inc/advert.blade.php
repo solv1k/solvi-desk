@@ -13,7 +13,7 @@
         </h5>
 
         <p class="advert--description card-text">
-            {{ $advert->description }}
+            {!! $advert->description !!}
         </p>
 
         <div class="price fw-bold fs-4">

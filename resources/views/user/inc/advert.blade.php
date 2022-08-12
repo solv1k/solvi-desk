@@ -7,7 +7,7 @@
             </a>
         </h5>
         <p class="advert--description card-text">
-            {{ $advert->description }}
+            {!! $advert->description !!}
         </p>
         <div class="price fw-bold fs-4">
             {{ price_format($advert->price) }} {{ GeneralSetting::getValue('currency_symbol') }}
