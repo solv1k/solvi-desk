@@ -5,11 +5,11 @@
     <x-slot name="content">
 
         <div class="advert-page">
-            <div class="advert d-flex gap-4 flex-column flex-md-row">
-                <div class="advert--image">
-                    <img src="{{ $advert->main_image_url }}" alt="{{ $advert->title }}" width="240">
+            <div class="advert row">
+                <div class="advert--image col-md-4">
+                    <img src="{{ $advert->main_image_url }}" alt="{{ $advert->title }}" class="img-fluid rounded">
                 </div>
-                <div class="advert--info">
+                <div class="advert--info col">
                     <div class="advert--title fs-4">
                         {{ $advert->title }} 
                     </div>

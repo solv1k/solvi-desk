@@ -1,6 +1,6 @@
 <x-dashboard-layout>
     <x-slot name="title">
-        {{ __('Adding new phone') }}
+        {{ __('Adding a new phone') }}
     </x-slot>
 
     <x-slot name="content">

@@ -32,6 +32,7 @@ class AdvertPhoneController extends Controller
     {
         $advert->setSelectedUserPhone($request->validated('user_phone_id'), $request->contact_name);
 
-        return redirect(route('user.adverts.list'));
+        return redirect(route('user.adverts.list'))
+                ->with('success', __('Phone linked successfuly!'));
     }
 }

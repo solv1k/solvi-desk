@@ -1,4 +1,4 @@
-<div class="advert card" style="width: 18rem;">
+<div class="advert card">
     <img src="{{ $advert->main_image_url }}" class="advert--main-image card-img-top" alt="{{ $advert->title }}">
     <div class="card-body">
         <h5 class="advert--title card-title">

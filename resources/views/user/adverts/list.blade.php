@@ -4,9 +4,11 @@
     </x-slot>
     <x-slot name="content">
 
-        <div class="adverts-list d-flex flex-wrap gap-4">
+        <div class="adverts-list row">
             @forelse ($adverts as $advert)
-                @include('user.inc.advert', compact('advert'))
+                <div class="col-md-6 col-lg-4 mb-4">
+                    @include('user.inc.advert', compact('advert'))
+                </div>
             @empty
                 <div class="alert alert-info">{{ __('Advert list is empty...') }}</div>
             @endforelse

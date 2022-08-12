@@ -49,6 +49,17 @@
             </div>
 
             <div class="mb-3">
+                <label for="description">{{ __('Advert description') }}</label>
+                <textarea
+                    id="description"
+                    name="description"
+                    class="form-control"
+                    rows="6"
+                    placeholder="{{ __('Advert description') }}"
+                >{{ old('description', multitrim(br2nl($advert->description))) }}</textarea>
+            </div>
+
+            <div class="mb-3">
                 <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> {{ __('Save changes') }}</button>
                 <a href="{{ route('admin.adverts.view', $advert->id) }}" class="btn btn-primary"><i class="bi bi-eye"></i> {{ __('View') }}</a>
             </div>

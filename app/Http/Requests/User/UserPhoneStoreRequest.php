@@ -14,7 +14,7 @@ class UserPhoneStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'number' => 'required|min:7|max:20|starts_with:+7|unique:user_phones,number'
+            'number' => 'required|min:11|max:20|starts_with:+7|unique:user_phones,number'
         ];
     }
 }

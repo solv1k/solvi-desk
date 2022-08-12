@@ -3,7 +3,7 @@
         {{ __('Linking a phone number') }}
     </x-slot>
     <x-slot name="content">
-        <div class="mb-4">
+        <div class="mb-4 pb-4 border-bottom">
             <div class="fw-bold fs-5">
                 {{ $advert->title }}
             </div>
@@ -18,7 +18,7 @@
                 <div class="mb-3">
                     <label for="user_phone_id">
                         {{ __('Select phone for main advert contact or') }} 
-                        <a href="{{ route('user.phones.attach') }}">{{ __('adding new phone') }}</a>:
+                        <a href="{{ route('user.phones.attach') }}">{{ __('add new phone') }}</a>:
                     </label>
                     <select
                         id="user_phone_id"
