@@ -68,7 +68,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Верифицированные пользователя.
+     * Верифицированные телефоны пользователя.
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
