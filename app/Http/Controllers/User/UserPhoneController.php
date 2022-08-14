@@ -4,7 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserPhoneStoreRequest;
-use App\Http\Requests\UserUserPhoneVerificationRequest;
+use App\Http\Requests\User\UserPhoneVerificationRequest;
 use App\Models\UserPhone;
 use Illuminate\Http\Request;
 
@@ -68,7 +68,7 @@ class UserPhoneController extends Controller
      * 
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function verifyHandler(UserUserPhoneVerificationRequest $request, UserPhone $user_phone)
+    public function verifyHandler(UserPhoneVerificationRequest $request, UserPhone $user_phone)
     {
         // получаем из сессии 6-значный код верификации
         $code = session('phone_verification_code_' . $user_phone->id);
