@@ -5,7 +5,7 @@
     <x-slot name="content">
 
         <div class="my-3">
-            <a href="{{ route('admin.adverts.waitmoderate.list') }}">{{ __('New adverts') }} ({{ $new_adverts_count }})</a>
+            <a href="{{ route('admin.adverts.waitmoderate.list') }}">{{ __('Wait moderation') }} ({{ $new_adverts_count }})</a>
         </div>
 
         <div class="my-3">
