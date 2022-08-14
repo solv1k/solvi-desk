@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-auth-layout>
     <x-slot name="content">
         <x-auth-card>
             <x-slot name="logo">
@@ -35,4 +35,4 @@
             </form>
         </x-auth-card>
     </x-slot>
-</x-guest-layout>
+</x-auth-layout>

@@ -14,7 +14,7 @@
                         {{ $advert->title }} 
                     </div>
                     <div class="advert--category text-muted mb-3">
-                        Категория: {{ $advert->category?->title }}
+                        {{ __('Category') }}: {{ $advert->category?->title }}
                     </div>
                     <div class="advert--status">
                         @include('user.inc.advert-status', compact('advert'))

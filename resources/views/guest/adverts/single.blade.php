@@ -1,13 +1,10 @@
 <x-guest-layout>
-    <x-slot name="title">
-        {{ __('Advert page') }}
-    </x-slot>
     <x-slot name="content">
 
         <div class="advert-page">
             <div class="advert d-flex gap-4 flex-column flex-md-row">
                 <div class="advert--image">
-                    <img src="{{ $advert->main_image_url }}" alt="{{ $advert->title }}" width="240">
+                    <img src="{{ $advert->main_image_url }}" alt="{{ $advert->title }}" class="img-fluid" style="max-width: 320px;">
                 </div>
                 <div class="advert--info">
                     <div class="advert--title fs-4">

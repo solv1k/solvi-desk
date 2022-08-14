@@ -1,8 +1,8 @@
-<div class="advert advert-home d-lg-flex gap-3 my-4 w-md-50">
+<div class="advert advert-home d-lg-flex gap-3 my-4">
     <img 
         src="{{ $advert->main_image_url }}" 
-        class="advert--main-image img-fluid card-img-top align-self-start" 
-        style="max-width: 240px"
+        class="advert--main-image img-fluid rounded card-img-top align-self-start"
+        style="width: 280px;"
         alt="{{ $advert->title }}">
 
     <div class="card-body">

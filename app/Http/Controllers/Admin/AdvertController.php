@@ -44,7 +44,7 @@ class AdvertController extends Controller
      */
     public function list()
     {
-        $adverts = Advert::paginate(10);
+        $adverts = Advert::latest()->paginate(10);
 
         return view('admin.adverts.list', compact('adverts'));
     }
@@ -68,7 +68,7 @@ class AdvertController extends Controller
      */
     public function active()
     {
-        $adverts = Advert::active()->paginate(10);
+        $adverts = Advert::active()->latest()->paginate(10);
 
         return view('admin.adverts.active-list', compact('adverts'));
     }
