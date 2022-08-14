@@ -19,14 +19,4 @@ class HelperServiceProvider extends ServiceProvider
             require_once $file;
         }
     }
-
-    /**
-     * Bootstrap services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        //
-    }
 }
