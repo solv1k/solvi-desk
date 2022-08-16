@@ -1,9 +1,9 @@
-<div>
+<div class="d-inline-block">
     <button 
         class="my-2 text-danger"
         data-bs-toggle="tooltip"
         data-bs-placement="right"
-        data-bs-title="{{ __('Sign in for like') }}">
+        data-bs-title="{{ __('Likes') }}">
 
             <i class="bi bi-heart"></i>
 

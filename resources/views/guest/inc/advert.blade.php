@@ -24,12 +24,9 @@
             @include('guest.inc.advert-owner', compact('advert'))
         </div>
 
-        @auth
-            @if ($currentUser->canLikeAdverts())
-                @livewire('user.adverts.like-button', compact('advert'))
-            @endif
-        @else
-            @livewire('guest.adverts.like-button', compact('advert'))
-        @endauth
+        <div class="advert--stats d-flex gap-2 align-items-center">
+            @include('guest.inc.advert-likes', compact('advert'))
+            @include('guest.inc.advert-views', compact('advert'))
+        </div>
     </div>
 </div>
