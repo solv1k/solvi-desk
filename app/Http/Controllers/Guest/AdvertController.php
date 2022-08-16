@@ -15,6 +15,17 @@ class AdvertController extends Controller
      */
     public function view(Advert $advert)
     {
+        // прибавляем просмотр, только если смотрит не сам автор объявления
+        if (! auth() || $advert->user_id !== auth()->id()) {
+            $last_viewed_advert_id = session('last_viewed_advert_id');
+
+            // сохраняем ID объявления в сессии, чтобы убрать дубликаты просмотров
+            if ($last_viewed_advert_id !== $advert->id) {
+                session()->put('last_viewed_advert_id', $advert->id);
+                $advert->getTodayStat()->incView();
+            }
+        }
+
         return view('guest.adverts.single', compact('advert'));
     }
 }
