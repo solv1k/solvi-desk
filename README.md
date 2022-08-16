@@ -9,6 +9,8 @@
 
 ## Важные зависимости
 
+Для динамических компонентов используется [Laravel Livewire](https://github.com/livewire/livewire)
+
 Для организации дерева потомков и родителей используется [Laravel Nested Set](https://github.com/lazychaser/laravel-nestedset)
 
 Для генерации превью (тамбнейлов) используется [Laravel Thumbnail](https://github.com/rolandstarke/laravel-thumbnail)
