@@ -32,6 +32,11 @@
                             <a class="btn btn-primary" href="{{ route('user.adverts.edit', $advert->id) }}"><i class="bi bi-pencil-square"></i> {{ __('Edit advert') }}</a>
                         </div>
                     @endcan
+
+                    <div class="advert--stats d-flex gap-2 align-items-center">
+                        @include('guest.inc.advert-likes', compact('advert'))
+                        @include('guest.inc.advert-views', compact('advert'))
+                    </div>
                 </div>
             </div>
         </div>
