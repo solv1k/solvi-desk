@@ -56,6 +56,16 @@ class Advert extends Model
     }
 
     /**
+     * Лайки пользователей.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function userLikes()
+    {
+        return $this->hasMany(AdvertUserLike::class, 'advert_id');
+    }
+
+    /**
      * Текущий (выбранный пользователем) телефон, привязанный к объявлению.
      * 
      * @return ?UserPhone

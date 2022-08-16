@@ -40,6 +40,18 @@ class AdvertController extends Controller
     }
 
     /**
+     * Список объявлений, которые понравилилсь пользователю.
+     * 
+     * @return \Illuminate\Contracts\View\View
+     */    
+    public function liked(Request $request)
+    {
+        $liked_adverts = $request->user()->likedAdverts;
+
+        return view('user.adverts.liked', compact('liked_adverts'));
+    }
+
+    /**
      * Форма создания нового объявления.
      * 
      * @return \Illuminate\Contracts\View\View

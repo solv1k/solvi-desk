@@ -23,5 +23,11 @@
         <div class="advert--owner small text-muted">
             @include('guest.inc.advert-owner', compact('advert'))
         </div>
+
+        @auth
+            @if ($currentUser->canLikeAdverts())
+                @livewire('user.adverts.like-button', compact('advert'))
+            @endif
+        @endauth
     </div>
 </div>

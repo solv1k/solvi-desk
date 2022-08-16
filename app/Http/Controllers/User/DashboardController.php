@@ -18,8 +18,9 @@ class DashboardController extends Controller
         $user = auth()->user();
 
         $adverts_count = $user->adverts()->count();
+        $liked_adverts_count = $user->likedAdverts()->count();
 
-        $view = view('user.dashboard.index', compact('adverts_count'));
+        $view = view('user.dashboard.index', compact('adverts_count', 'liked_adverts_count'));
 
         $verified = $request->has('verified');
 

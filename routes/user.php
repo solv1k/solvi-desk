@@ -41,6 +41,8 @@ Route::middleware(['auth'])->prefix('/user')->name('user.')->group(function() {
         Route::controller(AdvertController::class)->prefix('/adverts')->name('adverts.')->group(function() {
             // список всех объявлений пользователя
             Route::get('/', 'index')->name('list');
+            // список всех объявлений, которые понравились пользователю
+            Route::get('/liked', 'liked')->name('liked');
             // форма создания объявления
             Route::get('/create', 'create')->name('create');
             // обработчик создания объявления

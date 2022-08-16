@@ -58,6 +58,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Лайкнутые пользователем объявления.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function likedAdverts()
+    {
+        return $this->hasMany(AdvertUserLike::class, 'user_id');
+    }
+
+    /**
      * Телефоны пользователя.
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -151,6 +161,16 @@ class User extends Authenticatable
     public function hasCreateAdvertPermissions(): bool
     {
         return in_array($this->permissions, PermissionsEnum::allowedCreateAdvert());
+    }
+
+    /**
+     * Пользователь может лайкать объявления?
+     * 
+     * @return bool
+     */
+    public function canLikeAdverts(): bool
+    {
+        return true;
     }
 
     /**
