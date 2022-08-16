@@ -6,12 +6,20 @@
                 {{ $advert->title }}
             </a>
         </h5>
+        
         <p class="advert--description card-text">
             {!! $advert->description !!}
         </p>
+
         <div class="price fw-bold fs-4">
             {{ price_format($advert->price) }} {{ GeneralSetting::getValue('currency_symbol') }}
         </div>
+
         @include('user.inc.advert-status', compact('advert'))
+
+        <div class="advert--stats d-flex gap-2 align-items-center">
+            @include('guest.inc.advert-likes', compact('advert'))
+            @include('guest.inc.advert-views', compact('advert'))
+        </div>
     </div>
 </div>

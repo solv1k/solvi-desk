@@ -146,8 +146,12 @@ class AdvertController extends Controller
      * 
      * @return \Illuminate\Contracts\View\View
      */
-    public function view(Advert $advert)
+    public function view(Request $request, Advert $advert)
     {
+        if (! $request->user()->can('edit', $advert)) {
+            return redirect(route('guest.adverts.view', $advert->id));
+        }
+
         return view('user.adverts.single', compact('advert'));
     }
 

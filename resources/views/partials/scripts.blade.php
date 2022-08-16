@@ -4,7 +4,9 @@
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
     const needSignInModal = document.getElementById('needSignInModal')
-    needSignInModal.addEventListener('show.bs.modal', event => {
-        tooltipList.forEach(tooltip => tooltip.hide());
-    })
+    if (needSignInModal) {
+        needSignInModal.addEventListener('show.bs.modal', event => {
+            tooltipList.forEach(tooltip => tooltip.hide());
+        })
+    }
 </script>

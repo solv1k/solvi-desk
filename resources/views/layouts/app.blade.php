@@ -13,6 +13,9 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+        <!-- Liveware -->
+        @livewireStyles
+
         @include('partials.styles')
 
         @stack('styles')
@@ -35,6 +38,9 @@
         </div>
 
         @include('inc.toast-messages')
+
+        <!-- Liveware -->
+        @livewireScripts
 
         @include('partials.scripts')
 
