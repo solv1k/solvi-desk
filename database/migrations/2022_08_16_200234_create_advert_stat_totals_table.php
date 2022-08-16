@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('advert_stats', function (Blueprint $table) {
+        Schema::create('advert_stat_totals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('advert_id')->constrained()->onDelete('CASCADE');
-            $table->date('date')->index();
+            $table->foreignId('advert_id')->unique()->constrained()->onDelete('CASCADE');
             $table->unsignedInteger('views')->default(0);
             $table->unsignedInteger('phone_views')->default(0);
+            $table->unsignedInteger('likes')->default(0);
             $table->timestamps();
-
-            $table->unique(['advert_id', 'date']);
         });
     }
 
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('advert_stats');
+        Schema::dropIfExists('advert_stat_totals');
     }
 };

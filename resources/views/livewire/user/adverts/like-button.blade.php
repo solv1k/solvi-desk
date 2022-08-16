@@ -12,5 +12,7 @@
                 <i class="bi bi-heart"></i>
             @endif
 
+            {{ $stat_total->likes }}
+
     </button>
 </div>

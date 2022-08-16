@@ -23,9 +23,7 @@
     class="d-none">
 
 <script type="module" defer>
-    @isset($advert)
-        const $imageCurrent = document.querySelector('.advert--image-current');
-    @endisset
+    const $imageCurrent = document.querySelector('.advert--image-current');
     const $imagePreview = document.querySelector('.advert--image-preview');
     const $imageInput = document.getElementById('image');
     // Create a multi file upload component
@@ -48,9 +46,7 @@
             const src = URL.createObjectURL(output);
             if (!src) return;
 
-            @isset($advert)
-                $imageCurrent.classList.add('d-none');
-            @endisset
+            $imageCurrent.classList.add('d-none');
 
             const img = new Image();
             img.src = src;
@@ -64,9 +60,7 @@
         },
         onremovefile: (error, file) => {
             $imagePreview.innerHTML = '';
-            @isset($advert)
-                $imageCurrent.classList.remove('d-none');
-            @endisset
+            $imageCurrent.classList.remove('d-none');
             $imageInput.files = null;
         }
     });

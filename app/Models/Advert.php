@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\AdvertStatusEnum;
 use App\Models\Pivots\AdvertUserPhone;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -43,6 +44,71 @@ class Advert extends Model
     public function category()
     {
         return $this->belongsTo(AdvertCategory::class, 'advert_category_id');
+    }
+
+    /**
+     * Статистика объявления.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function stats()
+    {
+        return $this->hasMany(AdvertStat::class);
+    }
+
+    /**
+     * Суммарная статистика объявления.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function statTotal()
+    {
+        return $this->hasOne(AdvertStatTotal::class);
+    }
+
+    /**
+     * Возвращает статистику объявления на конкретную дату.
+     * 
+     * @param string $date
+     * @return ?AdvertStat
+     */
+    public function getStatByDate(string $date = 'now'): ?AdvertStat
+    {
+        return $this->stats()->whereDate('date', Carbon::parse($date))->first();
+    }
+
+    /**
+     * Возвращает статистику объявления за сегодня.
+     * 
+     * @return AdvertStat
+     */
+    public function getTodayStat(): AdvertStat
+    {
+        $stat = $this->stats()->today()->first();
+
+        if (! $stat) {
+            $stat = $this->stats()->create([
+                'date' => Carbon::now()
+            ]);
+        }
+
+        return $stat;
+    }
+
+    /**
+     * Возвращает суммарную статистику объявления.
+     * 
+     * @return AdvertStatTotal
+     */
+    public function getStatTotal(): AdvertStatTotal
+    {
+        $stat_total = $this->statTotal;
+
+        if (! $stat_total) {
+            $stat_total = $this->statTotal()->create();
+        }
+
+        return $stat_total;
     }
 
     /**
@@ -143,14 +209,6 @@ class Advert extends Model
     public function images()
     {
         return $this->hasMany(AdvertImage::class);
-    }
-
-    /**
-     * Статистика объявления.
-     */
-    public function stats()
-    {
-        return $this->hasMany(AdvertStat::class);
     }
 
     /**
