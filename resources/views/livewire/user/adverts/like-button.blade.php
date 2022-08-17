@@ -1,6 +1,6 @@
 <div>
     <button 
-        class="my-2 text-danger" 
+        class="advert--like-btn my-2 text-danger" 
         wire:click="toggle"
         data-bs-toggle="tooltip"
         data-bs-placement="right"
@@ -12,7 +12,9 @@
                 <i class="bi bi-heart"></i>
             @endif
 
-            {{ $stat_total->likes }}
+            <span class="advert--like-counter">
+                {{ $stat_total->likes }}
+            </span>
 
     </button>
 </div>

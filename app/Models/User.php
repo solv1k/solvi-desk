@@ -58,6 +58,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Активные объявления пользователя.
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function activeAdverts()
+    {
+        return $this->adverts()->active();
+    }
+
+    /**
      * Лайкнутые пользователем объявления.
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

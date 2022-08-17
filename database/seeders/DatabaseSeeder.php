@@ -4,10 +4,12 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Advert;
 use App\Models\AdvertCategory;
 use App\Models\BannerPosition;
 use App\Models\GeneralSetting;
 use App\Models\User;
+use App\Models\UserPhone;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -30,13 +32,21 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // создаём админа
-        User::factory()->create([
+        /** @var \App\Models\User */
+        $admin = User::factory()->create([
             'name' => 'admin',
             'email' => 'admin@gmail.com'
         ])->giveAdminPermissions();
 
+        // создаём админу телефон (для привязки к объявлениям)
+        /** @var \App\Models\UserPhone */
+        $phone = $admin->phones()->create([
+            'number' => '+79001234567'
+        ]);
+        $phone->setVerified(true);
+
         // создаем основные категории объявлений
-        AdvertCategory::create([
+        $advert_category = AdvertCategory::create([
             'title' => 'Разное',
             'description' => 'В этой категории находятся объявления, которые не были размещены в какую-либо категорию.'
         ]);
@@ -49,6 +59,14 @@ class DatabaseSeeder extends Seeder
         AdvertCategory::create([
             'title' => 'Недвижимость'
         ]);
+
+        // создаём тестовое объявление
+        Advert::factory()
+                ->hasOwner(User::find(1))
+                ->hasCategory($advert_category)
+                ->create()
+                ->setSelectedUserPhone($phone->id, 'Vladimir')
+                ->setActiveStatus();
 
         // создаем позиции для баннерной рекламы
         BannerPosition::create([

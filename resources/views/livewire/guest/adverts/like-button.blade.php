@@ -4,14 +4,16 @@
     data-bs-target="#needSignInModal">
 
     <button 
-        class="my-2 text-danger"
+        class="advert--like-btn my-2 text-danger"
         data-bs-toggle="tooltip"
         data-bs-placement="right"
         data-bs-title="{{ __('Likes') }}">
 
             <i class="bi bi-heart"></i>
 
-            {{ $stat_total->likes }}
+            <span class="advert--like-counter">
+                {{ $stat_total->likes }}
+            </span>
 
     </button>
 

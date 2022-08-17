@@ -26,6 +26,9 @@ class Advert extends Model
         'price'
     ];
 
+    /** @var \App\Models\AdvertStatTotal */
+    protected $cached_stat_total;
+
     /**
      * Автор объявления.
      * 
@@ -102,11 +105,17 @@ class Advert extends Model
      */
     public function getStatTotal(): AdvertStatTotal
     {
+        if ($this->cached_stat_total) {
+            return $this->cached_stat_total;
+        }
+
         $stat_total = $this->statTotal;
 
         if (! $stat_total) {
             $stat_total = $this->statTotal()->create();
         }
+
+        $this->cached_stat_total = $stat_total;
 
         return $stat_total;
     }
