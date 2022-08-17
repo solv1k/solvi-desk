@@ -16,11 +16,6 @@ class AdvertLikeTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function tearup()
-    {
-        # code...
-    }
-
     public function test_main_page_is_open_correctly()
     {
         $response = $this->get('/');
