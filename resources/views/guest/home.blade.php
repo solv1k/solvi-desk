@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <x-slot name="content">  
+    <x-slot name="content">
         @if (count($adverts) > 0)
             <div class="advert-list row">
                 @foreach ($adverts as $advert)

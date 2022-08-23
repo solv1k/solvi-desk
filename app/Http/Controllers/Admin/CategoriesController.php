@@ -18,8 +18,13 @@ class CategoriesController extends Controller
         return view('admin.categories.index');
     }
 
+    /**
+     * Страница просмотра конкретной категории.
+     * 
+     * @return \Illuminate\Contracts\View\View
+     */
     public function view(AdvertCategory $category)
     {
-        return $category;
+        return view('admin.categories.single', compact('category'));
     }
 }

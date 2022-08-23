@@ -1,5 +1,6 @@
 <x-guest-layout>
     <x-slot name="content">
+        {{ Breadcrumbs::render('guest.adverts.view', $advert) }}
 
         <div class="advert-page">
             <div class="advert d-flex gap-4 flex-column flex-md-row">

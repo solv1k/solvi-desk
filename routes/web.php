@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 | 
 */
 
-require __DIR__.'/guest.php';
+require 'guest.php';
 
 /*
 |
@@ -27,7 +27,7 @@ require __DIR__.'/guest.php';
 | 
 */
 
-require __DIR__.'/user.php';
+require 'user.php';
 
 /*
 |
@@ -35,7 +35,7 @@ require __DIR__.'/user.php';
 | 
 */
 
-require __DIR__.'/admin.php';
+require 'admin.php';
 
 /*
 |
@@ -43,4 +43,4 @@ require __DIR__.'/admin.php';
 | 
 */
 
-require __DIR__.'/auth.php';
+require 'auth.php';

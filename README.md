@@ -17,6 +17,8 @@
 
 Для загрузки файлов и картинок используется библиотека [Filepond](https://github.com/pqina/filepond)
 
+Для хлебных крошек (breadcrumbs) используется библиотека [Laravel Breadcrumbs](https://github.com/diglactic/laravel-breadcrumbs)
+
 ## Первый запуск
 
 Для первого запуска требуется выполнить команду `sail artisan migrate:fresh && sail artisan db:seed`. Это создаст все необходимые таблицы в базе данных.

@@ -22,4 +22,14 @@ class AdvertCategory extends Model
         'icon_color',
         'order'
     ];
+
+    /**
+     * Объявления в категории.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function adverts()
+    {
+        return $this->hasMany(Advert::class);
+    }
 }
