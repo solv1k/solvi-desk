@@ -13,7 +13,7 @@ class UserPhoneVerificationRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('update', $this->user_phone);
+        return $this->user()->can('update', $this->userPhone);
     }
 
     /**

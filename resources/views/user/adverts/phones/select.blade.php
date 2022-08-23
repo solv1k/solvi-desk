@@ -56,19 +56,7 @@
             </form>
         @endif
 
-        @if ($currentUser->unverifiedPhones()->count())
-            <div class="mb-3">
-                <div class="mb-3">{{ __('You have unverified numbers.') }}</div>
-
-                @foreach ($currentUser->unverifiedPhones as $phone)
-                    <div class="user-phone mb-3">
-                        <span class="user-phone--number">{{ $phone->number }}</span>
-                        <span class="user-phone--verification-label text-muted small">{{ $phone->verifiedLabel() }}</span>
-                        <a href="{{ route('user.phones.verify.page', $phone->id) }}">{{ __('verify this phone') }}</a>
-                    </div>
-                @endforeach
-            </div>
-        @endif
+        @include('user.phones.inc.unverified-phones-list')
 
         @if ($currentUser->phones()->count() === 0)
             @include('user.inc.attach-phone')

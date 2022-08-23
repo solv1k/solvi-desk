@@ -4,15 +4,15 @@
     </x-slot>
     <x-slot name="content">
 
-        {{ Breadcrumbs::render('user.phones.verify.page', $user_phone) }}
+        {{ Breadcrumbs::render('user.phones.verify.page', $userPhone) }}
 
         <div class="alert alert-info mb-3">
-            {{__('Verify phone')}} <strong>{{ $user_phone->number }}</strong> {{ __('Click "Send code" button and wait SMS code.') }}
+            {{__('Verify phone')}} <strong>{{ $userPhone->number }}</strong> {{ __('Click "Send code" button and wait SMS code.') }}
         </div>
 
         @include('inc.form-errors')
 
-        <form action="{{ route('user.phones.verify.handler', $user_phone->id) }}" method="POST">
+        <form action="{{ route('user.phones.verify.handler', $userPhone->id) }}" method="POST">
             @csrf
 
             <div class="mb-3">
@@ -56,7 +56,7 @@
             </div>
 
             @admin
-                <div class="mb-3">CODE: {{ session('phone_verification_code_' . $user_phone->id) }}</div>
+                <div class="mb-3">CODE: {{ session('phone_verification_code_' . $userPhone->id) }}</div>
             @endadmin
         </form>
     </x-slot>

@@ -4,8 +4,12 @@
     </x-slot>
 
     <x-slot name="content">
+
         {{ Breadcrumbs::render('user.phones.attach') }}
 
         @include('user.inc.attach-phone')
+
+        @include('user.phones.inc.unverified-phones-list')
+        
     </x-slot>
 </x-dashboard-layout>
