@@ -46,6 +46,22 @@ if (! function_exists('br2nl')) {
     }
 }
 
+if (! function_exists('untrim')) {
+    /**
+     * Добавляет пробелы в начале и конце строки.
+     * 
+     * @return string
+     */
+    function untrim(?string $str): string 
+    {
+        if (!$str) {
+            return '';
+        }
+
+        return ' ' . $str . ' ';
+    }
+}
+
 if (! function_exists('advert_image_placeholder')) {
     /**
      * Возвращает URL "картинки-заглушки" для объявления.
@@ -55,5 +71,33 @@ if (! function_exists('advert_image_placeholder')) {
     function advert_image_placeholder(): string
     {
         return 'https://via.placeholder.com/240x180?text=Placeholder';
+    }
+}
+
+if (! function_exists('print_full_tree')) {
+    /**
+     * Возвращает дерево родителей и потомков для ноды в форматтер.
+     */
+    function print_full_tree($nodes, Closure $formatter, string $prefix = '-')
+    {
+        foreach ($nodes as $node) {
+            $formatter($node, $prefix);
+    
+            print_full_tree($node->children, $formatter, $prefix . $prefix);
+        }
+    }
+}
+
+if (! function_exists('view_full_tree')) {
+    /**
+     * Возвращает дерево родителей и потомков для ноды во вьюшку.
+     */
+    function view_full_tree($nodes, string $view_path, string $prefix = '-')
+    {
+        foreach ($nodes as $node) {
+            echo view($view_path, compact('node', 'prefix'))->render();
+    
+            view_full_tree($node->children, $view_path, $prefix . $prefix);
+        }
     }
 }

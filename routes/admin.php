@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdvertController;
+use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,17 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->name('admin.')->group(fu
             Route::get('/activate', 'activate')->name('activate');
             // обработчик отправки объявления на модерацию
             Route::get('/to-moderation', 'toModeration')->name('to-moderation');
+        });
+    });
+
+    // Категории объявлений
+    Route::controller(CategoriesController::class)->prefix('/categories')->name('categories.')->group(function() {
+        // страница управления категориями
+        Route::get('/', 'index')->name('index');
+        // группа маршрутов по конкретной категории объявления
+        Route::prefix('/{category}')->group(function() {
+            // страница просмотра категории объявления
+            Route::get('/', 'view')->name('view');
         });
     });
 

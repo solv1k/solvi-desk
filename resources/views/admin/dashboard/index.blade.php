@@ -17,5 +17,11 @@
             </a>
         </div>
 
+        <div class="mb-3">
+            <a href="{{ route('admin.categories.index') }}" class="btn btn-primary position-relative">
+                {{ __('Categories') }} ({{ $categories_count }})
+            </a>
+        </div>
+
     </x-slot>
 </x-dashboard-layout>
