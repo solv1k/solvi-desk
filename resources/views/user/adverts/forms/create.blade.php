@@ -4,6 +4,8 @@
     </x-slot>
     <x-slot name="content">
 
+        {{ Breadcrumbs::render('user.adverts.create') }}
+
         @include('inc.form-errors')
 
         <form action="{{ route('user.adverts.store') }}" method="POST" enctype="multipart/form-data">

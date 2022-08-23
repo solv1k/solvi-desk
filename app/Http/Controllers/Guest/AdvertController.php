@@ -26,6 +26,10 @@ class AdvertController extends Controller
             }
         }
 
+        if (! $advert->active) {
+            abort(404);
+        }
+
         return view('guest.adverts.single', compact('advert'));
     }
 }

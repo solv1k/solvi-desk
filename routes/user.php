@@ -29,8 +29,10 @@ Route::middleware(['auth'])->prefix('/user')->name('user.')->group(function() {
             Route::get('/', 'index')->name('list');
             // страница добавления нового телефона
             Route::get('/attach', 'attach')->name('attach');
+            // обработчик проверки перед добавлением нового телефона
+            Route::post('/', 'storeChecker')->name('store');
             // обработчик добавления нового телефона
-            Route::post('/', 'store')->name('store');
+            Route::post('/store', 'store')->name('store.confirmed');
             // страница верификации телефона
             Route::get('/verify/{user_phone}', 'verifyPage')->name('verify.page');
             // обработчик верификации телефона

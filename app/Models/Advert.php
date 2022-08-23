@@ -205,7 +205,7 @@ class Advert extends Model
      * 
      * @return string
      */
-    public function getPhoneNumberAttribute(): string
+    public function getPhoneNumberAttribute(): ?string
     {
         return $this->selectedUserPhone()?->number;
     }

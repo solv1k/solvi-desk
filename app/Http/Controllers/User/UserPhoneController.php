@@ -31,6 +31,27 @@ class UserPhoneController extends Controller
     }
 
     /**
+     * Обработчик проверки телефона перед сохранением.
+     * 
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function storeChecker(Request $request)
+    {
+        /** @var \App\Models\User */
+        $user = auth()->user();
+
+        $phone = $request->has('number') ? $user->phones()->where('number', $request->number)->first() : null;
+
+        if ($phone) {
+            // если телефон принадлежит пользователю, то редиректим на верификацию телефона
+            return redirect(route('user.phones.verify.page', $phone->id));
+        } else {
+            // иначе пробуем добавить новый телефон
+            return $this->store(UserPhoneStoreRequest::createFrom($request));
+        }
+    }
+
+    /**
      * Обработчик сохранения нового телефона.
      * 
      * @return \Illuminate\Http\RedirectResponse
@@ -40,7 +61,7 @@ class UserPhoneController extends Controller
         /** @var \App\Models\User */
         $user = auth()->user();
 
-        $phone = $user->phones()->create($request->validated());
+        $phone = $user->phones()->create($request->validate($request->rules()));
 
         return redirect(route('user.phones.verify.page', $phone->id));
     }
@@ -52,11 +73,11 @@ class UserPhoneController extends Controller
      */
     public function verifyPage(Request $request, UserPhone $user_phone)
     {
-        if (! $request->user()->can('update', $user_phone)) {
+        if (!$request->user()->can('update', $user_phone)) {
             abort(403);
         }
         // генерируем 6-значный код
-        $code = random_int(111111,999999);
+        $code = random_int(111111, 999999);
         // сохраняем код в сессии
         session(['phone_verification_code_' . $user_phone->id => $code]);
         // отправляем пользователя на страницу верификации телефона
@@ -73,7 +94,7 @@ class UserPhoneController extends Controller
         // получаем из сессии 6-значный код верификации
         $code = session('phone_verification_code_' . $user_phone->id);
         // если в сессии нет кода, то возвращаем пользователя назад
-        if (! $code) {
+        if (!$code) {
             return back()->with('error', __('Session expired.'));
         }
         // если коды не совпадают, то возвращаем пользователя назад
@@ -86,8 +107,8 @@ class UserPhoneController extends Controller
         $advert_id = session('last_advert_id');
         // формируем редирект
         $redirect = $advert_id
-                    ? redirect(route('user.adverts.phones.list', $advert_id)) 
-                    : redirect(route('user.adverts.list'));
+            ? redirect(route('user.adverts.phones.list', $advert_id))
+            : redirect(route('user.adverts.list'));
         // отправляем пользователя с успехом
         return $redirect->with('success', __('advert.phone.attached'));
     }

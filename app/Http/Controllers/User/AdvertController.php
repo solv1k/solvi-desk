@@ -148,7 +148,7 @@ class AdvertController extends Controller
      */
     public function view(Request $request, Advert $advert)
     {
-        if (! $request->user()->can('edit', $advert)) {
+        if (! $request->user()->can('update', $advert)) {
             return redirect(route('guest.adverts.view', $advert->id));
         }
 

@@ -4,6 +4,8 @@
     </x-slot>
     <x-slot name="content">
 
+        {{ Breadcrumbs::render('user.adverts.view', $advert) }}
+
         <div class="advert-page">
             <div class="advert row">
                 <div class="advert--image col-md-4">

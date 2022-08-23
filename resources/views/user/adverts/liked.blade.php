@@ -4,6 +4,8 @@
     </x-slot>
     <x-slot name="content">
 
+        {{ Breadcrumbs::render('user.adverts.liked') }}
+
         <div class="adverts-list row">
             @forelse ($liked_adverts as $liked_advert)
                 @php

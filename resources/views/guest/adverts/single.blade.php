@@ -28,11 +28,19 @@
                         {!! $advert->description !!}
                     </div>
                     
-                    @can('update', $advert)
+                    @admin
                         <div class="advert--controls my-3">
-                            <a class="btn btn-primary" href="{{ route('user.adverts.edit', $advert->id) }}"><i class="bi bi-pencil-square"></i> {{ __('Edit advert') }}</a>
+                            <a class="btn btn-primary" href="{{ route('admin.adverts.edit', $advert->id) }}"><i class="bi bi-pencil-square"></i> {{ __('Edit advert') }}</a>
                         </div>
-                    @endcan
+                    @endadmin
+
+                    @if (! $currentUser->isAdmin())
+                        @can('update', $advert)
+                            <div class="advert--controls my-3">
+                                <a class="btn btn-primary" href="{{ route('user.adverts.edit', $advert->id) }}"><i class="bi bi-pencil-square"></i> {{ __('Edit advert') }}</a>
+                            </div>
+                        @endcan
+                    @endif
 
                     <div class="advert--stats d-flex gap-2 align-items-center">
                         @include('guest.inc.advert-likes', compact('advert'))

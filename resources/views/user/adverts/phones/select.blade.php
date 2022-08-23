@@ -3,6 +3,9 @@
         {{ __('Linking a phone number') }}
     </x-slot>
     <x-slot name="content">
+
+        {{ Breadcrumbs::render('user.adverts.phones.attach', $advert) }}
+
         <div class="mb-4 pb-4 border-bottom">
             <div class="fw-bold fs-5">
                 {{ $advert->title }}

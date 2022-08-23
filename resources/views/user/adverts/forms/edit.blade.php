@@ -3,6 +3,7 @@
         {{ __('Create new advert') }}
     </x-slot>
     <x-slot name="content">
+        {{ Breadcrumbs::render('user.adverts.edit', $advert) }}
 
         @include('inc.form-errors')
 

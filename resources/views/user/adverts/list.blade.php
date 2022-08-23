@@ -4,6 +4,8 @@
     </x-slot>
     <x-slot name="content">
 
+        {{ Breadcrumbs::render('user.adverts.list') }}
+
         <div class="adverts-list row">
             @forelse ($adverts as $advert)
                 <div class="col-md-6 col-lg-4 mb-4">
