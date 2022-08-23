@@ -17,7 +17,11 @@ if (! function_exists('multitrim')) {
      * 
      * @return string
      */
-    function multitrim(string $str): string {
+    function multitrim(?string $str): string {
+        if (!$str) {
+            return '';
+        }
+
         $str = trim($str);
         $str = preg_replace('/[\r\n]{2,}/', PHP_EOL, $str);
         $str = preg_replace('/\h+/', ' ', $str);
@@ -32,8 +36,12 @@ if (! function_exists('br2nl')) {
      * 
      * @return string
      */
-    function br2nl(string $str): string
+    function br2nl(?string $str): string
     {
+        if (!$str) {
+            return '';
+        }
+
         return preg_replace('#<br\s*/?>#i', PHP_EOL, $str);
     }
 }

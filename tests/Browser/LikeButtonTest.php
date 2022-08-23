@@ -14,7 +14,6 @@ class LikeButtonTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
-    /** @var bool */
     protected $seed = true;
 
     public function test_unauthorized_user_cant_like_advert()
