@@ -19,7 +19,9 @@ class FileService
      */
     public function storeImage(\Illuminate\Http\UploadedFile $image, string $path = 'public/adverts/images'): string
     {
-        $thumb_filename = md5(bin2hex(random_bytes(32))) . '.' . $image->extension();
+        //$image_extension = $image->extension();
+
+        $thumb_filename = md5(bin2hex(random_bytes(32))) . '.webp';
 
         $thumb_store_path = storage_path('app' . DIRECTORY_SEPARATOR . $path) . DIRECTORY_SEPARATOR . $thumb_filename;
 
@@ -27,7 +29,7 @@ class FileService
 
         $thumb->resize(600, 450, function($constraint) {
             $constraint->aspectRatio();
-        })->resizeCanvas(600, 450)->save($thumb_store_path);
+        })->resizeCanvas(600, 450)->encode('webp', 70)->save($thumb_store_path);
 
         $thumb_image_path = $path . DIRECTORY_SEPARATOR . $thumb_filename;
 
