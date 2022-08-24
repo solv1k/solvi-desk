@@ -16,6 +16,9 @@ class EditCategoryBlock extends Component
     /** @var bool */
     public $show_delete_confirm = false;
 
+    /**
+     * Правила валидации формы.
+     */
     protected $rules = [
         'category.title' => 'required|min:3|max:100',
         'category.description' => 'nullable|string|max:1000'
@@ -28,9 +31,7 @@ class EditCategoryBlock extends Component
 
     public function render()
     {
-        return view('livewire.admin.categories.edit-category-block', [
-            'category_adverts' => $this->category->adverts()->paginate(5)
-        ]);
+        return view('livewire.admin.categories.edit-category-block');
     }
 
     public function edit()

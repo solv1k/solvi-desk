@@ -25,11 +25,21 @@ class AdvertCategory extends Model
 
     /**
      * Объявления в категории.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function adverts()
     {
         return $this->hasMany(Advert::class);
+    }
+
+    /**
+     * Свойства категории.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function properties()
+    {
+        return $this->hasMany(AdvertCategoryProperty::class);
     }
 }

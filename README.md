@@ -19,6 +19,8 @@
 
 Для хлебных крошек (breadcrumbs) используется библиотека [Laravel Breadcrumbs](https://github.com/diglactic/laravel-breadcrumbs)
 
+Для генерации слагов (slugs) используется библиотека [Slug Generator](https://github.com/ausi/slug-generator)
+
 ## Первый запуск
 
 Для первого запуска требуется выполнить команду `sail artisan migrate:fresh && sail artisan db:seed`. Это создаст все необходимые таблицы в базе данных.

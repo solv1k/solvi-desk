@@ -59,25 +59,4 @@
 
         @endif
     </div>
-
-    <hr>
-
-    <h5 class="fw-bold">{{ __('Adverts in category') }}</h5>
-
-    @forelse ($category_adverts as $advert)
-
-        @if ($loop->first)
-            <div class="category--adverts-list">
-        @endif
-
-        @include('admin.inc.advert-row', compact('advert'))
-
-        @if ($loop->last)
-            </div>
-            {{ $category_adverts->links() }}
-        @endif
-
-    @empty
-        <div class="alert alert-info">{{ __('Advert list is empty...') }}</div>
-    @endforelse
 </div>

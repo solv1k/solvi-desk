@@ -10,7 +10,7 @@ class CategoriesController extends Controller
 {
     /**
      * Страница управления категориями.
-     * 
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function index()
@@ -20,11 +20,16 @@ class CategoriesController extends Controller
 
     /**
      * Страница просмотра конкретной категории.
-     * 
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function view(AdvertCategory $category)
     {
-        return view('admin.categories.single', compact('category'));
+        $category_adverts = $category->adverts()->paginate(5);
+
+        return view('admin.categories.single', compact(
+            'category',
+            'category_adverts'
+        ));
     }
 }

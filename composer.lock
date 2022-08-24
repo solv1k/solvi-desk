@@ -4,8 +4,77 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b4f40d20019039717104ce272af6de38",
+    "content-hash": "14487b80e60bdf9e77cd1de465851131",
     "packages": [
+        {
+            "name": "ausi/slug-generator",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ausi/slug-generator.git",
+                "reference": "4e761b08966c5d4aeecc1829ac997e5a5a29d231"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ausi/slug-generator/zipball/4e761b08966c5d4aeecc1829ac997e5a5a29d231",
+                "reference": "4e761b08966c5d4aeecc1829ac997e5a5a29d231",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "ext-mbstring": "*",
+                "ext-pcre": "*",
+                "lib-icu": ">=4.2.1",
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "contao/easy-coding-standard": "^3.0",
+                "phpstan/phpstan": "^0.12.40",
+                "phpstan/phpstan-phpunit": "^0.12.16",
+                "phpunit/phpunit": "^7.5.20 || ^8.5.4 || ^9.4.2",
+                "psalm/plugin-phpunit": "^0.9",
+                "slam/phpstan-extensions": "^5.0",
+                "vimeo/psalm": "^3.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ausi\\SlugGenerator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Martin Auswöger",
+                    "email": "martin@auswoeger.com"
+                }
+            ],
+            "description": "Slug Generator",
+            "keywords": [
+                "ascii",
+                "cldr",
+                "pretty-url",
+                "slug",
+                "slug-generator",
+                "slugify",
+                "transliteration",
+                "unicode"
+            ],
+            "support": {
+                "issues": "https://github.com/ausi/slug-generator/issues",
+                "source": "https://github.com/ausi/slug-generator/tree/v1.1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ausi",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-10-19T15:25:33+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.10.2",

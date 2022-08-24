@@ -3,6 +3,9 @@
         {{ __('All adverts') }}
     </x-slot>
     <x-slot name="content">
+
+        {{ Breadcrumbs::render('admin.adverts.list') }}
+
         @forelse ($adverts as $advert)
             @include('admin.inc.advert-row', compact('advert'))
         @empty
