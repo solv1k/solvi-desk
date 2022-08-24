@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        @if ($currentUser->verifiedPhones()->count())
+        @if ($current_user->verifiedPhones()->count())
             @include('inc.form-errors')
 
             <form action="{{ route('user.adverts.phones.attach', $advert->id) }}" method="POST">
@@ -27,7 +27,7 @@
                         id="user_phone_id"
                         name="user_phone_id"
                         class="form-control">
-                        @foreach ($currentUser->verifiedPhones as $phone)
+                        @foreach ($current_user->verifiedPhones as $phone)
                             <option value="{{ $phone->id }}" @selected(old('user_phone_id') === $phone->id)>
                                 {{ $phone->number }}
                             </option>
@@ -58,7 +58,7 @@
 
         @include('user.phones.inc.unverified-phones-list')
 
-        @if ($currentUser->phones()->count() === 0)
+        @if ($current_user->phones()->count() === 0)
             @include('user.inc.attach-phone')
         @endif
 

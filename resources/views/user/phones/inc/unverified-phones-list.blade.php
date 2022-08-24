@@ -1,8 +1,8 @@
-@if ($currentUser->unverifiedPhones()->count())
+@if ($current_user->unverifiedPhones()->count())
 <div class="mb-3">
     <div class="mb-3">{{ __('You have unverified numbers.') }}</div>
 
-    @foreach ($currentUser->unverifiedPhones as $phone)
+    @foreach ($current_user->unverifiedPhones as $phone)
         <div class="user-phone mb-3">
             <span class="user-phone--number">{{ $phone->number }}</span>
             <a href="{{ route('user.phones.verify.page', $phone->id) }}">{{ __('verify this phone') }}</a>

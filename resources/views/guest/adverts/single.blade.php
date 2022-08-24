@@ -34,7 +34,7 @@
                         </div>
                     @endadmin
 
-                    @if (! $currentUser->isAdmin())
+                    @if (! $current_user?->isAdmin())
                         @can('update', $advert)
                             <div class="advert--controls my-3">
                                 <a class="btn btn-primary" href="{{ route('user.adverts.edit', $advert->id) }}"><i class="bi bi-pencil-square"></i> {{ __('Edit advert') }}</a>

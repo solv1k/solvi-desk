@@ -3,8 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,15 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // стили пагинации для пятой версии бутстрапа
-        Paginator::useBootstrapFive();
-
-        // директива admin для Blade
-        // @admin <...> @endadmin
-        Blade::if('admin', function() {
-            /** @var \App\Models\User */
-            $user = auth()->user();
-            return $user->isAdmin();
-        });
+        //
     }
 }

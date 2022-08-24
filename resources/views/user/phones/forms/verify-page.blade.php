@@ -54,10 +54,6 @@
                     >{{ __('resend code') }}</a>
                 </div>
             </div>
-
-            @admin
-                <div class="mb-3">CODE: {{ session('phone_verification_code_' . $userPhone->id) }}</div>
-            @endadmin
         </form>
     </x-slot>
 </x-dashboard-layout>

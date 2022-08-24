@@ -89,10 +89,12 @@ class UserPhoneController extends Controller
         }
         // генерируем 6-значный код
         $code = random_int(111111, 999999);
+        // выводим код в дебаггер для тестов
+        debugbar()->info($code);
         // сохраняем код в сессии
         session(['phone_verification_code_' . $userPhone->id => $code]);
         // отправляем пользователя на страницу верификации телефона
-        return view('user.phones.verify-page', compact('userPhone'));
+        return view('user.phones.forms.verify-page', compact('userPhone'));
     }
 
     /**

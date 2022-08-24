@@ -5,8 +5,8 @@
 
     <x-slot name="content">
 
-        @if ($currentUser->phones()->count())
-            @foreach ($currentUser->phones() as $phone)
+        @if ($current_user->phones()->count())
+            @foreach ($current_user->phones() as $phone)
                 <div class="user-phone mb-3">
                     <span class="user-phone--number">{{ $phone->number }}</span>
                     <span class="user-phone--verification-label text-muted small">{{ $phone->verifiedLabel() }}</span>
