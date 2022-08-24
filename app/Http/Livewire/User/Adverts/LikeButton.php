@@ -29,6 +29,13 @@ class LikeButton extends Component
      */
     public function toggle()
     {
+        /** @var \App\Models\User */
+        $user = auth()->user();
+
+        if (! $user->canLikeAdverts()) {
+            return false;
+        }
+
         DB::transaction(function() {
             if ($this->was_liked) {
                 $this->advert->userLikes()->where('user_id', auth()->id())->delete();

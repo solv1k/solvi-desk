@@ -1,7 +1,5 @@
 @auth
-    @if ($current_user->canLikeAdverts())
-        @livewire('user.adverts.like-button', compact('advert'))
-    @endif
+    @livewire('user.adverts.like-button', compact('advert'))
 @else
     @livewire('guest.adverts.like-button', compact('advert'))
 @endauth
