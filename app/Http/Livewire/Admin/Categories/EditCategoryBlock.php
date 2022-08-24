@@ -13,8 +13,11 @@ class EditCategoryBlock extends Component
     /** @var string */
     public $step = 'init';
 
+    /** @var bool */
+    public $show_delete_confirm = false;
+
     protected $rules = [
-        'category.title' => 'required|min:6|max:100',
+        'category.title' => 'required|min:3|max:100',
         'category.description' => 'nullable|string|max:1000'
     ];
 
@@ -25,7 +28,9 @@ class EditCategoryBlock extends Component
 
     public function render()
     {
-        return view('livewire.admin.categories.edit-category-block');
+        return view('livewire.admin.categories.edit-category-block', [
+            'category_adverts' => $this->category->adverts()->paginate(5)
+        ]);
     }
 
     public function edit()
@@ -40,5 +45,28 @@ class EditCategoryBlock extends Component
         $this->category->save();
 
         $this->step = 'init';
+    }
+
+    public function cancelEdit()
+    {
+        $this->step = 'init';
+        $this->show_delete_confirm = false;
+    }
+
+    public function showDeleteConfirm()
+    {
+        $this->show_delete_confirm = true;
+    }
+
+    public function hideDeleteConfirm()
+    {
+        $this->show_delete_confirm = false;
+    }
+
+    public function delete()
+    {
+        $this->category->delete();
+
+        return redirect(route('admin.categories.index'));
     }
 }

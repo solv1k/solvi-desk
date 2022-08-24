@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class CategoriesList extends Component
 {
-    /** @var \Illuminate\Database\Eloquent\Collection<int, static> */
+    /** @var \Illuminate\Database\Eloquent\Collection */
     public $categories;
 
     protected $listeners = ['categoryAdded' => 'loadCategories'];

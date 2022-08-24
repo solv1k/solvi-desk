@@ -2,8 +2,10 @@
     <x-slot name="title">
         {{ __('Edit advert') }} #{{ $advert->id }}
     </x-slot>
-    
+
     <x-slot name="content">
+        {{ Breadcrumbs::render('admin.adverts.edit', $advert) }}
+
         @include('inc.form-errors')
 
         <form action="{{ route('admin.adverts.update', $advert->id) }}" method="POST">
@@ -28,7 +30,7 @@
 
             <div class="mb-3">
                 <label for="title">{{ __('Advert title') }}</label>
-                <input 
+                <input
                     type="text"
                     id="title"
                     name="title"
@@ -39,7 +41,7 @@
 
             <div class="mb-3">
                 <label for="price">{{ __('Advert price') }} ({{ GeneralSetting::getValue('currency_symbol') }})</label>
-                <input 
+                <input
                     type="text"
                     id="price"
                     name="price"

@@ -34,7 +34,7 @@ class AddCategoryBlock extends Component
 
     protected $rules = [
         'order' => 'nullable|integer|max:250',
-        'title' => 'required|min:6|max:100',
+        'title' => 'required|min:3|max:100',
         'description' => 'nullable|string|max:1000',
         'parent_category_id' => 'nullable|exists:advert_categories,id'
     ];

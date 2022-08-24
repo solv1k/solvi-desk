@@ -1,12 +1,13 @@
 <?php
 
 use App\Models\Advert;
-use App\Models\User;
+use App\Models\AdvertCategory;
 use App\Models\UserPhone;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 
-// Home
+
+// Guest - main (home)
 Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
     $trail->push(__('Home'), route('guest.home'));
 });
@@ -16,6 +17,9 @@ Breadcrumbs::for('guest.adverts.view', function (BreadcrumbTrail $trail, Advert 
     $trail->parent('home');
     $trail->push(__('Advert preview'), route('guest.adverts.view', $advert->id));
 });
+
+
+
 
 // User - dashboard
 Breadcrumbs::for('user.dashboard', function (BreadcrumbTrail $trail) {
@@ -68,4 +72,42 @@ Breadcrumbs::for('user.phones.attach', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('user.phones.verify.page', function (BreadcrumbTrail $trail, UserPhone $userPhone) {
     $trail->parent('user.phones.attach');
     $trail->push(__('Verify phone'), route('user.phones.verify.page', $userPhone->id));
+});
+
+
+
+
+// Admin - dashboard
+Breadcrumbs::for('admin.dashboard', function (BreadcrumbTrail $trail) {
+    $trail->push(__('Admin dashboard'), route('admin.dashboard'));
+});
+
+// Admin - adverts index
+Breadcrumbs::for('admin.adverts.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('admin.dashboard');
+    $trail->push(__('Adverts'), route('admin.adverts.index'));
+});
+
+// Admin - adverts list
+Breadcrumbs::for('admin.adverts.list', function (BreadcrumbTrail $trail) {
+    $trail->parent('admin.adverts.index');
+    $trail->push(__('Adverts list'), route('admin.adverts.list'));
+});
+
+// Admin - advert edit
+Breadcrumbs::for('admin.adverts.edit', function (BreadcrumbTrail $trail, Advert $advert) {
+    $trail->parent('admin.adverts.list');
+    $trail->push(__('Advert edit'), route('admin.adverts.edit', $advert->id));
+});
+
+// Admin - categories index
+Breadcrumbs::for('admin.categories.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('admin.dashboard');
+    $trail->push(__('Categories'), route('admin.categories.index'));
+});
+
+// Admin - category view \ edit
+Breadcrumbs::for('admin.categories.view', function (BreadcrumbTrail $trail, AdvertCategory $advertCategory) {
+    $trail->parent('admin.categories.index');
+    $trail->push(__('Edit category'), route('admin.categories.view', $advertCategory->id));
 });

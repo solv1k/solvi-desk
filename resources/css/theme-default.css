@@ -4,6 +4,9 @@
 form label {
     font-weight: bold;
 }
+form .error {
+    color: red;
+}
 /*
 * FILEPOND RESTYLING
 */
@@ -30,7 +33,7 @@ form label {
 * ADVERT IMAGE UPLOADER
 */
 #uploader {
-    width: 400px; 
+    width: 400px;
     max-width: 100%;
     height: 150px;
     margin-bottom: 0;
