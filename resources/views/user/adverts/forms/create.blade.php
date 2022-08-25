@@ -12,29 +12,16 @@
             @csrf
 
             <div class="mb-3">
-                <label for="advert_category_id">{{ __('Select advert category') }}:</label>
-                <select
-                    id="advert_category_id"
-                    name="advert_category_id"
-                    class="form-control"
-                >
-                    @forelse ($advert_categories as $category)
-                        <option value="{{ $category->id }}" @selected(old('advert_category_id') === $category->id)>
-                            {{ $category->title }}
-                        </option>
-                    @empty
-                        <option>{{ __('Advert categories not found') }}</option>
-                    @endforelse
-                </select>
+                @livewire('user.adverts.category-selector-block', ['mode' => 'create'])
             </div>
 
             <div class="mb-3">
                 <label for="title">{{ __('Advert title') }}</label>
-                <input 
-                    id="title" 
-                    name="title" 
-                    type="text" 
-                    class="form-control" 
+                <input
+                    id="title"
+                    name="title"
+                    type="text"
+                    class="form-control"
                     required
                     placeholder="{{ __('Advert title') }}"
                     value="{{ old('title') }}">
@@ -42,11 +29,11 @@
 
             <div class="mb-3">
                 <label for="price">{{ __('Advert price') }} ({{ GeneralSetting::getValue('currency_symbol') }})</label>
-                <input 
-                    id="price" 
-                    name="price" 
-                    type="text" 
-                    class="form-control" 
+                <input
+                    id="price"
+                    name="price"
+                    type="text"
+                    class="form-control"
                     required
                     placeholder="{{ __('Advert price') }}"
                     value="{{ old('price') }}">
@@ -69,8 +56,8 @@
             </div>
 
             <div class="mb-3">
-                <button 
-                    type="submit" 
+                <button
+                    type="submit"
                     class="btn btn-success"
                 >{{ __('Next step') }} <i class="bi bi-arrow-right-circle"></i></button>
             </div>

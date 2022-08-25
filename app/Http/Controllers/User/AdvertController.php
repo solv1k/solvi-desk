@@ -29,7 +29,7 @@ class AdvertController extends Controller
 
     /**
      * Список объявлений (в личном кабинете пользователя).
-     * 
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function index(Request $request)
@@ -41,9 +41,9 @@ class AdvertController extends Controller
 
     /**
      * Список объявлений, которые понравилилсь пользователю.
-     * 
+     *
      * @return \Illuminate\Contracts\View\View
-     */    
+     */
     public function liked(Request $request)
     {
         $liked_adverts = $request->user()->likedAdverts;
@@ -53,19 +53,19 @@ class AdvertController extends Controller
 
     /**
      * Форма создания нового объявления.
-     * 
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function create()
     {
-        $advert_categories = AdvertCategory::all();
+        $advert_categories = AdvertCategory::whereIsRoot()->get();
 
         return view('user.adverts.forms.create', compact('advert_categories'));
     }
 
     /**
      * Обработчик создания нового объявления.
-     * 
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(AdvertStoreRequest $request)
@@ -96,13 +96,13 @@ class AdvertController extends Controller
 
     /**
      * Обработчик обновления данных объявления.
-     * 
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(AdvertUpdateRequest $request, Advert $advert)
     {
         $request = $this->advertService->updateRequestData($request);
-        
+
         DB::beginTransaction();
 
         $advert->fill($request->only([
@@ -114,8 +114,8 @@ class AdvertController extends Controller
 
         // если модель объявления была изменена, то отправляем на модерацию
         if ($advert->isDirty([
-            'advert_category_id', 
-            'title', 
+            'advert_category_id',
+            'title',
             'description'
         ])) {
             $advert->setModerateStatus();
@@ -135,7 +135,7 @@ class AdvertController extends Controller
         }
 
         DB::commit();
-        
+
         return redirect(
             route('user.adverts.phones.list', $advert->id)
         )->with('success', __('Advert update successfuly!'));
@@ -143,7 +143,7 @@ class AdvertController extends Controller
 
     /**
      * Страница просмотра объявления (в личном кабинете пользователя).
-     * 
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function view(Request $request, Advert $advert)
@@ -157,12 +157,12 @@ class AdvertController extends Controller
 
     /**
      * Страница редактирования объявления (в личном кабинете пользователя).
-     * 
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function edit(AdvertEditRequest $request, Advert $advert)
     {
-        $advert_categories = AdvertCategory::all();
+        $advert_categories = AdvertCategory::whereIsRoot()->get();
 
         return view('user.adverts.forms.edit', compact('advert', 'advert_categories'));
     }
