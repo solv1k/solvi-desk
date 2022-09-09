@@ -5,13 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Advert;
 use App\Models\AdvertCategory;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     /**
      * Главная страница панели администратора.
-     * 
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function index()

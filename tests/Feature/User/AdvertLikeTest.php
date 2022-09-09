@@ -4,11 +4,9 @@ namespace Tests\Feature\User;
 
 use App\Http\Livewire\User\Adverts\LikeButton;
 use App\Models\Advert;
-use App\Models\AdvertCategory;
 use App\Models\AdvertStatTotal;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -39,7 +37,7 @@ class AdvertLikeTest extends TestCase
         // FIRST CLICK
 
         $livewire_component->call('toggle');
-        
+
         $this->assertTrue(AdvertStatTotal::where('advert_id', $advert->id)->exists());
 
         $advert_stat = AdvertStatTotal::where('advert_id', $advert->id)->first();
@@ -49,7 +47,7 @@ class AdvertLikeTest extends TestCase
         // SECOND CLICK
 
         $livewire_component->call('toggle');
-        
+
         $advert_stat = AdvertStatTotal::where('advert_id', $advert->id)->first();
 
         $this->assertTrue($advert_stat->likes === 0);

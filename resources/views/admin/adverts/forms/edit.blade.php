@@ -12,20 +12,7 @@
             @csrf
 
             <div class="mb-3">
-                <label for="advert_category_id">{{ __('Advert category') }}:</label>
-                <select
-                    id="advert_category_id"
-                    name="advert_category_id"
-                    class="form-control"
-                >
-                    @forelse ($advert_categories as $category)
-                        <option value="{{ $category->id }}" @selected(old('advert_category_id', $advert->advert_category_id) === $category->id)>
-                            {{ $category->title }}
-                        </option>
-                    @empty
-                        <option>{{ __('Advert categories not found') }}</option>
-                    @endforelse
-                </select>
+                @livewire('user.adverts.category-selector-block', ['advert' => $advert, 'mode' => 'edit'])
             </div>
 
             <div class="mb-3">

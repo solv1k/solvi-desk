@@ -15,17 +15,10 @@ use Illuminate\Support\Facades\DB;
 
 class AdvertController extends Controller
 {
-    /** @var FileService */
-    private $fileService;
-
-    /** @var AdvertService */
-    private $advertService;
-
-    public function __construct(FileService $fileService, AdvertService $advertService)
-    {
-        $this->fileService = $fileService;
-        $this->advertService = $advertService;
-    }
+    public function __construct(
+        private FileService $fileService,
+        private AdvertService $advertService
+    ){}
 
     /**
      * Список объявлений (в личном кабинете пользователя).

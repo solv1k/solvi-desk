@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Admin\Categories;
 
-use App\Models\Advert;
 use App\Models\AdvertCategory;
 use Livewire\Component;
 

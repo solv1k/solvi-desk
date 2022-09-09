@@ -6,22 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AdvertUpdateRequest;
 use App\Models\Advert;
 use App\Models\AdvertCategory;
-use App\Services\FileService;
-use Illuminate\Http\Request;
 
 class AdvertController extends Controller
 {
-    /** @var FileService */
-    private $fileService;
-
-    public function __construct(FileService $fileService)
-    {
-        $this->fileService = $fileService;
-    }
-
     /**
      * Страница управления объявлениями.
-     * 
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function index()
@@ -31,15 +21,15 @@ class AdvertController extends Controller
         $new_adverts_count = Advert::waitModeration()->count();
 
         return view('admin.adverts.index', compact(
-            'adverts_count', 
-            'active_adverts_count', 
+            'adverts_count',
+            'active_adverts_count',
             'new_adverts_count'
         ));
     }
 
     /**
      * Страница со списком всех объявлений.
-     * 
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function list()
@@ -51,7 +41,7 @@ class AdvertController extends Controller
 
     /**
      * Страница со списком объявлений, ожидающих модерации.
-     * 
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function waitmoderate()
@@ -63,7 +53,7 @@ class AdvertController extends Controller
 
     /**
      * Страница со списком объявлений, ожидающих модерации.
-     * 
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function active()
@@ -75,7 +65,7 @@ class AdvertController extends Controller
 
     /**
      * Страница редактирования объявления.
-     * 
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function edit(Advert $advert)
@@ -87,7 +77,7 @@ class AdvertController extends Controller
 
     /**
      * Обработчик обновления объявления.
-     * 
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(AdvertUpdateRequest $request, Advert $advert)
@@ -99,7 +89,7 @@ class AdvertController extends Controller
 
     /**
      * Обработчик активации объявления.
-     * 
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function activate(Advert $advert)
@@ -111,7 +101,7 @@ class AdvertController extends Controller
 
     /**
      * Обработчик отправки объявления на модерацию.
-     * 
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function toModeration(Advert $advert)
@@ -123,7 +113,7 @@ class AdvertController extends Controller
 
     /**
      * Страница просмотра объявления (от имени администратора).
-     * 
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function view(Advert $advert)
