@@ -19,7 +19,7 @@ class AdvertService
     }
 
     /**
-     * Обновляет данные объявления из входящего запроса.
+     * Обновляет данные запроса и возвращает его назад.
      *
      * @param \App\Http\Requests\User\AdvertStoreRequest|\App\Http\Requests\User\AdvertUpdateRequest $request
      * @return \App\Http\Requests\User\AdvertStoreRequest|\App\Http\Requests\User\AdvertUpdateRequest
