@@ -8,16 +8,27 @@ namespace App\Services;
 class AdvertService
 {
     /**
+     * Преобразует описание объявления в валидный HTML-код.
+     *
+     * @param string $description
+     * @return string
+     */
+    public function descriptionToHtml(string $description): string
+    {
+        return nl2br(multitrim(strip_tags($description)));
+    }
+
+    /**
      * Обновляет данные объявления из входящего запроса.
-     * 
+     *
      * @param \App\Http\Requests\User\AdvertStoreRequest|\App\Http\Requests\User\AdvertUpdateRequest $request
      * @return \App\Http\Requests\User\AdvertStoreRequest|\App\Http\Requests\User\AdvertUpdateRequest
      */
     public function updateRequestData($request)
     {
-        if ($request->description) {
+        if ($request->has('description')) {
             $request->merge([
-                'description' => nl2br(multitrim(strip_tags($request->description)))
+                'description' => $this->descriptionToHtml($request->description)
             ]);
         }
 
