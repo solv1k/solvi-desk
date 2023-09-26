@@ -6,7 +6,7 @@ install:
 	php artisan key:generate && \
 	make build && \
 	make up && \
-	sleep 10 && \
+	sleep 30 && \
 	make migrate && \
 	make seed && \
 	make storage-link
