@@ -72,7 +72,7 @@ if (! function_exists('advert_image_placeholder')) {
      */
     function advert_image_placeholder(): string
     {
-        return 'https://via.placeholder.com/240x180?text=Placeholder';
+        return url('images/placeholder.png');
     }
 }
 
