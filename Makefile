@@ -4,6 +4,13 @@ install:
 	npm install --legacy-peer-deps && \
 	npm run build && \
 	php artisan key:generate && \
+	make build && \
+	make up && \
+	sleep 10 && \
+	make migrate && \
+	make seed && \
+	make storage-link
+build:
 	./vendor/bin/sail build --no-cache
 storage-link:
 	./vendor/bin/sail artisan storage:link

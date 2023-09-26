@@ -26,12 +26,7 @@ Boilerplate бесплатной доски объявлений.
 Для первого запуска требуется установить утилиту `make` и выполнить из папки с проектом команду:
 
 ```
-make install && \
-make up && \
-sleep 10 && \
-make migrate && \
-make seed && \
-make storage-link
+make install
 ```
 
 ## Режим разработки
