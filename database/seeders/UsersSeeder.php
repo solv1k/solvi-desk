@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class UsersSeeder extends Seeder
@@ -19,14 +18,13 @@ class UsersSeeder extends Seeder
         /** @var \App\Models\User */
         $admin = User::factory()->create([
             'name' => 'admin',
-            'email' => 'admin@gmail.com'
+            'email' => 'super@admin.com'
         ])->giveAdminPermissions();
 
         // создаём админу телефон (для привязки к объявлениям)
-        /** @var \App\Models\UserPhone */
-        $phone = $admin->phones()->create([
-            'number' => '+79001234567'
+        $admin->phones()->create([
+            'number' => '+79001234567',
+            'verified' => true
         ]);
-        $phone->setVerified(true);
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Admin\Advert\IndexAdminAdvertAction;
+use App\DTO\User\Advert\UpdateUserAdvertDTO;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\AdvertUpdateRequest;
+use App\Http\Requests\Admin\Advert\UpdateAdvertRequest;
 use App\Models\Advert;
 use App\Models\AdvertCategory;
 
@@ -14,17 +16,9 @@ class AdvertController extends Controller
      *
      * @return \Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(IndexAdminAdvertAction $action)
     {
-        $adverts_count = Advert::count();
-        $active_adverts_count = Advert::active()->count();
-        $new_adverts_count = Advert::waitModeration()->count();
-
-        return view('admin.adverts.index', compact(
-            'adverts_count',
-            'active_adverts_count',
-            'new_adverts_count'
-        ));
+        return view('admin.adverts.index', $action->run());
     }
 
     /**
@@ -80,9 +74,9 @@ class AdvertController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(AdvertUpdateRequest $request, Advert $advert)
+    public function update(UpdateAdvertRequest $request, Advert $advert)
     {
-        $advert->update($request->validated());
+        $advert->update(UpdateUserAdvertDTO::from($request->validated())->toArray());
 
         return back();
     }

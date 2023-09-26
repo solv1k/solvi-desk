@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Статистика объявления.
@@ -69,10 +70,12 @@ class AdvertStat extends Model
      */
     public function incView()
     {
-        $this->views += 1;
-        $this->save();
-
-        $this->getTotals()->incView();
+        DB::transaction(function () {
+            $this->views += 1;
+            $this->save();
+            // inc totals
+            $this->getTotals()->incView();
+        });
     }
 
     /**

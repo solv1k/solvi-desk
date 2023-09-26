@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\User\Advert;
 
 use App\Models\Advert;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdvertStoreRequest extends FormRequest
+class StoreAdvertRequest extends FormRequest
 {
     /**
      * Правила авторизации запроса для создания нового объявления.

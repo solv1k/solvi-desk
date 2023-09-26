@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Actions\User\Phone\SendVerificationUserPhoneAction;
+use App\Actions\User\Phone\StoreUserPhoneAction;
+use App\Actions\User\Phone\VerifyUserPhoneAction;
+use App\DTO\User\Phone\StoreUserPhoneDTO;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\UserPhoneStoreRequest;
-use App\Http\Requests\User\UserPhoneVerificationRequest;
+use App\Http\Requests\User\Phone\CancelVerifyUserPhoneRequest;
+use App\Http\Requests\User\Phone\SendVerificationUserPhoneRequest;
+use App\Http\Requests\User\Phone\StoreUserPhoneRequest;
+use App\Http\Requests\User\Phone\VerifyUserPhoneRequest;
 use App\Models\UserPhone;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class UserPhoneController extends Controller
 {
@@ -31,70 +38,39 @@ class UserPhoneController extends Controller
     }
 
     /**
-     * Обработчик проверки телефона перед сохранением.
+     * Обработчик сохранения нового телефона пользователя.
      * 
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function storeChecker(Request $request)
-    {
-        /** @var \App\Models\User */
-        $user = auth()->user();
+    public function store(
+        StoreUserPhoneRequest $request,
+        StoreUserPhoneAction $action
+    ): RedirectResponse {
+        // добавляем новый телефон юзеру (или получаем ранее созданный)
+        $phone = $action->run(
+            user: auth()->user(),
+            dto: StoreUserPhoneDTO::from($request->validated())
+        );
 
-        $phone = $request->has('number') 
-                ? $user->phones()->where('number', $request->number)->first() 
-                : null;
-
-        if ($phone) {
-            // если телефон уже подтвержден
-            if ($phone->verified) {
-                // получаем страницу последнего объявления из сессии
-                $advert_id = session('last_advert_id');
-                // формируем редирект
-                return $advert_id
-                        ? redirect(route('user.adverts.phones.list', $advert_id))
-                        : redirect(route('user.adverts.list'));
-            }
-            // если телефон принадлежит пользователю, то редиректим на верификацию телефона
-            return redirect(route('user.phones.verify.page', $phone->id));
-        } else {
-            // иначе пробуем добавить новый телефон
-            return $this->store(UserPhoneStoreRequest::createFrom($request));
-        }
-    }
-
-    /**
-     * Обработчик сохранения нового телефона.
-     * 
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(UserPhoneStoreRequest $request)
-    {
-        /** @var \App\Models\User */
-        $user = auth()->user();
-
-        $phone = $user->phones()->create($request->validate($request->rules()));
-
+        // редиректим на страницу верификации телефона
         return redirect(route('user.phones.verify.page', $phone->id));
     }
 
     /**
-     * Страница верификации номера телефона.
+     * Отправка кода верификации телефона.
      * 
-     * @return \Illuminate\Contracts\View\View
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function verifyPage(Request $request, UserPhone $userPhone)
-    {
-        if (!$request->user()->can('update', $userPhone)) {
-            abort(403);
-        }
-        // генерируем 6-значный код
-        $code = random_int(111111, 999999);
-        // выводим код в дебаггер для тестов
-        debugbar()->info($code);
-        // сохраняем код в сессии
-        session(['phone_verification_code_' . $userPhone->id => $code]);
-        // отправляем пользователя на страницу верификации телефона
-        return view('user.phones.forms.verify-page', compact('userPhone'));
+    public function verifySender(
+        SendVerificationUserPhoneRequest $request,
+        UserPhone $userPhone,
+        SendVerificationUserPhoneAction $action
+    ): View {
+        $result = $action->run($userPhone);
+
+        return ($result instanceof RedirectResponse)
+            ? $result
+            : view('user.phones.forms.verify-page', compact('userPhone'));
     }
 
     /**
@@ -102,28 +78,15 @@ class UserPhoneController extends Controller
      * 
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function verifyHandler(UserPhoneVerificationRequest $request, UserPhone $userPhone)
-    {
-        // получаем из сессии 6-значный код верификации
-        $code = session('phone_verification_code_' . $userPhone->id);
-        // если в сессии нет кода, то возвращаем пользователя назад
-        if (!$code) {
-            return back()->with('error', __('Session expired.'));
-        }
-        // если коды не совпадают, то возвращаем пользователя назад
-        if ((int)$code !== (int)$request->code) {
-            return back()->with('error', __('Wrong code.'));
-        }
-        // если коды совпали и все ОК, то делаем телефон верифицированным
-        $userPhone->setVerified(true);
-        // получаем страницу последнего объявления из сессии
-        $advert_id = session('last_advert_id');
-        // формируем редирект
-        $redirect = $advert_id
-            ? redirect(route('user.adverts.phones.list', $advert_id))
-            : redirect(route('user.adverts.list'));
-        // отправляем пользователя с успехом
-        return $redirect->with('success', __('advert.phone.attached'));
+    public function verifyHandler(
+        VerifyUserPhoneRequest $request,
+        UserPhone $userPhone,
+        VerifyUserPhoneAction $action
+    ): RedirectResponse {
+        return $action->run(
+            userPhone: $userPhone,
+            code: $request->code
+        );
     }
 
     /**
@@ -131,14 +94,11 @@ class UserPhoneController extends Controller
      * 
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function verifyCancel(Request $request, UserPhone $userPhone)
-    {
-        if (!$request->user()->can('delete', $userPhone)) {
-            abort(403);
-        }
-
+    public function verifyCancel(
+        CancelVerifyUserPhoneRequest $request,
+        UserPhone $userPhone
+    ): RedirectResponse {
         $userPhone->delete();
-
         return back();
     }
 }

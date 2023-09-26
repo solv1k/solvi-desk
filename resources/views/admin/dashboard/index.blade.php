@@ -29,11 +29,5 @@
             </a>
         </div>
 
-        <div class="mb-3">
-            <a href="#" class="btn btn-primary position-relative">
-                <i class="bi bi-gear"></i> {{ __('Settings') }}
-            </a>
-        </div>
-
     </x-slot>
 </x-dashboard-layout>

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
 use App\Models\Advert;
-use Illuminate\Http\Request;
 
 class MainController extends Controller
 {

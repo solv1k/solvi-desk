@@ -153,14 +153,14 @@ class Advert extends Model
     /**
      * Привязывает телефон пользователя к объявлению.
      * 
-     * @param int $user_phone_id
-     * @param string $contact_name
+     * @param int $userPhoneId
+     * @param string $contactName
      * @return Advert
      */
-    public function setSelectedUserPhone(int $user_phone_id, string $contact_name): Advert
+    public function setSelectedUserPhone(int $userPhoneId, string $contactName): Advert
     {
         // добавляем связь телефона с объявлением в пивот
-        $this->userPhones()->syncWithoutDetaching([$user_phone_id]);
+        $this->userPhones()->syncWithoutDetaching([$userPhoneId]);
 
         // открепляем предыдущий телефон от объявления
         $this->userPhones()->update([
@@ -168,9 +168,9 @@ class Advert extends Model
         ]);
 
         // прикрепляем новый телефон
-        $this->userPhones()->updateExistingPivot($user_phone_id, [
+        $this->userPhones()->updateExistingPivot($userPhoneId, [
             'selected' => 1,
-            'contact_name' => $contact_name
+            'contact_name' => $contactName
         ]);
 
         // если это новое объявление (объявление не активно)

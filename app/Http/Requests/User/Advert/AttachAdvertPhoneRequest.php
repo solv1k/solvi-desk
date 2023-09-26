@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\User\Advert;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdvertPhoneSelectRequest extends FormRequest
+class AttachAdvertPhoneRequest extends FormRequest
 {
     /**
      * Правила авторизации запроса на прикрепление телефона к объявлению.

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\User\Phone;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdvertEditRequest extends FormRequest
+class VerifyUserPhoneRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class AdvertEditRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('update', $this->advert);
+        return $this->user()->can('update', $this->userPhone);
     }
 
     /**
@@ -24,7 +24,7 @@ class AdvertEditRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'code' => 'required|integer'
         ];
     }
 }

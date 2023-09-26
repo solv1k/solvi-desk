@@ -29,12 +29,10 @@ Route::middleware(['auth'])->prefix('/user')->name('user.')->group(function() {
             Route::get('/', 'index')->name('list');
             // страница добавления нового телефона
             Route::get('/attach', 'attach')->name('attach');
-            // обработчик проверки перед добавлением нового телефона
-            Route::post('/', 'storeChecker')->name('store');
             // обработчик добавления нового телефона
-            Route::post('/store', 'store')->name('store.confirmed');
+            Route::post('/store', 'store')->name('store');
             // страница верификации телефона
-            Route::get('/verify/{userPhone}', 'verifyPage')->name('verify.page');
+            Route::get('/verify/{userPhone}', 'verifySender')->name('verify.page');
             // обработчик верификации телефона
             Route::post('/verify/{userPhone}', 'verifyHandler')->name('verify.handler');
             // отмена верификации телефона

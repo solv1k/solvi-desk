@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 if (! function_exists('price_format')) {
     /**
      * Возвращает цену в красивом формате.
@@ -99,5 +101,15 @@ if (! function_exists('view_full_tree')) {
     
             view_full_tree($node->children, $view_path, $prefix . $prefix);
         }
+    }
+}
+
+if (! function_exists('raw_string_to_html')) {
+    /**
+     * Преобразовывает строку в HTML и возвращает её.
+     */
+    function raw_string_to_html(string $string): string
+    {
+        return nl2br(multitrim(strip_tags($string)));
     }
 }

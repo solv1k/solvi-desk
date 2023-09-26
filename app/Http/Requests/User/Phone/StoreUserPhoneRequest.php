@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\User\Phone;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserPhoneStoreRequest extends FormRequest
+class StoreUserPhoneRequest extends FormRequest
 {
     /**
      * Правила валидации запроса на сохранение нового телефона пользователя.

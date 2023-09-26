@@ -16,7 +16,8 @@
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.10",
-        "rolandstarke/laravel-thumbnail": "^1.0"
+        "rolandstarke/laravel-thumbnail": "^1.0",
+        "spatie/laravel-data": "^3.9"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",

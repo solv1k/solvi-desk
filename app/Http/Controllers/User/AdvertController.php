@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Actions\User\Advert\StoreUserAdvertAction;
+use App\Actions\User\Advert\UpdateUserAdvertAction;
+use App\DTO\User\Advert\StoreUserAdvertDTO;
+use App\DTO\User\Advert\UpdateUserAdvertDTO;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\AdvertEditRequest;
-use App\Http\Requests\User\AdvertStoreRequest;
-use App\Http\Requests\User\AdvertUpdateRequest;
+use App\Http\Requests\Admin\Advert\UpdateAdvertRequest;
+use App\Http\Requests\User\Advert\EditAdvertRequest;
+use App\Http\Requests\User\Advert\StoreAdvertRequest;
 use App\Models\Advert;
 use App\Models\AdvertCategory;
-use App\Services\AdvertService;
-use App\Services\FileService;
+use App\Services\File\FileService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class AdvertController extends Controller
 {
     public function __construct(
-        private FileService $fileService,
-        private AdvertService $advertService
+        private FileService $fileService
     ){}
 
     /**
@@ -61,27 +63,14 @@ class AdvertController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(AdvertStoreRequest $request)
-    {
-        $request = $this->advertService->updateRequestData($request);
-
-        DB::beginTransaction();
-
-        $advert = $request->user()->adverts()->create($request->only([
-            'advert_category_id',
-            'title',
-            'description',
-            'price'
-        ]));
-
-        if ($request->hasFile('image')) {
-            $image_path = $this->fileService->storeImage($request->file('image'));
-            $advert->setMainImage($image_path);
-        }
-
-        $advert->setWaitPhoneStatus();
-
-        DB::commit();
+    public function store(
+        StoreAdvertRequest $request,
+        StoreUserAdvertAction $action
+    ): RedirectResponse {
+        $advert = $action->run(
+            user: request()->user(),
+            dto: StoreUserAdvertDTO::from($request->validated())
+        );
 
         return redirect(route('user.adverts.phones.list', $advert->id))
                 ->with('success', __('Advert created successfuly!'));
@@ -92,45 +81,18 @@ class AdvertController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(AdvertUpdateRequest $request, Advert $advert)
-    {
-        $request = $this->advertService->updateRequestData($request);
-
-        DB::beginTransaction();
-
-        $advert->fill($request->only([
-            'advert_category_id',
-            'title',
-            'description',
-            'price'
-        ]));
-
-        // если модель объявления была изменена, то отправляем на модерацию
-        if ($advert->isDirty([
-            'advert_category_id',
-            'title',
-            'description'
-        ])) {
-            $advert->setModerateStatus();
-        }
-
-        $advert->save();
-
-        // если в запросе есть изображение для объявления
-        if ($request->hasFile('image')) {
-            // удаляем предыдущее изображение
-            if ($advert->hasMainImage()) {
-                $this->fileService->deleteImage($advert->main_image_path);
-            }
-            // загружаем новое изображение
-            $image_path = $this->fileService->storeImage($request->file('image'));
-            $advert->setMainImage($image_path);
-        }
-
-        DB::commit();
+    public function update(
+        UpdateAdvertRequest $request,
+        Advert $advert,
+        UpdateUserAdvertAction $action
+    ): RedirectResponse {
+        $updatedAdvert = $action->run(
+            advert: $advert,
+            dto: UpdateUserAdvertDTO::from($request->validated())
+        );
 
         return redirect(
-            route('user.adverts.phones.list', $advert->id)
+            route('user.adverts.phones.list', $updatedAdvert->id)
         )->with('success', __('Advert update successfuly!'));
     }
 
@@ -153,7 +115,7 @@ class AdvertController extends Controller
      *
      * @return \Illuminate\Contracts\View\View
      */
-    public function edit(AdvertEditRequest $request, Advert $advert)
+    public function edit(EditAdvertRequest $request, Advert $advert)
     {
         $advert_categories = AdvertCategory::whereIsRoot()->get();
 

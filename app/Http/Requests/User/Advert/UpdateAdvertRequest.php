@@ -1,16 +1,23 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests\User\Advert;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-/**
- * Запрос на обновление данных объявления (от администратора).
- */
-class AdvertUpdateRequest extends FormRequest
+class UpdateAdvertRequest extends FormRequest
 {
     /**
-     * Правила валидации запроса.
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return $this->user()->can('update', $this->advert);
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
      *
      * @return array<string, mixed>
      */
