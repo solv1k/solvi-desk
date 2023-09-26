@@ -15,6 +15,3 @@ up:
 	./vendor/bin/sail up -d
 down:
 	./vendor/bin/sail down
-sleep:
-	sleep 5 && \
-	echo "test"
