@@ -36,8 +36,8 @@ enum PermissionsEnum: string
     public static function allowedCreateAdvert(): array
     {
         return [
-            static::ACTIVATED_USER->value,
-            static::ADMIN->value
+            static::ACTIVATED_USER,
+            static::ADMIN
         ];
     }
 }

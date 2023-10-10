@@ -7,7 +7,7 @@ namespace App\Actions\User\Dashboard;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 
-class IndexUserDashboardAction
+class IndexDashboardAction
 {
     /**
      * Возвращает данные для главной страницы пользователя.

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Actions\User\Dashboard\IndexUserDashboardAction;
+use App\Actions\User\Dashboard\IndexDashboardAction;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 
@@ -14,7 +14,7 @@ class DashboardController extends Controller
      * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function index(
-        IndexUserDashboardAction $action
+        IndexDashboardAction $action
     ): View {
         return $action->run(auth()->user());
     }

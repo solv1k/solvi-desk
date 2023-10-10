@@ -4,10 +4,14 @@ namespace App\Models;
 
 use App\Enums\AdvertStatusEnum;
 use App\Models\Pivots\AdvertUserPhone;
+use App\Traits\Models\HasModerateAttributes;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Объявление.
@@ -17,17 +21,30 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Advert extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, HasModerateAttributes, SoftDeletes;
+
+    const CACHE_STAT_TOTAL_PREFIX = 'advert_stat_total_';
+    const CACHE_STAT_TOTAL_TTL = 10;
 
     protected $fillable = [
+        'user_id',
         'advert_category_id',
         'title',
         'description',
         'price'
     ];
 
-    /** @var \App\Models\AdvertStatTotal */
-    protected $cached_stat_total;
+    protected $moderate = [
+        'advert_category_id',
+        'title',
+        'description'
+    ];
+
+    protected $casts = [
+        'status' => AdvertStatusEnum::class
+    ];
+
+    protected $with = ['statTotal'];
 
     /**
      * Автор объявления.
@@ -87,15 +104,12 @@ class Advert extends Model
      */
     public function getTodayStat(): AdvertStat
     {
-        $stat = $this->stats()->today()->first();
-
-        if (! $stat) {
-            $stat = $this->stats()->create([
-                'date' => Carbon::now()
+        return $this
+            ->stats()
+            ->today()
+            ->firstOrCreate([
+                'date' => now()->toDateString()
             ]);
-        }
-
-        return $stat;
     }
 
     /**
@@ -105,19 +119,21 @@ class Advert extends Model
      */
     public function getStatTotal(): AdvertStatTotal
     {
-        if ($this->cached_stat_total) {
-            return $this->cached_stat_total;
-        }
+        $cacheKey = implode('_', [
+            static::CACHE_STAT_TOTAL_PREFIX,
+            $this->id
+        ]);
 
-        $stat_total = $this->statTotal;
-
-        if (! $stat_total) {
-            $stat_total = $this->statTotal()->create();
-        }
-
-        $this->cached_stat_total = $stat_total;
-
-        return $stat_total;
+        return Cache::get(
+            key: $cacheKey,
+            default: function () use ($cacheKey) {
+                $statTotal = $this->statTotal()->firstOrCreate();
+                if (app()->environment('production')) {
+                    Cache::put($cacheKey, $statTotal, static::CACHE_STAT_TOTAL_TTL);
+                }
+                return $statTotal;
+            }
+        );
     }
 
     /**
@@ -147,7 +163,11 @@ class Advert extends Model
      */
     public function selectedUserPhone(): ?UserPhone
     {
-        return $this->userPhones()->withPivot(['contact_name'])->where('selected', 1)->first();
+        return $this
+            ->userPhones()
+            ->withPivot(['contact_name'])
+            ->where('selected', 1)
+            ->first();
     }
 
     /**
@@ -187,7 +207,7 @@ class Advert extends Model
      */
     public function getActiveAttribute(): bool
     {
-        return $this->status === AdvertStatusEnum::ACTIVE->value;
+        return $this->status === AdvertStatusEnum::ACTIVE;
     }
 
     /**
@@ -197,7 +217,7 @@ class Advert extends Model
      */
     public function getContactNameAttribute(): string
     {
-        return $this->selectedUserPhone()?->pivot->contact_name ?? $this->owner->name;
+        return $this->selected_contact_name ?? $this->owner->name;
     }
 
     /**
@@ -207,7 +227,7 @@ class Advert extends Model
      */
     public function getPhoneNumberAttribute(): ?string
     {
-        return $this->selectedUserPhone()?->number;
+        return $this->selected_phone_number;
     }
 
     /**
@@ -264,7 +284,7 @@ class Advert extends Model
      */
     public function setWaitPhoneStatus(): Advert
     {
-        $this->status = AdvertStatusEnum::WAIT_PHONE->value;
+        $this->status = AdvertStatusEnum::WAIT_PHONE;
         $this->save();
 
         return $this;
@@ -277,7 +297,7 @@ class Advert extends Model
      */
     public function setActiveStatus(): Advert
     {
-        $this->status = AdvertStatusEnum::ACTIVE->value;
+        $this->status = AdvertStatusEnum::ACTIVE;
         $this->save();
 
         return $this;
@@ -290,7 +310,7 @@ class Advert extends Model
      */
     public function setModerateStatus(): Advert
     {
-        $this->status = AdvertStatusEnum::WAIT_MODERATION->value;
+        $this->status = AdvertStatusEnum::WAIT_MODERATION;
         $this->save();
 
         return $this;
@@ -314,7 +334,7 @@ class Advert extends Model
      */
     public function scopeWaitModeration($query)
     {
-        return $query->where('status', AdvertStatusEnum::WAIT_MODERATION->value);
+        return $query->where('status', AdvertStatusEnum::WAIT_MODERATION);
     }
 
     /**
@@ -324,7 +344,7 @@ class Advert extends Model
      */
     public function isWaitModeration(): bool
     {
-        return $this->status === AdvertStatusEnum::WAIT_MODERATION->value;
+        return $this->status === AdvertStatusEnum::WAIT_MODERATION;
     }
 
     /**
@@ -334,7 +354,7 @@ class Advert extends Model
      */
     public function getStatusLabelAttribute(): string
     {
-        return AdvertStatusEnum::from($this->status)->label();
+        return $this->status->label();
     }
 
     /**
@@ -345,6 +365,44 @@ class Advert extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('status', AdvertStatusEnum::ACTIVE->value);
+        return $query->where('status', AdvertStatusEnum::ACTIVE);
+    }
+
+    /**
+     * Было ли объявление лайкнуто пользователем.
+     *
+     * @param integer|User $user ID или модель пользователя
+     * @return boolean
+     */
+    public function isLikedByUser(int|User $user): bool
+    {
+        $userId = is_int($user) ? $user : $user->id;
+
+        return $this->userLikes()
+            ->where('user_id', $userId)
+            ->exists();
+    }
+
+    public function scopeJoinUserLike(Builder $query)
+    {
+        if (auth()->id()) {
+            return $query
+                ->addSelect([
+                    DB::raw('EXISTS(SELECT id FROM advert_user_likes WHERE advert_id = adverts.id AND user_id='.auth()->id().') as has_user_like')
+                ]);
+        }
+        return $query;
+    }
+
+    public function scopeJoinSelectedUserPhone(Builder $query)
+    {
+        return $query
+            ->join('advert_user_phone', 'advert_user_phone.advert_id', 'adverts.id')
+            ->join('user_phones', 'advert_user_phone.user_phone_id', 'user_phones.id')
+            ->where('advert_user_phone.selected', true)
+            ->addSelect([
+                DB::raw('user_phones.number as selected_phone_number'),
+                DB::raw('advert_user_phone.contact_name as selected_contact_name'),
+            ]);
     }
 }

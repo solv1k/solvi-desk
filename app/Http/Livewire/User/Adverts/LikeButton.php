@@ -2,26 +2,37 @@
 
 namespace App\Http\Livewire\User\Adverts;
 
+use App\Actions\User\Advert\LikeAdvertAction;
+use App\Actions\User\Advert\UnlikeAdvertAction;
 use App\Models\Advert;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class LikeButton extends Component
 {
+    /** @var \App\Models\User */
+    public $user;
+
     /** @var \App\Models\Advert */
     public $advert;
 
-    /** @var \App\Models\AdvertStatTotal */
-    public $stat_total;
+    /** @var int */
+    public $likesCount;
+
+    /** @var int */
+    public $viewsCount;
 
     /** @var bool */
-    public $was_liked = false;
+    public $wasLiked = false;
 
     public function mount(Advert $advert)
     {
+        $statTotal = $this->advert->getStatTotal();
+
         $this->advert = $advert;
-        $this->was_liked = $advert->userLikes()->where('user_id', auth()->id())->exists();
-        $this->stat_total = $this->advert->getStatTotal();
+        $this->user = auth()->user();
+        $this->wasLiked = $advert->has_user_like;
+        $this->likesCount = $statTotal?->likes ?? 0;
+        $this->viewsCount = $statTotal?->views ?? 0;
     }
 
     /**
@@ -29,26 +40,25 @@ class LikeButton extends Component
      */
     public function toggle()
     {
-        /** @var \App\Models\User */
-        $user = auth()->user();
-
-        if (! $user->canLikeAdverts()) {
+        if (! $this->user->canLikeAdverts()) {
             return false;
         }
 
-        DB::transaction(function() {
-            if ($this->was_liked) {
-                $this->advert->userLikes()->where('user_id', auth()->id())->delete();
-                $this->stat_total->decLike();
-            } else {
-                $this->advert->userLikes()->create([
-                    'user_id' => auth()->id()
-                ]);
-                $this->stat_total->incLike();
-            }
-        });
+        if (! $this->wasLiked) {
+            app_make(LikeAdvertAction::class)->run(
+                advert: $this->advert,
+                user: $this->user
+            );
+            $this->likesCount++;
+        } else {
+            app_make(UnlikeAdvertAction::class)->run(
+                advert: $this->advert,
+                user: $this->user
+            );
+            $this->likesCount--;
+        }
 
-        $this->was_liked = ! $this->was_liked;
+        $this->wasLiked = !$this->wasLiked;
     }
 
     public function render()

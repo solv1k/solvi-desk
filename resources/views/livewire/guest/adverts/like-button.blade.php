@@ -12,7 +12,7 @@
             <i class="bi bi-heart"></i>
 
             <span class="advert--like-counter">
-                {{ $stat_total->likes }}
+                {{ $likesCount }}
             </span>
 
     </button>

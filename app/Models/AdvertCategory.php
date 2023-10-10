@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Traits\OrderableModel;
+use App\Traits\Models\HasOrder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +13,7 @@ use Kalnoy\Nestedset\NodeTrait;
  */
 class AdvertCategory extends Model
 {
-    use HasFactory, SoftDeletes, NodeTrait, OrderableModel;
+    use HasFactory, SoftDeletes, NodeTrait, HasOrder;
 
     protected $fillable = [
         'title',

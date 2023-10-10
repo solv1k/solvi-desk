@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Traits;
+declare(strict_types=1);
+
+namespace App\Traits\Models;
 
 /**
  * @method \Illuminate\Database\Eloquent\Builder ordered(string $direction = "ASC")
  */
-trait OrderableModel
+trait HasOrder
 {
     /**
      * Записи модели отсортированные по полю "order".

@@ -15,9 +15,16 @@ class AdvertController extends Controller
      * @return \Illuminate\Contracts\View\View
      */
     public function view(
-        Advert $advert,
+        int $advertId,
         ViewGuestAdvertAction $action
     ): View {
+        $advert = Advert::query()
+            ->where('adverts.id', $advertId)
+            ->select('adverts.*')
+            ->joinUserLike()
+            ->joinSelectedUserPhone()
+            ->first();
+
         if (! $advert->active) {
             abort(404);
         }

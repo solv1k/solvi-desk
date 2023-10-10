@@ -29,7 +29,13 @@ class AdvertController extends Controller
      */
     public function index(Request $request)
     {
-        $adverts = $request->user()->adverts;
+        $adverts = $request
+            ->user()
+            ->adverts()
+            ->select('adverts.*')
+            ->joinUserLike()
+            ->joinSelectedUserPhone()
+            ->get();
 
         return view('user.adverts.list', compact('adverts'));
     }

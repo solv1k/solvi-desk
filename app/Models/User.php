@@ -45,6 +45,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'permissions' => PermissionsEnum::class,
     ];
 
     /**
@@ -114,7 +115,7 @@ class User extends Authenticatable
      */
     public function isAdmin(): bool
     {
-        return $this->permissions === PermissionsEnum::ADMIN->value;
+        return $this->permissions === PermissionsEnum::ADMIN;
     }
 
     /**
@@ -134,7 +135,7 @@ class User extends Authenticatable
      */
     public function giveActivatedPermissions(): User
     {
-        $this->permissions = PermissionsEnum::ACTIVATED_USER->value;
+        $this->permissions = PermissionsEnum::ACTIVATED_USER;
         $this->save();
 
         return $this;
@@ -147,7 +148,7 @@ class User extends Authenticatable
      */
     public function giveAdminPermissions(): User
     {
-        $this->permissions = PermissionsEnum::ADMIN->value;
+        $this->permissions = PermissionsEnum::ADMIN;
         $this->save();
 
         return $this;
@@ -160,7 +161,7 @@ class User extends Authenticatable
      */
     public function getPermissionLabelAttribute(): string
     {
-        return PermissionsEnum::from($this->permissions)->label();
+        return $this->permissions->label();
     }
 
     /**
@@ -190,7 +191,7 @@ class User extends Authenticatable
      */
     public function notBlocked(): bool
     {
-        return $this->permissions !== PermissionsEnum::SUSPENDED_USER->value;
+        return $this->permissions !== PermissionsEnum::SUSPENDED_USER;
     }
 
     /**

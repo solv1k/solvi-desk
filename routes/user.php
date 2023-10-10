@@ -32,11 +32,9 @@ Route::middleware(['auth'])->prefix('/user')->name('user.')->group(function() {
             // обработчик добавления нового телефона
             Route::post('/store', 'store')->name('store');
             // страница верификации телефона
-            Route::get('/verify/{userPhone}', 'verifySender')->name('verify.page');
-            // обработчик верификации телефона
-            Route::post('/verify/{userPhone}', 'verifyHandler')->name('verify.handler');
+            Route::get('/verify/{userPhone}', 'verificationPage')->name('verify.page');
             // отмена верификации телефона
-            Route::get('/verify/{userPhone}/cancel', 'verifyCancel')->name('verify.cancel');
+            Route::get('/verify/{userPhone}/cancel', 'verificationCancel')->name('verify.cancel');
         });
 
         // Объявления

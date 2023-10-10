@@ -8,7 +8,7 @@
         <i class="bi bi-eye"></i> 
         
         <span class="advert--views-counter">
-            {{ $advert->getStatTotal()->views }}
+            {{ $advert->statTotal?->views ?? 0 }}
         </span>
     </span>
 </div>

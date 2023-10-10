@@ -6,14 +6,14 @@
         data-bs-placement="right"
         data-bs-title="{{ __('Like advert') }}">
 
-            @if ($was_liked)
+            @if ($wasLiked)
                 <i class="bi bi-heart-fill"></i>
             @else
                 <i class="bi bi-heart"></i>
             @endif
 
             <span class="advert--like-counter">
-                {{ $stat_total->likes }}
+                {{ $likesCount }}
             </span>
 
     </button>

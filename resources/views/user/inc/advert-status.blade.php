@@ -1,5 +1,5 @@
 <div class="mb-3 text-muted small">
-    @if (! $advert->selectedUserPhone())
+    @if (! $advert->phone_number)
         <div class="advert--status-label">{{ $advert->status_label }}</div>
         <a href="{{ route('user.adverts.phones.list', $advert->id) }}">{{ __('attach phone') }}</a>
     @else

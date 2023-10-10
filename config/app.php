@@ -198,6 +198,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ViewServiceProvider::class,
 
+        Src\Framework\Providers\RouteServiceProvider::class,
+        Src\Framework\Providers\RepositoryServiceProvider::class,
     ],
 
     /*

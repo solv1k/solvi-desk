@@ -2,10 +2,10 @@ import Alpine from 'alpinejs';
 
 window.Alpine = Alpine;
 
-import Timer from './alpine/code-timer';
+import Timer from './alpine/timer';
 
-const smsCodeTimer = new Timer(180);
+const smsCodeTimer = new Timer;
 
-Alpine.store('code', { timer: smsCodeTimer });
+Alpine.store('common', { smsCodeTimer: smsCodeTimer });
 
 Alpine.start();

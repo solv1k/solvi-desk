@@ -113,3 +113,18 @@ if (! function_exists('raw_string_to_html')) {
         return nl2br(multitrim(strip_tags($string)));
     }
 }
+
+if (! function_exists('app_make')) {
+    /**
+     * IDE-helper для app().
+     * 
+     * @template T
+     * @param class-string<T> $abstract
+     * @param array $parameters
+     * @return T
+     */
+    function app_make(string $abstract, array $parameters = [])
+    {
+        return app($abstract, $parameters);
+    }
+}

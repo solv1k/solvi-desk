@@ -61,32 +61,8 @@ class UserPhoneController extends Controller
      * 
      * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function verifySender(
-        SendVerificationUserPhoneRequest $request,
-        UserPhone $userPhone,
-        SendVerificationUserPhoneAction $action
-    ): View {
-        $result = $action->run($userPhone);
-
-        return ($result instanceof RedirectResponse)
-            ? $result
-            : view('user.phones.forms.verify-page', compact('userPhone'));
-    }
-
-    /**
-     * Обработчик верификации номера телефона.
-     * 
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function verifyHandler(
-        VerifyUserPhoneRequest $request,
-        UserPhone $userPhone,
-        VerifyUserPhoneAction $action
-    ): RedirectResponse {
-        return $action->run(
-            userPhone: $userPhone,
-            code: $request->code
-        );
+    public function verificationPage(UserPhone $userPhone): View {
+        return view('user.phones.forms.verify-page', compact('userPhone'));
     }
 
     /**
@@ -94,7 +70,7 @@ class UserPhoneController extends Controller
      * 
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function verifyCancel(
+    public function verificationCancel(
         CancelVerifyUserPhoneRequest $request,
         UserPhone $userPhone
     ): RedirectResponse {

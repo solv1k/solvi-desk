@@ -10,13 +10,19 @@ class LikeButton extends Component
     /** @var \App\Models\Advert */
     public $advert;
 
-    /** @var \App\Models\AdvertStatTotal */
-    public $stat_total;
+    /** @var int */
+    public $likesCount;
+
+    /** @var int */
+    public $viewsCount;
 
     public function mount(Advert $advert)
     {
+        $statTotal = $this->advert->getStatTotal();
+
         $this->advert = $advert;
-        $this->stat_total = $this->advert->getStatTotal();
+        $this->likesCount = $statTotal?->likes ?? 0;
+        $this->viewsCount = $statTotal?->views ?? 0;
     }
 
     public function render()

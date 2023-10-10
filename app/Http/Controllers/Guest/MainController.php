@@ -14,7 +14,12 @@ class MainController extends Controller
      */
     public function home()
     {
-        $adverts = Advert::active()->paginate();
+        $adverts = Advert::query()
+            ->active()
+            ->select('adverts.*')
+            ->joinUserLike()
+            ->joinSelectedUserPhone()
+            ->paginate();
 
         return view('guest.home', compact('adverts'));
     }
