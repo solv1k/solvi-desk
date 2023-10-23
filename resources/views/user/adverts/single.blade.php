@@ -25,7 +25,7 @@
                     </div>
 
                     <div class="advert--status mb-4">
-                        @include('user.inc.advert-status', compact('advert'))
+                        @include('user.adverts.inc.advert-status', compact('advert'))
                     </div>
 
                     <div class="advert--description">

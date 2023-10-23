@@ -6,7 +6,6 @@ namespace App\Global\Base\DTO;
 
 use Spatie\LaravelData\Data;
 
-class BaseDTO extends Data
+abstract class BaseDTO extends Data
 {
-
 }

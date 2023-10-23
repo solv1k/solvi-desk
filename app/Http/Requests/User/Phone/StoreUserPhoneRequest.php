@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\User\Phone;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserPhoneRequest extends FormRequest
+final class StoreUserPhoneRequest extends FormRequest
 {
     /**
      * Правила валидации запроса на сохранение нового телефона пользователя.
@@ -14,7 +16,7 @@ class StoreUserPhoneRequest extends FormRequest
     public function rules()
     {
         return [
-            'number' => 'required|min:11|max:20|starts_with:+7|unique:user_phones,number'
+            'number' => 'required|min:11|max:20|starts_with:+7|unique:user_phones,number',
         ];
     }
 }

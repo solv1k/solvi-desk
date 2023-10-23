@@ -9,18 +9,18 @@
             </div>
         @endif
 
-        @if ($adverts_count)
+        @if ($advertsCount)
             <div class="my-3">
-                <a href="{{ route('user.adverts.list') }}">{{ __('My adverts') }} ({{ $adverts_count }})</a>
+                <a href="{{ route('user.adverts.list') }}">{{ __('My adverts') }} ({{ $advertsCount }})</a>
             </div>
         @endif
 
-        @if ($liked_adverts_count)
+        @if ($likedAdverts_count)
             <div class="my-3">
-                <a href="{{ route('user.adverts.liked') }}">{{ __('Liked adverts') }} ({{ $liked_adverts_count }})</a>
+                <a href="{{ route('user.adverts.liked') }}">{{ __('Liked adverts') }} ({{ $likedAdverts_count }})</a>
             </div>
         @endif
 
-        @include('user.inc.create-advert-link')
+        @include('user.adverts.inc.create-advert-link')
     </x-slot>
 </x-dashboard-layout>

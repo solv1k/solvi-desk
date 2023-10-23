@@ -7,15 +7,15 @@
         {{ Breadcrumbs::render('admin.adverts.index') }}
 
         <div class="my-3">
-            <a href="{{ route('admin.adverts.waitmoderate.list') }}">{{ __('Wait moderation') }} ({{ $new_adverts_count }})</a>
+            <a href="{{ route('admin.adverts.waitmoderate.list') }}">{{ __('Wait moderation') }} ({{ $newAdvertsCount }})</a>
         </div>
 
         <div class="my-3">
-            <a href="{{ route('admin.adverts.active.list') }}">{{ __('Active adverts') }} ({{ $active_adverts_count }})</a>
+            <a href="{{ route('admin.adverts.active.list') }}">{{ __('Active adverts') }} ({{ $activeAdvertsCount }})</a>
         </div>
 
         <div class="my-3">
-            <a href="{{ route('admin.adverts.list') }}">{{ __('All adverts') }} ({{ $adverts_count }})</a>
+            <a href="{{ route('admin.adverts.list') }}">{{ __('All adverts') }} ({{ $advertsCount }})</a>
         </div>
 
     </x-slot>

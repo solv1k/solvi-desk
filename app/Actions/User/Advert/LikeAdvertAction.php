@@ -8,21 +8,17 @@ use App\Models\Advert;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
-class LikeAdvertAction
+final class LikeAdvertAction
 {
     /**
      * Добавляет лайк объявлению от указанного пользователя.
-     *
-     * @param Advert $advert
-     * @param User $user
-     * @return void
      */
     public function run(Advert $advert, User $user): void
     {
-        DB::transaction(function() use ($advert, $user) {
+        DB::transaction(static function () use ($advert, $user): void {
             // добавляем лайк от юзера
             $advert->userLikes()->updateOrCreate([
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
             // добавляем лайк в статку
             $advert->getStatTotal()->incLike();

@@ -8,7 +8,7 @@
             <div class="advert row">
                 <div class="col-lg-4">
                     <div class="advert--status" style="max-width: 400px;">
-                        @include('admin.inc.advert-status-changer', compact('advert'))
+                        @include('admin.adverts.inc.advert-status-changer', compact('advert'))
                     </div>
                     <div class="mb-3">
                         <div class="advert--image">

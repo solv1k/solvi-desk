@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Livewire\User\Adverts;
 
 use App\Models\Advert;
 use App\Models\AdvertCategory;
 use Livewire\Component;
 
-class CategorySelectorBlock extends Component
+final class CategorySelectorBlock extends Component
 {
     /** @var ?Advert */
     public $advert;
@@ -20,7 +22,7 @@ class CategorySelectorBlock extends Component
     /** @var array */
     public $selects = [];
 
-    public function mount(?Advert $advert, string $mode = 'create')
+    public function mount(?Advert $advert, string $mode = 'create'): void
     {
         $this->advert = $advert;
         $this->mode = $mode;
@@ -28,14 +30,15 @@ class CategorySelectorBlock extends Component
         $this->mountSelects();
     }
 
-    public function mountSelects()
+    public function mountSelects(): void
     {
         if ($this->mode === 'create') {
             $this->selects[] = [
                 'selected' => $this->advert_category_id,
                 '_selected' => $this->advert_category_id,
-                'options' => $this->getRootOptions()
+                'options' => $this->getRootOptions(),
             ];
+
             return;
         }
 
@@ -43,18 +46,18 @@ class CategorySelectorBlock extends Component
             $this->selects[] = [
                 'selected' => $ancested_category->id,
                 '_selected' => $ancested_category->id,
-                'options' => $this->getSiblingsAndSelfOptions($ancested_category)
+                'options' => $this->getSiblingsAndSelfOptions($ancested_category),
             ];
         }
 
         $this->selects[] = [
             'selected' => $this->advert_category_id,
             '_selected' => $this->advert_category_id,
-            'options' => $this->getSiblingsAndSelfOptions($this->advert->category)
+            'options' => $this->getSiblingsAndSelfOptions($this->advert->category),
         ];
     }
 
-    public function updateSelects(int $select_index)
+    public function updateSelects(int $select_index): void
     {
         if ($this->selects[$select_index]['selected'] !== $this->selects[$select_index]['_selected']) {
             array_splice($this->selects, $select_index + 1);
@@ -63,7 +66,7 @@ class CategorySelectorBlock extends Component
         }
     }
 
-    public function loadNextSelect(int $parent_category_id)
+    public function loadNextSelect(int $parent_category_id): void
     {
         $childs = AdvertCategory::findOrFail($parent_category_id)->children;
 
@@ -72,12 +75,12 @@ class CategorySelectorBlock extends Component
             $this->selects[] = [
                 'selected' => 0,
                 '_selected' => 0,
-                'options' => $childs->map(function($category) {
+                'options' => $childs->map(static function ($category) {
                     return [
                         'value' => $category->id,
-                        'title' => $category->title
+                        'title' => $category->title,
                     ];
-                })
+                }),
             ];
         } else {
             $this->advert_category_id = $parent_category_id;
@@ -88,13 +91,13 @@ class CategorySelectorBlock extends Component
     {
         $options[] = [
             'value' => $category->id,
-            'title' => $category->title
+            'title' => $category->title,
         ];
 
-        $options = array_merge($options, $category->siblings()->get()->map(function($category_sibling) {
+        $options = array_merge($options, $category->siblings()->get()->map(static function ($category_sibling) {
             return [
                 'value' => $category_sibling->id,
-                'title' => $category_sibling->title
+                'title' => $category_sibling->title,
             ];
         })->toArray());
 
@@ -103,12 +106,12 @@ class CategorySelectorBlock extends Component
 
     public function getRootOptions()
     {
-        $root_advert_categories = AdvertCategory::whereIsRoot()->get();
+        $root_advertCategories = AdvertCategory::whereIsRoot()->get();
 
-        return $root_advert_categories->map(function($item) {
+        return $root_advertCategories->map(static function ($item) {
             return [
                 'value' => $item->id,
-                'title' => $item->title
+                'title' => $item->title,
             ];
         });
     }

@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BannerPosition extends Model
+/**
+ * Позиция баннера.
+ */
+final class BannerPosition extends Model
 {
     use HasFactory;
 
@@ -14,6 +19,6 @@ class BannerPosition extends Model
         'description',
         'width',
         'height',
-        'daily_price'
+        'daily_price',
     ];
 }

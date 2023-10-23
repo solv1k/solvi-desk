@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class ActivationController extends Controller
+final class ActivationController extends Controller
 {
     /**
      * Страница активации пользователя.
-     * 
-     * @return \Illuminate\Contracts\View\View
-     */    
-    public function index(Request $request)
+     */
+    public function index(Request $request): View|RedirectResponse
     {
         /** @var \App\Models\User */
         $user = $request->user();
@@ -28,10 +30,8 @@ class ActivationController extends Controller
 
     /**
      * Обработчик отправки сообщения с ссылкой активации аккаунта пользователя.
-     * 
-     * @return mixed
      */
-    public function sendActivationLink(Request $request)
+    public function sendActivationLink(Request $request): bool
     {
         /** @var \App\Models\User */
         $user = $request->user();
@@ -43,5 +43,7 @@ class ActivationController extends Controller
 
         // используем стандартный метод отправки письма для верификации аккаунта
         $user->sendEmailVerificationNotification();
+
+        return true;
     }
 }

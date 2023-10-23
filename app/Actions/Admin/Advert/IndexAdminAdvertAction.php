@@ -6,23 +6,23 @@ namespace App\Actions\Admin\Advert;
 
 use App\Models\Advert;
 
-class IndexAdminAdvertAction
+final class IndexAdminAdvertAction
 {
     /**
      * Возвращает данные главной страницы объявлений для администратора.
      *
-     * @return array
+     * @return array{advertsCount:int,activeAdvertsCount:int,newAdvertsCount:int}
      */
-    public function run(): array 
+    public function run(): array
     {
-        $adverts_count = Advert::count();
-        $active_adverts_count = Advert::active()->count();
-        $new_adverts_count = Advert::waitModeration()->count();
+        $advertsCount = Advert::count();
+        $activeAdvertsCount = Advert::active()->count();
+        $newAdvertsCount = Advert::waitModeration()->count();
 
         return compact(
-            'adverts_count',
-            'active_adverts_count',
-            'new_adverts_count',
+            'advertsCount',
+            'activeAdvertsCount',
+            'newAdvertsCount',
         );
     }
 }

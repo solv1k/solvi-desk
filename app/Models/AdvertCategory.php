@@ -1,34 +1,40 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Traits\Models\HasOrder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kalnoy\Nestedset\NodeTrait;
 
 /**
  * Категория объявления.
  */
-class AdvertCategory extends Model
+final class AdvertCategory extends Model
 {
-    use HasFactory, SoftDeletes, NodeTrait, HasOrder;
+    use HasFactory;
+    use HasOrder;
+    use NodeTrait;
+    use SoftDeletes;
 
     protected $fillable = [
         'title',
         'description',
         'icon_symbol',
         'icon_color',
-        'order'
+        'order',
     ];
 
     /**
      * Объявления в категории.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany<Advert>
      */
-    public function adverts()
+    public function adverts(): HasMany
     {
         return $this->hasMany(Advert::class);
     }
@@ -36,10 +42,17 @@ class AdvertCategory extends Model
     /**
      * Свойства категории.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany<AdvertCategoryProperty>
      */
     public function properties()
     {
         return $this->hasMany(AdvertCategoryProperty::class);
+    }
+
+    public function advertCountWithDescendants(): int
+    {
+        return $this->adverts()->count()
+            /** @phpstan-ignore-next-line */
+            + $this->descendants()->withCount('adverts')->get()->sum('adverts_count');
     }
 }

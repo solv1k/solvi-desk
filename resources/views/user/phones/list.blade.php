@@ -14,7 +14,7 @@
             @endforeach
         @else
             <div class="alert alert-info">{{ __('You need validate your phone before continue') }}</div>
-            @include('user.inc.attach-phone-btn')
+            @include('user.adverts.inc.attach-phone-btn')
         @endif
 
     </x-slot>

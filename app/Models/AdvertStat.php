@@ -1,52 +1,56 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
 /**
  * Статистика объявления.
- * 
- * @method static \Illuminate\Database\Eloquent\Builder today()
  */
-class AdvertStat extends Model
+final class AdvertStat extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'date',
         'views',
-        'phone_views'
+        'phone_views',
     ];
 
     /**
      * Значения по умолчанию.
-     * 
-     * @var array
+     *
+     * @var array<string,mixed>
      */
     protected $attributes = [
         'views' => 0,
-        'phone_views' => 0
+        'phone_views' => 0,
     ];
 
     /**
      * Статистика объявления за сегодня.
-     * 
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     *
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeToday($query)
+    public function scopeToday(Builder $query): Builder
     {
-        return $query->whereDate('date', Carbon::now());
+        return $query->whereDate('date', Carbon::now()->toDateString());
     }
 
     /**
-     * Суммарная статистика по объявлению.
+     * Суммарная статистика объявления.
+     * 
+     * @return HasOne<AdvertStatTotal>
      */
-    public function totals()
+    public function totals(): HasOne
     {
         return $this->hasOne(AdvertStatTotal::class, 'advert_id', 'advert_id');
     }
@@ -68,9 +72,9 @@ class AdvertStat extends Model
     /**
      * +1 просмотр в статистику.
      */
-    public function incView()
+    public function incView(): void
     {
-        DB::transaction(function () {
+        DB::transaction(function (): void {
             $this->views += 1;
             $this->save();
             // inc totals
@@ -81,7 +85,7 @@ class AdvertStat extends Model
     /**
      * +1 лайк в статистику.
      */
-    public function incLike()
+    public function incLike(): void
     {
         $this->getTotals()->incLike();
     }
@@ -89,7 +93,7 @@ class AdvertStat extends Model
     /**
      * -1 лайк в статистику.
      */
-    public function decLike()
+    public function decLike(): void
     {
         $this->getTotals()->decLike();
     }

@@ -1,34 +1,40 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class AdvertUserLike extends Model
+/**
+ * Лайк объявления.
+ */
+final class AdvertUserLike extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id'
+        'user_id',
     ];
 
     /**
      * Пользователь лайкнувший объявление.
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @return BelongsTo<User,self>
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
     /**
      * Лайкнутое объявление.
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     *
+     * @return BelongsTo<Advert,self>
      */
-    public function advert()
+    public function advert(): BelongsTo
     {
         return $this->belongsTo(Advert::class);
     }

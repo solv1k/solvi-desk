@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Livewire\Admin\Categories;
 
 use App\Enums\AdvertCategoryPropertyTypeEnum;
 use App\Models\AdvertCategory;
-use Livewire\Component;
-use App\Global\Classes\SelectOptions;
 use App\Models\AdvertCategoryProperty;
 use Ausi\SlugGenerator\SlugGenerator;
+use Livewire\Component;
 
-class EditCategoryPropertiesBlock extends Component
+final class EditCategoryPropertiesBlock extends Component
 {
     /** @var AdvertCategory */
     public $category;
@@ -65,7 +66,7 @@ class EditCategoryPropertiesBlock extends Component
         'select_options',
         'editable_property_id',
         'show_type_block',
-        'show_delete_button'
+        'show_delete_button',
     ];
 
     /**
@@ -73,8 +74,7 @@ class EditCategoryPropertiesBlock extends Component
      */
     protected $listeners = ['refreshPage' => '$refresh'];
 
-
-    public function mount(AdvertCategory $category)
+    public function mount(AdvertCategory $category): void
     {
         $this->category = $category;
     }
@@ -84,30 +84,30 @@ class EditCategoryPropertiesBlock extends Component
         return view('livewire.admin.categories.edit-category-properties-block');
     }
 
-    public function showCreateForm()
+    public function showCreateForm(): void
     {
         $this->step = 'show_create_form';
     }
 
-    public function changeType()
+    public function changeType(): void
     {
         $this->show_type_block = $this->type;
     }
 
-    public function generateSlugFromTitle()
+    public function generateSlugFromTitle(): void
     {
         $this->slug = (new SlugGenerator())->generate($this->title);
     }
 
-    public function addNewSelectOption()
+    public function addNewSelectOption(): void
     {
         $this->select_options[] = [
             'title' => 'title',
-            'value' => 'value'
+            'value' => 'value',
         ];
     }
 
-    public function cancelCreation()
+    public function cancelCreation(): void
     {
         $this->resetErrorBag();
 
@@ -118,13 +118,14 @@ class EditCategoryPropertiesBlock extends Component
         $this->emit('refreshPage');
     }
 
-    public function edit(AdvertCategoryProperty $property)
+    public function edit(AdvertCategoryProperty $property): void
     {
         $this->resetErrorBag();
 
         if ($this->step === 'edit' && $this->editable_property_id === $property->id) {
             $this->reset($this->resetable);
             $this->step = 'init';
+
             return;
         }
 
@@ -147,16 +148,17 @@ class EditCategoryPropertiesBlock extends Component
         $this->step = 'edit';
     }
 
-    public function deleteOption(int $index)
+    public function deleteOption(int $index): void
     {
         unset($this->select_options[$index]);
     }
 
-    public function delete(AdvertCategoryProperty $property)
+    public function delete(AdvertCategoryProperty $property): void
     {
         if ($this->show_delete_button && $this->editable_property_id === $property->id) {
             $this->show_delete_button = false;
             $this->editable_property_id = 0;
+
             return;
         }
 
@@ -164,20 +166,20 @@ class EditCategoryPropertiesBlock extends Component
         $this->show_delete_button = true;
     }
 
-    public function deleteConfirm(AdvertCategoryProperty $property)
+    public function deleteConfirm(AdvertCategoryProperty $property): void
     {
         $property->delete();
 
         $this->emit('refreshPage');
     }
 
-    public function submitEdit(AdvertCategoryProperty $property)
+    public function submitEdit(AdvertCategoryProperty $property): void
     {
         $validated = $this->validate();
 
         $property->update(collect($validated)->except(['select_options'])->toArray());
 
-        if (!empty($this->select_options)) {
+        if (! empty($this->select_options)) {
             $property->additional_data = json_encode($this->select_options);
             $property->save();
         }
@@ -189,13 +191,13 @@ class EditCategoryPropertiesBlock extends Component
         $this->emit('refreshPage');
     }
 
-    public function submitStore()
+    public function submitStore(): void
     {
         $validated = $this->validate();
 
         $property = $this->category->properties()->create(collect($validated)->except(['select_options'])->toArray());
 
-        if (!empty($this->select_options)) {
+        if (! empty($this->select_options)) {
             $property->additional_data = json_encode($this->select_options);
             $property->save();
         }

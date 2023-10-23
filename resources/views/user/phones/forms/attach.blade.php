@@ -7,7 +7,7 @@
 
         {{ Breadcrumbs::render('user.phones.attach') }}
 
-        @include('user.inc.attach-phone')
+        @include('user.adverts.inc.attach-phone')
 
         @include('user.phones.inc.unverified-phones-list')
         

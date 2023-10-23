@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Actions\Admin\Advert\IndexAdminAdvertAction;
@@ -9,7 +11,7 @@ use App\Http\Requests\Admin\Advert\UpdateAdvertRequest;
 use App\Models\Advert;
 use App\Models\AdvertCategory;
 
-class AdvertController extends Controller
+final class AdvertController extends Controller
 {
     /**
      * Страница управления объявлениями.
@@ -64,9 +66,9 @@ class AdvertController extends Controller
      */
     public function edit(Advert $advert)
     {
-        $advert_categories = AdvertCategory::all();
+        $advertCategories = AdvertCategory::all();
 
-        return view('admin.adverts.forms.edit', compact('advert', 'advert_categories'));
+        return view('admin.adverts.forms.edit', compact('advert', 'advertCategories'));
     }
 
     /**

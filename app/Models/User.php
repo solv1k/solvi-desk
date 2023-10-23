@@ -1,26 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use App\Enums\PermissionsEnum;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 /**
- * Пользователь сервиса.
+ * Пользователь системы.
  */
-class User extends Authenticatable
+final class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var array<int,string>
      */
     protected $fillable = [
         'name',
@@ -31,7 +37,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var array<int,string>
      */
     protected $hidden = [
         'password',
@@ -41,7 +47,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be cast.
      *
-     * @var array<string, string>
+     * @var array<string,string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -50,68 +56,66 @@ class User extends Authenticatable
 
     /**
      * Объявления пользователя.
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @return HasMany<Advert>
      */
-    public function adverts()
+    public function adverts(): HasMany
     {
         return $this->hasMany(Advert::class);
     }
 
     /**
      * Активные объявления пользователя.
-     * 
-     * @return \Illuminate\Database\Eloquent\Builder
+     *
+     * @return HasMany<Advert>
      */
-    public function activeAdverts()
+    public function activeAdverts(): HasMany
     {
         return $this->adverts()->active();
     }
 
     /**
      * Лайкнутые пользователем объявления.
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @return HasMany<AdvertUserLike>
      */
-    public function likedAdverts()
+    public function likedAdverts(): HasMany
     {
         return $this->hasMany(AdvertUserLike::class, 'user_id');
     }
 
     /**
      * Телефоны пользователя.
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @return HasMany<UserPhone>
      */
-    public function phones()
+    public function phones(): HasMany
     {
         return $this->hasMany(UserPhone::class);
     }
 
     /**
      * Верифицированные телефоны пользователя.
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @return HasMany<UserPhone>
      */
-    public function verifiedPhones()
+    public function verifiedPhones(): HasMany
     {
         return $this->phones()->verified(true);
     }
 
     /**
      * Неверифицированные телефоны пользователя.
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @return HasMany<UserPhone>
      */
-    public function unverifiedPhones()
+    public function unverifiedPhones(): HasMany
     {
         return $this->phones()->verified(false);
     }
 
     /**
      * У пользователя есть права администратора?
-     * 
-     * @return bool
      */
     public function isAdmin(): bool
     {
@@ -120,8 +124,6 @@ class User extends Authenticatable
 
     /**
      * Аккаунт пользователя активирован?
-     * 
-     * @return bool
      */
     public function isActivated(): bool
     {
@@ -130,8 +132,6 @@ class User extends Authenticatable
 
     /**
      * Даёт права активированного пользователя.
-     * 
-     * @return User
      */
     public function giveActivatedPermissions(): User
     {
@@ -143,8 +143,6 @@ class User extends Authenticatable
 
     /**
      * Даёт пользователю права администратора.
-     * 
-     * @return User
      */
     public function giveAdminPermissions(): User
     {
@@ -156,8 +154,6 @@ class User extends Authenticatable
 
     /**
      * Возвращает описание прав пользователя.
-     * 
-     * @return string
      */
     public function getPermissionLabelAttribute(): string
     {
@@ -166,8 +162,6 @@ class User extends Authenticatable
 
     /**
      * Пользователь может создавать объявления?
-     * 
-     * @return bool
      */
     public function hasCreateAdvertPermissions(): bool
     {
@@ -176,8 +170,6 @@ class User extends Authenticatable
 
     /**
      * Пользователь может лайкать объявления?
-     * 
-     * @return bool
      */
     public function canLikeAdverts(): bool
     {
@@ -186,8 +178,6 @@ class User extends Authenticatable
 
     /**
      * Пользователь не заблокирован?
-     * 
-     * @return bool
      */
     public function notBlocked(): bool
     {
@@ -196,8 +186,6 @@ class User extends Authenticatable
 
     /**
      * Возвращает true, если телефон принадлежит пользователю.
-     * 
-     * @return bool
      */
     public function hasPhone(int $user_phone_id): bool
     {

@@ -1,33 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\AdvertCategory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AdvertCategoriesSeeder extends Seeder
+final class AdvertCategoriesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         // создаем основные категории объявлений
         AdvertCategory::create([
             'title' => 'Разное',
-            'description' => 'В этой категории находятся объявления, которые не были размещены в какую-либо категорию.'
+            'description' => 'В этой категории находятся объявления, которые не были размещены в какую-либо категорию.',
         ]);
         AdvertCategory::create([
-            'title' => 'Личные вещи'
+            'title' => 'Личные вещи',
         ]);
         AdvertCategory::create([
-            'title' => 'Транспорт'
+            'title' => 'Транспорт',
         ]);
         AdvertCategory::create([
-            'title' => 'Недвижимость'
+            'title' => 'Недвижимость',
         ]);
     }
 }

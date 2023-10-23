@@ -9,7 +9,7 @@ use App\Actions\User\Phone\VerifyUserPhoneAction;
 use App\Models\UserPhone;
 use Livewire\Component;
 
-class PhoneVerificationBlock extends Component
+final class PhoneVerificationBlock extends Component
 {
     public UserPhone $userPhone;
 
@@ -19,7 +19,7 @@ class PhoneVerificationBlock extends Component
         'code' => 'required|numeric',
     ];
 
-    public function mount(UserPhone $userPhone)
+    public function mount(UserPhone $userPhone): void
     {
         $this->userPhone = $userPhone;
     }

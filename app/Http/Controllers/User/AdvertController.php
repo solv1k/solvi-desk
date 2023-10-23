@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\User;
 
 use App\Actions\User\Advert\StoreUserAdvertAction;
@@ -12,62 +14,49 @@ use App\Http\Requests\User\Advert\EditAdvertRequest;
 use App\Http\Requests\User\Advert\StoreAdvertRequest;
 use App\Models\Advert;
 use App\Models\AdvertCategory;
-use App\Services\File\FileService;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class AdvertController extends Controller
+final class AdvertController extends Controller
 {
-    public function __construct(
-        private FileService $fileService
-    ){}
-
     /**
      * Список объявлений (в личном кабинете пользователя).
-     *
-     * @return \Illuminate\Contracts\View\View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $adverts = $request
             ->user()
             ->adverts()
             ->select('adverts.*')
             ->joinUserLike()
-            ->joinSelectedUserPhone()
-            ->get();
+            ->joinSelectedUserPhone();
 
         return view('user.adverts.list', compact('adverts'));
     }
 
     /**
      * Список объявлений, которые понравилилсь пользователю.
-     *
-     * @return \Illuminate\Contracts\View\View
      */
-    public function liked(Request $request)
+    public function liked(Request $request): View
     {
-        $liked_adverts = $request->user()->likedAdverts;
+        $likedAdverts = $request->user()->likedAdverts;
 
-        return view('user.adverts.liked', compact('liked_adverts'));
+        return view('user.adverts.liked', compact('likedAdverts'));
     }
 
     /**
      * Форма создания нового объявления.
-     *
-     * @return \Illuminate\Contracts\View\View
      */
-    public function create()
+    public function create(): View
     {
-        $advert_categories = AdvertCategory::whereIsRoot()->get();
+        $advertCategories = AdvertCategory::whereIsRoot()->get();
 
-        return view('user.adverts.forms.create', compact('advert_categories'));
+        return view('user.adverts.forms.create', compact('advertCategories'));
     }
 
     /**
      * Обработчик создания нового объявления.
-     *
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(
         StoreAdvertRequest $request,
@@ -79,13 +68,11 @@ class AdvertController extends Controller
         );
 
         return redirect(route('user.adverts.phones.list', $advert->id))
-                ->with('success', __('Advert created successfuly!'));
+            ->with('success', __('Advert created successfuly!'));
     }
 
     /**
      * Обработчик обновления данных объявления.
-     *
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(
         UpdateAdvertRequest $request,
@@ -104,10 +91,8 @@ class AdvertController extends Controller
 
     /**
      * Страница просмотра объявления (в личном кабинете пользователя).
-     *
-     * @return \Illuminate\Contracts\View\View
      */
-    public function view(Request $request, Advert $advert)
+    public function view(Request $request, Advert $advert): View|RedirectResponse
     {
         if (! $request->user()->can('update', $advert)) {
             return redirect(route('guest.adverts.view', $advert->id));
@@ -118,13 +103,9 @@ class AdvertController extends Controller
 
     /**
      * Страница редактирования объявления (в личном кабинете пользователя).
-     *
-     * @return \Illuminate\Contracts\View\View
      */
-    public function edit(EditAdvertRequest $request, Advert $advert)
+    public function edit(EditAdvertRequest $request, Advert $advert): View
     {
-        $advert_categories = AdvertCategory::whereIsRoot()->get();
-
-        return view('user.adverts.forms.edit', compact('advert', 'advert_categories'));
+        return view('user.adverts.forms.edit', compact('advert'));
     }
 }

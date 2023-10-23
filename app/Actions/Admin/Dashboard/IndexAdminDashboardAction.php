@@ -7,23 +7,23 @@ namespace App\Actions\Admin\Dashboard;
 use App\Models\Advert;
 use App\Models\AdvertCategory;
 
-class IndexAdminDashboardAction
+final class IndexAdminDashboardAction
 {
     /**
      * Возвращает данные для дашборда администратора.
      *
-     * @return array
+     * @return array{advertsCount:int,newAdvertsCount:int,categoriesCount:int}
      */
-    public function run(): array 
+    public function run(): array
     {
-        $adverts_count = Advert::count();
-        $new_adverts_count = Advert::waitModeration()->count();
-        $categories_count = AdvertCategory::count();
+        $advertsCount = Advert::count();
+        $newAdvertsCount = Advert::waitModeration()->count();
+        $categoriesCount = AdvertCategory::count();
 
         return compact(
-            'adverts_count',
-            'new_adverts_count',
-            'categories_count',
+            'advertsCount',
+            'newAdvertsCount',
+            'categoriesCount',
         );
     }
 }

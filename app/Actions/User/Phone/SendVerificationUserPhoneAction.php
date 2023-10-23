@@ -11,19 +11,17 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Redirector;
 
-class SendVerificationUserPhoneAction
+final class SendVerificationUserPhoneAction
 {
     public function __construct(
         protected PhoneVerificationService $phoneVerificationService,
         protected SmsService $smsService
     ) {
-        
+
     }
 
     /**
      * Обработчик отправки СМС с кодом верификации телефона.
-     * 
-     * @return RedirectResponse|Redirector|null
      */
     public function run(UserPhone $userPhone): RedirectResponse|Redirector|null
     {
@@ -31,18 +29,19 @@ class SendVerificationUserPhoneAction
             return $this->redirectToLastAdvert();
         }
 
-        return $this->sendSmsWithCode($userPhone);
+        $this->sendSmsWithCode($userPhone);
+
+        return null;
     }
 
     /**
      * Редирект к последнему объявлению.
-     *
-     * @return RedirectResponse|Redirector
      */
     protected function redirectToLastAdvert(): RedirectResponse|Redirector
     {
         // получаем ID последнего объявления из сессии
         $advert_id = session('last_advert_id');
+
         // и возвращаем редик на страницу с выбором телефона
         return $advert_id
                 ? redirect(route('user.adverts.phones.list', $advert_id))
@@ -51,9 +50,6 @@ class SendVerificationUserPhoneAction
 
     /**
      * Отправка СМС с кодом верификации телефона.
-     *
-     * @param UserPhone $userPhone
-     * @return void
      */
     protected function sendSmsWithCode(UserPhone $userPhone): void
     {
@@ -62,7 +58,7 @@ class SendVerificationUserPhoneAction
             key: 'sms-send:' . auth()->id(),
             maxAttempts: 1,
             decaySeconds: 30,
-            callback: function () use ($userPhone) {
+            callback: function () use ($userPhone): void {
                 // генерируем 6-значный код
                 $code = fake()->numerify('######');
                 // отправляем СМС с кодом
@@ -72,7 +68,7 @@ class SendVerificationUserPhoneAction
                 );
                 // сохраняем код в сервисе верификации
                 $this->phoneVerificationService
-                    ->put((string)$userPhone->id, $code);
+                    ->put((string) $userPhone->id, $code);
             }
         );
     }

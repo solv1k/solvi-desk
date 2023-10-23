@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums;
 
 /**
@@ -16,19 +18,16 @@ enum AdvertStatusEnum: int
 
     /**
      * Возвращает наименование статуса объявления.
-     * 
-     * @return string
      */
     public function label(): string
     {
-        return match($this) {
-            static::CREATED => __('Created'),
-            static::ACTIVE => __('Active advert'),
-            static::WAIT_PHONE => __('Need attach phone'),
-            static::WAIT_MODERATION => __('Wait moderation'),
-            static::HIDDEN => __('Hidden advert'),
-            static::BANNED => __('Blocked'),
-            default => __('Unknown')
+        return match ($this) {
+            self::CREATED => __('Created'),
+            self::ACTIVE => __('Active advert'),
+            self::WAIT_PHONE => __('Need attach phone'),
+            self::WAIT_MODERATION => __('Wait moderation'),
+            self::HIDDEN => __('Hidden advert'),
+            self::BANNED => __('Blocked'),
         };
     }
 }

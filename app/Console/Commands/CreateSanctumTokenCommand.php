@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Console\Command;
 
-class CreateSanctumTokenCommand extends Command
+final class CreateSanctumTokenCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -31,6 +33,7 @@ class CreateSanctumTokenCommand extends Command
         $user = User::query()->findOrFail($this->argument('userId'));
         $token = $user->createToken('full_access')->plainTextToken;
         $this->info($user->name . ' > Bearer ' . $token);
+
         return Command::SUCCESS;
     }
 }

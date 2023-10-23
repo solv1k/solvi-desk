@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Auth\ActivationController;
 use App\Http\Controllers\User\AdvertController;
 use App\Http\Controllers\User\AdvertPhoneController;
@@ -8,10 +10,10 @@ use App\Http\Controllers\User\UserPhoneController;
 use Illuminate\Support\Facades\Route;
 
 // Маршруты пользователя
-Route::middleware(['auth'])->prefix('/user')->name('user.')->group(function() {
+Route::middleware(['auth'])->prefix('/user')->name('user.')->group(static function (): void {
 
     // активация аккаунта
-    Route::controller(ActivationController::class)->prefix('/activation')->name('activation.')->group(function() {
+    Route::controller(ActivationController::class)->prefix('/activation')->name('activation.')->group(static function (): void {
         // страница активации аккаунта
         Route::get('/', 'index')->name('page');
         // обработчик отправки письма с ссылкой активации
@@ -19,12 +21,12 @@ Route::middleware(['auth'])->prefix('/user')->name('user.')->group(function() {
     });
 
     // только для активированных пользователей
-    Route::middleware(['user.active'])->group(function() {
+    Route::middleware(['user.active'])->group(static function (): void {
         // Личный кабинет
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         // Телефоны
-        Route::controller(UserPhoneController::class)->prefix('/phones')->name('phones.')->group(function() {
+        Route::controller(UserPhoneController::class)->prefix('/phones')->name('phones.')->group(static function (): void {
             // список всех телефонов пользователя
             Route::get('/', 'index')->name('list');
             // страница добавления нового телефона
@@ -38,7 +40,7 @@ Route::middleware(['auth'])->prefix('/user')->name('user.')->group(function() {
         });
 
         // Объявления
-        Route::controller(AdvertController::class)->prefix('/adverts')->name('adverts.')->group(function() {
+        Route::controller(AdvertController::class)->prefix('/adverts')->name('adverts.')->group(static function (): void {
             // список всех объявлений пользователя
             Route::get('/', 'index')->name('list');
             // список всех объявлений, которые понравились пользователю
@@ -48,14 +50,14 @@ Route::middleware(['auth'])->prefix('/user')->name('user.')->group(function() {
             // обработчик создания объявления
             Route::post('/create', 'store')->name('store');
             // управление телефонами объявления
-            Route::controller(AdvertPhoneController::class)->prefix('/{advert}/phones')->name('phones.')->group(function() {
+            Route::controller(AdvertPhoneController::class)->prefix('/{advert}/phones')->name('phones.')->group(static function (): void {
                 // список телефонов доступных для прикрепления к объявлению
                 Route::get('/', 'index')->name('list');
                 // привязка конкретного телефона к объявлению
                 Route::post('/attach', 'attach')->name('attach');
             });
             // группа маршрутов по конкретному объявлению
-            Route::prefix('/{advert}')->group(function() {
+            Route::prefix('/{advert}')->group(static function (): void {
                 // страница просмотра объявления
                 Route::get('/', 'view')->name('view');
                 // страница редактирования объявления

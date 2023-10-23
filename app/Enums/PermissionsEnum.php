@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums;
 
 /**
@@ -13,31 +15,28 @@ enum PermissionsEnum: string
     case ADMIN = '7777';
 
     /**
-     * Возвращает наименование прав доступа.
-     * 
-     * @return string
-     */
-    public function label(): string
-    {
-        return match($this) {
-            static::UNACTIVATED_USER => __('Unactivated user'),
-            static::ACTIVATED_USER => __('Active user'),
-            static::SUSPENDED_USER => __('Suspended user'),
-            static::ADMIN => __('Administrator'),
-            default => __('Unknown')
-        };
-    }
-
-    /**
      * Возвращает массив прав, которые разрешают создание нового объявления.
-     * 
-     * @return array
+     *
+     * @return array<self>
      */
     public static function allowedCreateAdvert(): array
     {
         return [
-            static::ACTIVATED_USER,
-            static::ADMIN
+            self::ACTIVATED_USER,
+            self::ADMIN,
         ];
+    }
+
+    /**
+     * Возвращает наименование прав доступа.
+     */
+    public function label(): string
+    {
+        return match ($this) {
+            self::UNACTIVATED_USER => __('Unactivated user'),
+            self::ACTIVATED_USER => __('Active user'),
+            self::SUSPENDED_USER => __('Suspended user'),
+            self::ADMIN => __('Administrator'),
+        };
     }
 }

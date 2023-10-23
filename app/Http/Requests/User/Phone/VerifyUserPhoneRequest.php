@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\User\Phone;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class VerifyUserPhoneRequest extends FormRequest
+final class VerifyUserPhoneRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +26,7 @@ class VerifyUserPhoneRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required|integer'
+            'code' => 'required|integer',
         ];
     }
 }

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Livewire\Guest\Adverts;
 
 use App\Models\Advert;
 use Livewire\Component;
 
-class LikeButton extends Component
+final class LikeButton extends Component
 {
     /** @var \App\Models\Advert */
     public $advert;
@@ -16,7 +18,7 @@ class LikeButton extends Component
     /** @var int */
     public $viewsCount;
 
-    public function mount(Advert $advert)
+    public function mount(Advert $advert): void
     {
         $statTotal = $this->advert->getStatTotal();
 

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Livewire\Admin\Categories;
 
 use App\Models\AdvertCategory;
 use Livewire\Component;
 
-class AddCategoryBlock extends Component
+final class AddCategoryBlock extends Component
 {
     /** @var string */
     public $step = 'init';
@@ -35,7 +37,7 @@ class AddCategoryBlock extends Component
         'order' => 'nullable|integer|max:250',
         'title' => 'required|min:3|max:100',
         'description' => 'nullable|string|max:1000',
-        'parent_category_id' => 'nullable|exists:advert_categories,id'
+        'parent_category_id' => 'nullable|exists:advertCategories,id',
     ];
 
     public function render()
@@ -43,19 +45,19 @@ class AddCategoryBlock extends Component
         return view('livewire.admin.categories.add-category-block');
     }
 
-    public function clearForm()
+    public function clearForm(): void
     {
         $this->title = '';
         $this->description = '';
     }
 
-    public function start()
+    public function start(): void
     {
         $this->categories = AdvertCategory::all();
         $this->step = 'creating';
     }
 
-    public function storeInDB()
+    public function storeInDB(): void
     {
         if (is_null($this->order)) {
             $this->order = 0;
@@ -65,8 +67,8 @@ class AddCategoryBlock extends Component
 
         $category = AdvertCategory::create(
             collect($validated)
-            ->except(['parent_category_id'])
-            ->toArray()
+                ->except(['parent_category_id'])
+                ->toArray()
         );
 
         $parent = AdvertCategory::findOrFail($validated['parent_category_id']);
@@ -74,7 +76,7 @@ class AddCategoryBlock extends Component
         $parent->appendNode($category);
     }
 
-    public function submit()
+    public function submit(): void
     {
         $this->storeInDB();
         $this->saved_title = $this->title;

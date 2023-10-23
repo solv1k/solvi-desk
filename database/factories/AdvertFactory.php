@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\AdvertCategory;
@@ -9,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Advert>
  */
-class AdvertFactory extends Factory
+final class AdvertFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -22,7 +24,7 @@ class AdvertFactory extends Factory
             'user_id' => User::factory(),
             'advert_category_id' => AdvertCategory::factory(),
             'title' => 'Test advert #1',
-            'price' => 123000
+            'price' => 123000,
         ];
     }
 }

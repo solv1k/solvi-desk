@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Pivots;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
@@ -7,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 /**
  * Пивот для связи категорий объявлений и их свойств.
  */
-class AdvertCategoryToProperty extends Pivot
+final class AdvertCategoryToProperty extends Pivot
 {
     //
 }

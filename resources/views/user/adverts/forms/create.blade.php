@@ -52,7 +52,7 @@
 
             <div class="mb-3">
                 <label>{{ __('Main advert image') }}</label>
-                @include('user.inc.advert-filepond')
+                @include('user.adverts.inc.advert-filepond')
             </div>
 
             <div class="mb-3">

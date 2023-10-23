@@ -50,7 +50,7 @@
 
             <div class="mb-3">
                 <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> {{ __('Save changes') }}</button>
-                <a href="{{ route('admin.adverts.view', $advert->id) }}" class="btn btn-primary"><i class="bi bi-eye"></i> {{ __('View') }}</a>
+                <a href="{{ route('admin.adverts.view', $advert->id) }}" class="btn btn-primary"><i class="bi bi-eye"></i> {{ __('Preview') }}</a>
             </div>
 
         </form>

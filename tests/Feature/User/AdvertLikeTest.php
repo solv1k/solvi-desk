@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\User;
 
 use App\Http\Livewire\User\Adverts\LikeButton;
@@ -10,25 +12,25 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
 
-class AdvertLikeTest extends TestCase
+final class AdvertLikeTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_main_page_is_open_correctly()
+    public function test_main_page_is_open_correctly(): void
     {
         $response = $this->get('/');
 
         $response->assertStatus(200);
     }
 
-    public function test_user_can_like_advert()
+    public function test_user_can_like_advert(): void
     {
         /** @var \App\Models\User */
         $user = User::factory()->create();
 
         $advert = Advert::factory()
-                        ->hasOwner($user)
-                        ->create();
+            ->hasOwner($user)
+            ->create();
 
         $this->actingAs($user);
 

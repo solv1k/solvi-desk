@@ -1,21 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Listeners\Auth;
 
-class MarkUserAsActivated
+use Illuminate\Auth\Events\Verified;
+
+final class MarkUserAsActivated
 {
     /**
      * Handle the event.
-     *
-     * @param  object  $event
-     * @return void
      */
-    public function handle($event)
+    public function handle(Verified $event): void
     {
         /** @var \App\Models\User */
         $user = $event->user;
 
-        if ($user && $user->hasVerifiedEmail()) {
+        if ($user->hasVerifiedEmail()) {
             // даём права доступа
             $user->giveActivatedPermissions();
         }

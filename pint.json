@@ -1,0 +1,48 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "declare_strict_types": true,
+        "final_class": true,
+        "@PSR12": true,
+        "@PSR12:risky": true,
+        "@PHP81Migration": true,
+        "@PHP80Migration:risky": true,
+        "date_time_immutable": true,
+        "method_chaining_indentation": false,
+        "no_trailing_whitespace_in_string": false,
+        "nullable_type_declaration_for_default_null_value": true,
+        "static_lambda": true,
+        "phpdoc_separation": false,
+        "concat_space": {
+            "spacing": "one"
+        },
+        "ordered_class_elements": {
+            "order": [
+                "use_trait",
+                "case",
+                "constant_public",
+                "constant_protected",
+                "constant_private",
+                "property_public_static",
+                "property_protected_static",
+                "property_private_static",
+                "property_public",
+                "property_protected",
+                "property_private",
+                "construct",
+                "destruct",
+                "phpunit",
+                "method_public_static",
+                "method_public_abstract_static",
+                "method_protected_static",
+                "method_protected_abstract_static",
+                "method_private_static",
+                "method_public",
+                "method_public_abstract",
+                "method_protected",
+                "method_protected_abstract",
+                "method_private"
+            ]
+        }
+    }
+}

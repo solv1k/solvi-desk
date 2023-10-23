@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Enums\AdvertStatusEnum;
@@ -9,49 +11,57 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 /**
  * Объявление.
- * 
- * @method static \Illuminate\Database\Eloquent\Builder waitModeration()
- * @method static \Illuminate\Database\Eloquent\Builder active()
  */
-class Advert extends Model
+final class Advert extends Model
 {
-    use HasFactory, HasModerateAttributes, SoftDeletes;
-
-    const CACHE_STAT_TOTAL_PREFIX = 'advert_stat_total_';
-    const CACHE_STAT_TOTAL_TTL = 10;
+    use HasFactory;
+    use HasModerateAttributes;
+    use SoftDeletes;
 
     protected $fillable = [
         'user_id',
         'advert_category_id',
         'title',
         'description',
-        'price'
+        'price',
     ];
 
+    /** @var array<string> */
     protected $moderate = [
         'advert_category_id',
         'title',
-        'description'
+        'description',
     ];
 
+    /** @var array<string,string> */
     protected $casts = [
-        'status' => AdvertStatusEnum::class
+        'status' => AdvertStatusEnum::class,
     ];
 
+    /** @var array<string,mixed> */
+    protected $attributes = [
+        'status' => AdvertStatusEnum::CREATED,
+    ];
+
+    /** @var array<string> */
     protected $with = ['statTotal'];
 
     /**
      * Автор объявления.
      * 
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo<User,self>
      */
-    public function owner()
+    public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -59,9 +69,9 @@ class Advert extends Model
     /**
      * Категория объявления.
      * 
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo<AdvertCategory,self>
      */
-    public function category()
+    public function category(): BelongsTo
     {
         return $this->belongsTo(AdvertCategory::class, 'advert_category_id');
     }
@@ -69,9 +79,9 @@ class Advert extends Model
     /**
      * Статистика объявления.
      * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany<AdvertStat>
      */
-    public function stats()
+    public function stats(): HasMany
     {
         return $this->hasMany(AdvertStat::class);
     }
@@ -79,28 +89,25 @@ class Advert extends Model
     /**
      * Суммарная статистика объявления.
      * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne<AdvertStatTotal>
      */
-    public function statTotal()
+    public function statTotal(): HasOne
     {
         return $this->hasOne(AdvertStatTotal::class);
     }
 
     /**
      * Возвращает статистику объявления на конкретную дату.
-     * 
-     * @param string $date
+     *
      * @return ?AdvertStat
      */
     public function getStatByDate(string $date = 'now'): ?AdvertStat
     {
-        return $this->stats()->whereDate('date', Carbon::parse($date))->first();
+        return $this->stats()->whereDate('date', Carbon::parse($date)->toDateString())->first();
     }
 
     /**
      * Возвращает статистику объявления за сегодня.
-     * 
-     * @return AdvertStat
      */
     public function getTodayStat(): AdvertStat
     {
@@ -108,29 +115,25 @@ class Advert extends Model
             ->stats()
             ->today()
             ->firstOrCreate([
-                'date' => now()->toDateString()
+                'date' => now()->toDateString(),
             ]);
     }
 
     /**
      * Возвращает суммарную статистику объявления.
-     * 
-     * @return AdvertStatTotal
      */
     public function getStatTotal(): AdvertStatTotal
     {
-        $cacheKey = implode('_', [
-            static::CACHE_STAT_TOTAL_PREFIX,
-            $this->id
-        ]);
+        $cacheKey = config('board.adverts.cache_prefix') . $this->id;
 
         return Cache::get(
             key: $cacheKey,
             default: function () use ($cacheKey) {
                 $statTotal = $this->statTotal()->firstOrCreate();
                 if (app()->environment('production')) {
-                    Cache::put($cacheKey, $statTotal, static::CACHE_STAT_TOTAL_TTL);
+                    Cache::put($cacheKey, $statTotal, config('board.adverts.cache_ttl'));
                 }
+
                 return $statTotal;
             }
         );
@@ -138,27 +141,27 @@ class Advert extends Model
 
     /**
      * Телефоны привязанные к объявлению.
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     *
+     * @return BelongsToMany<UserPhone>
      */
-    public function userPhones()
+    public function userPhones(): BelongsToMany
     {
         return $this->belongsToMany(UserPhone::class)->using(AdvertUserPhone::class);
     }
 
     /**
      * Лайки пользователей.
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @return HasMany<AdvertUserLike>
      */
-    public function userLikes()
+    public function userLikes(): HasMany
     {
         return $this->hasMany(AdvertUserLike::class, 'advert_id');
     }
 
     /**
      * Текущий (выбранный пользователем) телефон, привязанный к объявлению.
-     * 
+     *
      * @return ?UserPhone
      */
     public function selectedUserPhone(): ?UserPhone
@@ -172,10 +175,6 @@ class Advert extends Model
 
     /**
      * Привязывает телефон пользователя к объявлению.
-     * 
-     * @param int $userPhoneId
-     * @param string $contactName
-     * @return Advert
      */
     public function setSelectedUserPhone(int $userPhoneId, string $contactName): Advert
     {
@@ -184,13 +183,13 @@ class Advert extends Model
 
         // открепляем предыдущий телефон от объявления
         $this->userPhones()->update([
-            'selected' => 0
+            'selected' => 0,
         ]);
 
         // прикрепляем новый телефон
         $this->userPhones()->updateExistingPivot($userPhoneId, [
             'selected' => 1,
-            'contact_name' => $contactName
+            'contact_name' => $contactName,
         ]);
 
         // если это новое объявление (объявление не активно)
@@ -212,8 +211,6 @@ class Advert extends Model
 
     /**
      * Возвращает имя для контактов объявления.
-     * 
-     * @return string
      */
     public function getContactNameAttribute(): string
     {
@@ -222,28 +219,25 @@ class Advert extends Model
 
     /**
      * Возвращает контактный номер телефона.
-     * 
-     * @return string
      */
     public function getPhoneNumberAttribute(): ?string
     {
+        /** @phpstan-ignore-next-line */
         return $this->selected_phone_number;
     }
 
     /**
      * Все изображения, прикрепленные к объявлению.
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     *
+     * @return HasMany<AdvertImage>
      */
-    public function images()
+    public function images(): HasMany
     {
         return $this->hasMany(AdvertImage::class);
     }
 
     /**
      * Возвращает URL к главному изображению объявления.
-     * 
-     * @return string
      */
     public function getMainImageUrlAttribute(): string
     {
@@ -256,12 +250,10 @@ class Advert extends Model
 
     /**
      * Устанавливает главное изображения объявления.
-     * 
-     * @return Advert
      */
-    public function setMainImage(string $image_path): Advert
+    public function setMainImage(string $imagePath): Advert
     {
-        $this->main_image_path = $image_path;
+        $this->main_image_path = $imagePath;
         $this->save();
 
         return $this;
@@ -269,18 +261,14 @@ class Advert extends Model
 
     /**
      * Возвращает true, если у объявления есть главное изображение.
-     * 
-     * @return bool
      */
     public function hasMainImage(): bool
     {
-        return !empty($this->main_image_path);
+        return ! empty($this->main_image_path);
     }
 
     /**
      * Устанавливает объявлению статус "Необходимо указать телефон".
-     * 
-     * @return Advert
      */
     public function setWaitPhoneStatus(): Advert
     {
@@ -292,8 +280,6 @@ class Advert extends Model
 
     /**
      * Устанавливает объявлению статус "Активно".
-     * 
-     * @return Advert
      */
     public function setActiveStatus(): Advert
     {
@@ -305,8 +291,6 @@ class Advert extends Model
 
     /**
      * Устанавливает объявлению статус "На модерации".
-     * 
-     * @return Advert
      */
     public function setModerateStatus(): Advert
     {
@@ -318,9 +302,7 @@ class Advert extends Model
 
     /**
      * Отправляет объявление на модерацию.
-     * 
-     * @return Advert
-     */    
+     */
     public function sendToModeration(): Advert
     {
         return $this->setModerateStatus();
@@ -329,18 +311,16 @@ class Advert extends Model
     /**
      * Все объявления, ожидающие модерации.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeWaitModeration($query)
+    public function scopeWaitModeration(Builder $query): Builder
     {
         return $query->where('status', AdvertStatusEnum::WAIT_MODERATION);
     }
 
     /**
      * Возвращает true, если объявление требует модерации.
-     * 
-     * @return bool
      */
     public function isWaitModeration(): bool
     {
@@ -349,8 +329,6 @@ class Advert extends Model
 
     /**
      * Возвращает текстовый лейбл статуса объявления.
-     * 
-     * @return string
      */
     public function getStatusLabelAttribute(): string
     {
@@ -359,20 +337,17 @@ class Advert extends Model
 
     /**
      * Все активные объявления.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * 
+     * @param Builder<self> $query
+     * @return Builder<self>
      */
-    public function scopeActive($query)
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('status', AdvertStatusEnum::ACTIVE);
     }
 
     /**
-     * Было ли объявление лайкнуто пользователем.
-     *
-     * @param integer|User $user ID или модель пользователя
-     * @return boolean
+     * Было ли объявление лайкнуто пользователем?
      */
     public function isLikedByUser(int|User $user): bool
     {
@@ -383,18 +358,31 @@ class Advert extends Model
             ->exists();
     }
 
-    public function scopeJoinUserLike(Builder $query)
+    /**
+     * Джойнит лайк от текущего юзера.
+     * 
+     * @param Builder<self> $query
+     * @return Builder<self>
+     */
+    public function scopeJoinUserLike(Builder $query): Builder
     {
         if (auth()->id()) {
             return $query
                 ->addSelect([
-                    DB::raw('EXISTS(SELECT id FROM advert_user_likes WHERE advert_id = adverts.id AND user_id='.auth()->id().') as has_user_like')
+                    DB::raw('EXISTS(SELECT id FROM advert_user_likes WHERE advert_id = adverts.id AND user_id=' . auth()->id() . ') as has_user_like'),
                 ]);
         }
+
         return $query;
     }
 
-    public function scopeJoinSelectedUserPhone(Builder $query)
+    /**
+     * Джойнит выбранный юзером телефон.
+     * 
+     * @param Builder<self> $query
+     * @return Builder<self>
+     */
+    public function scopeJoinSelectedUserPhone(Builder $query): Builder
     {
         return $query
             ->join('advert_user_phone', 'advert_user_phone.advert_id', 'adverts.id')

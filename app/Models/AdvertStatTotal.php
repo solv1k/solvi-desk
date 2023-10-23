@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AdvertStatTotal extends Model
+/**
+ * Суммарная статистика объявления.
+ */
+final class AdvertStatTotal extends Model
 {
     use HasFactory;
 
@@ -17,8 +22,8 @@ class AdvertStatTotal extends Model
 
     /**
      * Значения по умолчанию.
-     * 
-     * @var array
+     *
+     * @var array<string,mixed>
      */
     protected $attributes = [
         'views' => 0,
@@ -29,7 +34,7 @@ class AdvertStatTotal extends Model
     /**
      * +1 просмотр в общую статистику.
      */
-    public function incView()
+    public function incView(): void
     {
         $this->views += 1;
         $this->save();
@@ -38,7 +43,7 @@ class AdvertStatTotal extends Model
     /**
      * +1 лайк в общую статистику.
      */
-    public function incLike()
+    public function incLike(): void
     {
         $this->likes += 1;
         $this->save();
@@ -47,7 +52,7 @@ class AdvertStatTotal extends Model
     /**
      * -1 лайк в общую статистику.
      */
-    public function decLike()
+    public function decLike(): void
     {
         $this->likes -= 1;
         $this->save();

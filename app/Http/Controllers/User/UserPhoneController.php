@@ -1,25 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\User;
 
-use App\Actions\User\Phone\SendVerificationUserPhoneAction;
 use App\Actions\User\Phone\StoreUserPhoneAction;
-use App\Actions\User\Phone\VerifyUserPhoneAction;
 use App\DTO\User\Phone\StoreUserPhoneDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\Phone\CancelVerifyUserPhoneRequest;
-use App\Http\Requests\User\Phone\SendVerificationUserPhoneRequest;
 use App\Http\Requests\User\Phone\StoreUserPhoneRequest;
-use App\Http\Requests\User\Phone\VerifyUserPhoneRequest;
 use App\Models\UserPhone;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
-class UserPhoneController extends Controller
+final class UserPhoneController extends Controller
 {
     /**
      * Список всех телефонов пользователя.
-     * 
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function index()
@@ -29,7 +27,7 @@ class UserPhoneController extends Controller
 
     /**
      * Страница добавления нового телефона.
-     * 
+     *
      * @return \Illuminate\Contracts\View\View
      */
     public function attach()
@@ -39,8 +37,6 @@ class UserPhoneController extends Controller
 
     /**
      * Обработчик сохранения нового телефона пользователя.
-     * 
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(
         StoreUserPhoneRequest $request,
@@ -58,23 +54,22 @@ class UserPhoneController extends Controller
 
     /**
      * Отправка кода верификации телефона.
-     * 
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function verificationPage(UserPhone $userPhone): View {
+    public function verificationPage(UserPhone $userPhone): View
+    {
         return view('user.phones.forms.verify-page', compact('userPhone'));
     }
 
     /**
      * Отмена верификации номера телефона.
-     * 
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function verificationCancel(
         CancelVerifyUserPhoneRequest $request,
         UserPhone $userPhone
     ): RedirectResponse {
+        $request->validated();
         $userPhone->delete();
+
         return back();
     }
 }

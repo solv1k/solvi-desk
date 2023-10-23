@@ -51,7 +51,7 @@
 
             <div class="mb-3">
                 <label>{{ __('Main advert image') }}</label>
-                @include('user.inc.advert-filepond', compact('advert'))
+                @include('user.adverts.inc.advert-filepond', compact('advert'))
             </div>
 
             <div class="mb-3">

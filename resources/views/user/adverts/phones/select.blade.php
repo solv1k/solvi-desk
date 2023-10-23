@@ -59,7 +59,7 @@
         @include('user.phones.inc.unverified-phones-list')
 
         @if ($current_user->phones()->count() === 0)
-            @include('user.inc.attach-phone')
+            @include('user.adverts.inc.attach-phone')
         @endif
 
     </x-slot>

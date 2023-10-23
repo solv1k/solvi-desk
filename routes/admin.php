@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Admin\AdvertController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 // Маршруты администратора
-Route::middleware(['auth', 'admin'])->prefix('/admin')->name('admin.')->group(function() {
+Route::middleware(['auth', 'admin'])->prefix('/admin')->name('admin.')->group(static function (): void {
 
     // Панель администратора
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Объявления
-    Route::controller(AdvertController::class)->prefix('/adverts')->name('adverts.')->group(function() {
+    Route::controller(AdvertController::class)->prefix('/adverts')->name('adverts.')->group(static function (): void {
         // страница управления объявлениями
         Route::get('/', 'index')->name('index');
         // список всех объявлений
@@ -22,7 +24,7 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->name('admin.')->group(fu
         // объявления, ожидающие модерации
         Route::get('/waitmoderate', 'waitmoderate')->name('waitmoderate.list');
         // группа маршрутов по конкретному объявлению
-        Route::prefix('/{advert}')->group(function() {
+        Route::prefix('/{advert}')->group(static function (): void {
             // страница просмотра объявления
             Route::get('/', 'view')->name('view');
             // страница редактирования объявления
@@ -37,11 +39,11 @@ Route::middleware(['auth', 'admin'])->prefix('/admin')->name('admin.')->group(fu
     });
 
     // Категории объявлений
-    Route::controller(CategoriesController::class)->prefix('/categories')->name('categories.')->group(function() {
+    Route::controller(CategoriesController::class)->prefix('/categories')->name('categories.')->group(static function (): void {
         // страница управления категориями
         Route::get('/', 'index')->name('index');
         // группа маршрутов по конкретной категории объявления
-        Route::prefix('/{category}')->group(function() {
+        Route::prefix('/{category}')->group(static function (): void {
             // страница просмотра категории объявления
             Route::get('/', 'view')->name('view');
         });

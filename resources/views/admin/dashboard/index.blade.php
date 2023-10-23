@@ -12,11 +12,11 @@
 
         <div class="mb-3">
             <a href="{{ route('admin.adverts.index') }}" class="btn btn-primary position-relative">
-                <i class="bi bi-card-list"></i> {{ __('Adverts') }} ({{ $adverts_count }})
+                <i class="bi bi-card-list"></i> {{ __('Adverts') }} ({{ $advertsCount }})
 
-                @if ($new_adverts_count)
+                @if ($newAdvertsCount)
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        {{ $new_adverts_count }}
+                        {{ $newAdvertsCount }}
                         <span class="visually-hidden">{{ __('new adverts count') }}</span>
                     </span>
                 @endif
@@ -25,7 +25,7 @@
 
         <div class="mb-3">
             <a href="{{ route('admin.categories.index') }}" class="btn btn-primary position-relative">
-                <i class="bi bi-tags"></i> {{ __('Categories') }} ({{ $categories_count }})
+                <i class="bi bi-tags"></i> {{ __('Categories') }} ({{ $categoriesCount }})
             </a>
         </div>
 

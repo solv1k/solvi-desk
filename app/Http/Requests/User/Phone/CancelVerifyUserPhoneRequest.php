@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\User\Phone;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CancelVerifyUserPhoneRequest extends FormRequest
+final class CancelVerifyUserPhoneRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

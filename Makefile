@@ -24,3 +24,7 @@ down:
 	./vendor/bin/sail down
 test:
 	./vendor/bin/sail test
+check:
+	./vendor/bin/phpstan analyse app
+fix:
+	./vendor/bin/pint

@@ -1,31 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Телефон пользователя.
- * 
- * @method static \Illuminate\Database\Eloquent\Builder verified(bool $verified = true)
  */
-class UserPhone extends Model
+final class UserPhone extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'number'
+        'number',
     ];
 
     /**
      * Смена статуса верификации телефона.
-     * 
-     * @return UserPhone
      */
     public function setVerified(bool $verified = true): UserPhone
     {
-        $this->verified = (int)$verified;
+        $this->verified = $verified;
         $this->save();
 
         return $this;
@@ -33,25 +32,21 @@ class UserPhone extends Model
 
     /**
      * Возвращает текстовый лейбл верификации.
-     * 
-     * @return string
      */
     public function verifiedLabel(): string
     {
-        return match($this->verified) {
-            1 => __('Verified'),
-            default => __('Not verified')
-        };
+        return $this->verified ? __('Verified') : __('Not verified');
     }
 
     /**
-     * Все верифицированные телефоны.
+     * Все верифицированные телефоны пользователя.
      * 
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder<self> $query
+     * @param bool $verified
+     * @return Builder<self>
      */
-    public function scopeVerified($query, bool $verified = true)
+    public function scopeVerified(Builder $query, bool $verified = true): Builder
     {
-        return $query->where('verified', (int)$verified);
+        return $query->where('verified', $verified);
     }
 }

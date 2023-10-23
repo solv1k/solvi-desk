@@ -11,11 +11,11 @@ trait HasModerateAttributes
      *
      * @return array<string>
      */
-    public function getModerateAttributes(): array
+    public static function moderateAttributes(): array
     {
-        return is_array($this->moderate)
-            ? $this->moderate
-            : throw new \Exception('Please fill $moderated property in ' . $this::class);
+        $model = new self();
+
+        return $model->getModerateAttributes();
     }
 
     /**
@@ -23,16 +23,17 @@ trait HasModerateAttributes
      *
      * @return array<string>
      */
-    public static function moderateAttributes(): array
+    public function getModerateAttributes(): array
     {
-        $model = new static();
-        return $model->getModerateAttributes();
+        if (! is_array($this->moderate)) {
+            throw new \Exception('Please fill $moderate property in ' . $this::class);
+        }
+
+        return $this->moderate;
     }
 
     /**
      * True, если модель требует модерации.
-     *
-     * @return boolean
      */
     public function isNeedModeration(): bool
     {

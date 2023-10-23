@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\User\Advert;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditAdvertRequest extends FormRequest
+final class EditAdvertRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

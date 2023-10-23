@@ -1,0 +1,23 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    paths:
+        - app
+        - tests
+    excludePaths:
+        - app/Http/Middleware/PreventXSS*
+        - app/Http/Livewire
+        - app/Http/*/Auth/*
+        - app/Views
+        - app/Providers
+        - app/Board
+    level: 7
+
+#    ignoreErrors:
+#        - '#PHPDoc tag @var#'
+#
+#    excludePaths:
+#        - ./*/*/FileToBeExcluded.php
+#
+#    checkMissingIterableValueType: false

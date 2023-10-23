@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums;
 
 /**
@@ -13,16 +15,13 @@ enum BannerStatusEnum: int
 
     /**
      * Возвращает наименование статуса баннерной рекламы.
-     * 
-     * @return string
      */
     public function label(): string
     {
-        return match($this) {
-            static::CREATED => __('Created'),
-            static::ACTIVE => __('Active'),
-            static::DECLINED => __('Desclined'),
-            default => __('Unknown')
+        return match ($this) {
+            self::CREATED => __('Created'),
+            self::ACTIVE => __('Active'),
+            self::DECLINED => __('Desclined'),
         };
     }
 }

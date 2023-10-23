@@ -7,13 +7,13 @@
         {{ Breadcrumbs::render('user.adverts.liked') }}
 
         <div class="adverts-list row">
-            @forelse ($liked_adverts as $liked_advert)
+            @forelse ($likedAdverts as $liked_advert)
                 @php
                     $advert = $liked_advert->advert;
                 @endphp
 
                 <div class="col-md-6 col-lg-4 mb-4">
-                    @include('user.inc.advert', compact('advert'))
+                    @include('user.adverts.inc.advert', compact('advert'))
                 </div>
             @empty
                 <div class="alert alert-info">{{ __('Advert list is empty...') }}</div>

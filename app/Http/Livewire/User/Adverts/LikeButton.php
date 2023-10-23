@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Livewire\User\Adverts;
 
 use App\Actions\User\Advert\LikeAdvertAction;
@@ -7,7 +9,7 @@ use App\Actions\User\Advert\UnlikeAdvertAction;
 use App\Models\Advert;
 use Livewire\Component;
 
-class LikeButton extends Component
+final class LikeButton extends Component
 {
     /** @var \App\Models\User */
     public $user;
@@ -24,7 +26,7 @@ class LikeButton extends Component
     /** @var bool */
     public $wasLiked = false;
 
-    public function mount(Advert $advert)
+    public function mount(Advert $advert): void
     {
         $statTotal = $this->advert->getStatTotal();
 
@@ -58,7 +60,7 @@ class LikeButton extends Component
             $this->likesCount--;
         }
 
-        $this->wasLiked = !$this->wasLiked;
+        $this->wasLiked = ! $this->wasLiked;
     }
 
     public function render()

@@ -7,7 +7,7 @@
         {{ Breadcrumbs::render('admin.adverts.list') }}
 
         @forelse ($adverts as $advert)
-            @include('admin.inc.advert-row', compact('advert'))
+            @include('admin.adverts.inc.advert-row', compact('advert'))
         @empty
             <div class="alert alert-info">
                 {{ __('Has no new adverts...') }}

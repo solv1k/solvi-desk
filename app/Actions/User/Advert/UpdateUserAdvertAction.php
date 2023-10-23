@@ -5,22 +5,21 @@ declare(strict_types=1);
 namespace App\Actions\User\Advert;
 
 use App\DTO\User\Advert\UpdateUserAdvertDTO;
+use App\Exceptions\Advert\Image\ImageInstanceException;
 use App\Models\Advert;
-use App\Services\File\FileService;
+use App\Services\Image\ImageService;
 use Illuminate\Support\Facades\DB;
 
-class UpdateUserAdvertAction
+final class UpdateUserAdvertAction
 {
     public function __construct(
-        protected FileService $fileService,
+        protected ImageService $imageService,
     ) {
-        
+
     }
 
     /**
      * Сохраняет объявление пользователя в БД и возвращает его модель.
-     *
-     * @return Advert
      */
     public function run(Advert $advert, UpdateUserAdvertDTO $dto): Advert
     {
@@ -41,7 +40,7 @@ class UpdateUserAdvertAction
             }
 
             DB::commit();
-    
+
             return $advert;
         } catch (\Throwable $e) {
             DB::rollBack();
@@ -51,18 +50,19 @@ class UpdateUserAdvertAction
 
     /**
      * Обновляет главное изображение объявления.
-     *
-     * @param Advert $advert
-     * @return void
      */
     protected function updateMainImage(Advert $advert): void
     {
         // удаляем предыдущее изображение
         if ($advert->hasMainImage()) {
-            $this->fileService->deleteImage($advert->main_image_path);
+            $this->imageService->deleteImage($advert->main_image_path);
         }
         // загружаем новое изображение
-        $image_path = $this->fileService->storeImage(request()->file('image'));
+        $image = request()->file('image');
+        if (! $image instanceof \Illuminate\Http\UploadedFile) {
+            throw new ImageInstanceException();
+        }
+        $image_path = $this->imageService->storeImage($image);
         $advert->setMainImage($image_path);
     }
 }

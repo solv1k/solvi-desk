@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Livewire\Admin\Categories;
 
 use App\Models\AdvertCategory;
 use Livewire\Component;
 
-class EditCategoryBlock extends Component
+final class EditCategoryBlock extends Component
 {
     /** @var AdvertCategory */
     public $category;
@@ -21,10 +23,10 @@ class EditCategoryBlock extends Component
      */
     protected $rules = [
         'category.title' => 'required|min:3|max:100',
-        'category.description' => 'nullable|string|max:1000'
+        'category.description' => 'nullable|string|max:1000',
     ];
 
-    public function mount(AdvertCategory $category)
+    public function mount(AdvertCategory $category): void
     {
         $this->category = $category;
     }
@@ -34,12 +36,12 @@ class EditCategoryBlock extends Component
         return view('livewire.admin.categories.edit-category-block');
     }
 
-    public function edit()
+    public function edit(): void
     {
         $this->step = 'edit';
     }
 
-    public function submit()
+    public function submit(): void
     {
         $this->validate();
 
@@ -48,18 +50,18 @@ class EditCategoryBlock extends Component
         $this->step = 'init';
     }
 
-    public function cancelEdit()
+    public function cancelEdit(): void
     {
         $this->step = 'init';
         $this->show_delete_confirm = false;
     }
 
-    public function showDeleteConfirm()
+    public function showDeleteConfirm(): void
     {
         $this->show_delete_confirm = true;
     }
 
-    public function hideDeleteConfirm()
+    public function hideDeleteConfirm(): void
     {
         $this->show_delete_confirm = false;
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -186,6 +188,7 @@ return [
          * Package Service Providers...
          */
         Intervention\Image\ImageServiceProvider::class,
+        App\Board\BoardServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -197,9 +200,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ViewServiceProvider::class,
-
-        Src\Framework\Providers\RouteServiceProvider::class,
-        Src\Framework\Providers\RepositoryServiceProvider::class,
     ],
 
     /*
@@ -215,7 +215,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'GeneralSetting' => \App\Facades\GeneralSetting::class,
-        'Image' => Intervention\Image\Facades\Image::class
+        'Image' => Intervention\Image\Facades\Image::class,
     ])->toArray(),
 
 ];

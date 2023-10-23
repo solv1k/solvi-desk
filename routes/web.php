@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+declare(strict_types=1);
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 /*
 |
 | GUEST
-| 
+|
 */
 
 require 'guest.php';
@@ -24,7 +24,7 @@ require 'guest.php';
 /*
 |
 | AUTHENTICATED USER
-| 
+|
 */
 
 require 'user.php';
@@ -32,7 +32,7 @@ require 'user.php';
 /*
 |
 | ADMIN
-| 
+|
 */
 
 require 'admin.php';
@@ -40,7 +40,7 @@ require 'admin.php';
 /*
 |
 | AUTH
-| 
+|
 */
 
 require 'auth.php';

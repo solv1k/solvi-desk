@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Livewire\Guest;
 
 use Livewire\Component;
 
-class NeedRegisterModal extends Component
+final class NeedRegisterModal extends Component
 {
     public $show = false;
 

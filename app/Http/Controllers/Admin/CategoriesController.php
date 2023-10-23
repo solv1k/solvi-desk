@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AdvertCategory;
 
-class CategoriesController extends Controller
+final class CategoriesController extends Controller
 {
     /**
      * Страница управления категориями.
