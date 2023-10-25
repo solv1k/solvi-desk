@@ -37,7 +37,7 @@ final class AdvertStat extends Model
     /**
      * Статистика объявления за сегодня.
      *
-     * @param Builder<self> $query
+     * @param  Builder<self>  $query
      * @return Builder<self>
      */
     public function scopeToday(Builder $query): Builder
@@ -47,7 +47,7 @@ final class AdvertStat extends Model
 
     /**
      * Суммарная статистика объявления.
-     * 
+     *
      * @return HasOne<AdvertStatTotal>
      */
     public function totals(): HasOne

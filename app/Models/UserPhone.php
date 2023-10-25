@@ -40,9 +40,8 @@ final class UserPhone extends Model
 
     /**
      * Все верифицированные телефоны пользователя.
-     * 
-     * @param Builder<self> $query
-     * @param bool $verified
+     *
+     * @param  Builder<self>  $query
      * @return Builder<self>
      */
     public function scopeVerified(Builder $query, bool $verified = true): Builder

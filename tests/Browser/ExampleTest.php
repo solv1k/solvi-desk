@@ -11,8 +11,6 @@ final class ExampleTest extends DuskTestCase
 {
     /**
      * A basic browser test example.
-     *
-     * @return void
      */
     public function test_application_main_page_can_be_open(): void
     {

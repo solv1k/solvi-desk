@@ -58,7 +58,7 @@ final class Advert extends Model
 
     /**
      * Автор объявления.
-     * 
+     *
      * @return BelongsTo<User,self>
      */
     public function owner(): BelongsTo
@@ -68,7 +68,7 @@ final class Advert extends Model
 
     /**
      * Категория объявления.
-     * 
+     *
      * @return BelongsTo<AdvertCategory,self>
      */
     public function category(): BelongsTo
@@ -78,7 +78,7 @@ final class Advert extends Model
 
     /**
      * Статистика объявления.
-     * 
+     *
      * @return HasMany<AdvertStat>
      */
     public function stats(): HasMany
@@ -88,7 +88,7 @@ final class Advert extends Model
 
     /**
      * Суммарная статистика объявления.
-     * 
+     *
      * @return HasOne<AdvertStatTotal>
      */
     public function statTotal(): HasOne
@@ -311,7 +311,7 @@ final class Advert extends Model
     /**
      * Все объявления, ожидающие модерации.
      *
-     * @param Builder<self> $query
+     * @param  Builder<self>  $query
      * @return Builder<self>
      */
     public function scopeWaitModeration(Builder $query): Builder
@@ -337,8 +337,8 @@ final class Advert extends Model
 
     /**
      * Все активные объявления.
-     * 
-     * @param Builder<self> $query
+     *
+     * @param  Builder<self>  $query
      * @return Builder<self>
      */
     public function scopeActive(Builder $query): Builder
@@ -360,8 +360,8 @@ final class Advert extends Model
 
     /**
      * Джойнит лайк от текущего юзера.
-     * 
-     * @param Builder<self> $query
+     *
+     * @param  Builder<self>  $query
      * @return Builder<self>
      */
     public function scopeJoinUserLike(Builder $query): Builder
@@ -378,8 +378,8 @@ final class Advert extends Model
 
     /**
      * Джойнит выбранный юзером телефон.
-     * 
-     * @param Builder<self> $query
+     *
+     * @param  Builder<self>  $query
      * @return Builder<self>
      */
     public function scopeJoinSelectedUserPhone(Builder $query): Builder
