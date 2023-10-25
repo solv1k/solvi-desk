@@ -15,7 +15,6 @@ trait HasOrder
      * Записи модели отсортированные по полю "order".
      *
      * @param  Builder<self>  $query
-     * @param  string  $direction
      * @return Builder<self>
      */
     public function scopeOrdered(Builder $query, string $direction = 'ASC'): Builder
