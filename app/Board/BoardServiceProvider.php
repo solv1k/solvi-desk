@@ -39,8 +39,9 @@ final class BoardServiceProvider extends ServiceProvider
 
         collect($moduleProviders)
             ->each(static function (ServiceProvider $moduleProvider): void {
-                if (method_exists($moduleProvider, 'boot')) {
-                    $moduleProvider->boot(); /** @phpstan-ignore-this-line */
+                $boot = 'boot';
+                if (method_exists($moduleProvider, $boot)) {
+                    $moduleProvider->{$boot}();
                 }
             });
     }
